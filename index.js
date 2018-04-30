@@ -135,4 +135,4 @@ if (message.content.startsWith(prefix + "report")){
 
 });
 
-client.login("NDM5Nzc1NDU1NTM3NzkwOTc2.DceHrw.nFE8Wd9nRfA37uRAf9k5_gA7rxQ")
+client.login(process.env.token)
