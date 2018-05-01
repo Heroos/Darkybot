@@ -108,7 +108,7 @@ if (message.content.startsWith(prefix + "report")){
     if (rUser.id == message.author.id) return message.reply('Euh... Pourquoi tu veux te report toi même ? :thinking: ');
     if (rUser.id == client.user.id) return message.reply('Héhéhé... Tu as cru pouvoir me report ?! **IDIOT !**');
     if (rUser.id == 191272823170269184) return message.reply('Nop, tu peux pas le report. Même méchant, il est trop gentil.');
-  
+    if (rUser.id == 334095574674571264) return message.reply(`C'est Eni quoi, tu peux pas le report, il est trop gentil :heart:`);
       var reason = args.join(" ").slice(29);
 
     var reportEmbed = new Discord.RichEmbed()
