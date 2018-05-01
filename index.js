@@ -108,7 +108,7 @@ if (message.content.startsWith(prefix + "report")){
     if (rUser.id == message.author.id) return message.reply('Euh... Pourquoi tu veux te report toi même ? :thinking: ');
     if (rUser.id == client.user.id) return message.reply('Héhéhé... Tu as cru pouvoir me report ?! **IDIOT !**');
     if (rUser.id == 191272823170269184) return message.reply('Nop, tu peux pas le report. Même méchant, il est trop gentil.');
-    if (rUser.id == 334095574674571264) return message.reply(`C'est Eni quoi, tu peux pas le report, il est trop gentil :heart:`);
+  
       var reason = args.join(" ").slice(29);
 
     var reportEmbed = new Discord.RichEmbed()
@@ -134,7 +134,6 @@ if (message.content.startsWith(prefix + "kick")){
 
 let kUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
 if(!kUser) return message.channel.send("Je n'ai pas trouver l'utilisateur :sweat:")
-if message.guild.members.find("id", args[1])
 if (kUser.id == message.author.id) return message.reply('Tu veux te kick toi même ?! Étrange... :thinking: ');
 if (kUser.id == client.user.id) return message.reply('Tu veux me kick ? :disappointed_relieved:')
  if(!message.member.hasPermission("MANAGE_MESSAGES")) return message.channel.send("Non, tu ne peux pas !");
@@ -164,7 +163,6 @@ if (message.content.startsWith(prefix + "ban")){
 
 let bUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
     if(!bUser) return message.channel.send("Je n'ai pas trouver l'utilisateur :sweat:");
-    if message.guild.members.find("id", args[1])
     if (bUser.id == message.author.id) return message.reply('Tu veux te bannir toi même ?! Tu est **vraiment** étrange... :cold_sweat: ');
     if (bUser.id == client.user.id) return message.reply('TU VEUX ME BANNIR !? :sob:')
     let bReason = args.join(" ").slice(26);
@@ -203,10 +201,14 @@ let botembed = new Discord.RichEmbed()
 return message.channel.send(botembed);
 }
 
-//db!
-if (message.content.startsWith(prefix + " ")){
+//db!hug <membre>
 
-}
+
+//db!avatar
+
+
+
+
 });
 
 client.login(process.env.TOKEN)
