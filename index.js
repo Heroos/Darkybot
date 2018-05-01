@@ -85,6 +85,7 @@ if (message.content.startsWith(prefix + "help")){
 	.addField("infoserveur", "Pour avoir plus d'infos sur le serveur actuel !")
 	.addField("sayd <message>", "Pour me faire répeter ce que tu souhaite dire.")
 	.addField("report <utilisateur> <raison>", "pour rapporter un vilain membre :(")
+  .addField("adminhelp", "Pour afficher les commandes pour les administrateurs.")
 
 return message.channel.send(botembed);
 }
@@ -129,20 +130,20 @@ if (message.content.startsWith(prefix + "report")){
 }
 
 //db!kick <utilisateur> <raison>
-if (message.content.startWith(prefix + "kick")){
+if (message.content.startsWith(prefix + "kick")){
 
 let kUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
 if(!kUser) return message.channel.send("Je n'ai pas trouver l'utilisateur :sweat:")
 if (kUser.id == message.author.id) return message.reply('Tu veux te kick toi même ?! Étrange... :thinking: ');
-if (kUser.id == member.hasPermission("MANAGE_MESSAGES")) return message.reply('Kick un collègue ?! Euh... Nan jpeux pas faire sa ! Débrouille toi.');
 if (kUser.id == client.user.id) return message.reply('Tu veux me kick ? :disappointed_relieved:')
-   var reason = args.join(" ").slice(29);
-   if(!message.member.hasPermission("MANAGE_MESSAGES")) return messsage.channel.send("Nop, tu n'as pas l'autorisation !")
+ if(!message.member.hasPermission("MANAGE_MESSAGES")) return message.channel.send("Non, tu ne peux pas !");
+if (kUser.hasPermission("MANAGE_MESSAGES")) return message.reply("Nan, il a des privililèges qui m'empêche de faire sa.");
+   var kReason = args.join(" ").slice(26);
 
-
-   let kickEmbed = new Discord.RichEmbed()
-   .setDescription("~|kick|~")
+let kickEmbed = new Discord.RichEmbed()
+   .setDescription("**~|kick|~**")
    .setColor("#ff7700")
+   .setThumbnail("http://www.emoji.co.uk/files/twitter-emojis/symbols-twitter/11144-double-exclamation-mark.png")
    .addField("Utilisateur kick: ", `${kUser} avec l'ID ${kUser.id}`)
    .addField("Kick par: ", `<@${message.author.id}> avec l'ID ${message.author.id}`)
    .addField("Kick a partir du salon: ", message.channel)
@@ -150,12 +151,62 @@ if (kUser.id == client.user.id) return message.reply('Tu veux me kick ? :disappo
    .addField("Raison: ", kReason);
 
    let kickChannel = message.guild.channels.find(`name`, "rapports");
-   if(!kickChannel) return message.channel.send("Je ne peux pas kick car le salon #rapports est inexistant, merci de le crée.");
+   if(!kickChannel) return message.channel.send("Je ne peux pas le kick car le salon #rapports est inexistant, merci de le crée.");
 
+message.guild.member(kUser).kick(kReason);
 kickChannel.send(kickEmbed);
+
+}
+
+//db!ban <utilisateur> <raison>
+if (message.content.startsWith(prefix + "ban")){
+
+let bUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
+    if(!bUser) return message.channel.send("Je n'ai pas trouver l'utilisateur :sweat:");
+    if (bUser.id == message.author.id) return message.reply('Tu veux te bannir toi même ?! Tu est **vraiment** étrange... :cold_sweat: ');
+    if (bUser.id == client.user.id) return message.reply('TU VEUX ME BANNIR !? :sob:')
+    let bReason = args.join(" ").slice(26);
+    if(!message.member.hasPermission("MANAGE_MEMBERS")) return message.channel.send("Non, tu ne peux pas !");
+    if(bUser.hasPermission("MANAGE_MESSAGES")) return message.channel.send("Nan, il a des privililèges qui m'empêche de faire sa.");
+
+    let banEmbed = new Discord.RichEmbed()
+    .setDescription("**~|Bannissement|~**")
+    .setColor("#bc0000")
+    .setThumbnail("https://pbs.twimg.com/media/C9kEEmbXUAEX3r6.png")
+    .addField("Utilisateur banni: ", `${bUser} avec l'ID ${bUser.id}`)
+    .addField("Banni par: ", `<@${message.author.id}> avec l'ID ${message.author.id}`)
+    .addField("Banni a partir du salon: ", message.channel)
+    .addField("Le: ", message.createdAt)
+    .addField("Raison: ", bReason);
+
+    let banChannel = message.guild.channels.find(`name`, "rapports");
+    if(!banChannel) return message.channel.send("Je ne peux pas le bannir car le salon #rapports est inexistant, merci de le crée.");
+
+    message.guild.member(bUser).ban(bReason);
+    banChannel.send(banEmbed);
+
 }
 
 
+//db!adminhelp
+if (message.content.startsWith(prefix + "adminhelp")){
+
+let botembed = new Discord.RichEmbed()
+	.setDescription("Bonjour, je suis l'aide pour les administrateurs ! Et voici mes commandes ! :smiley:")
+	.setColor("#00C1FF")
+	.setThumbnail("https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Emoji_u1f4dd.svg/1000px-Emoji_u1f4dd.svg.png")
+	.addField("kick <membre> <raison>","Pour l'exclure du serveur !")
+  .addField("ban <membre> <raison>", "Pour le frapper avec le marteau du ban ! èwé")
+
+return message.channel.send(botembed);
+}
+
+//db!
+if (message.content.startsWith(prefix + " ")){
+
+}
 });
 
-client.login(process.env.TOKEN)
+client.login("process.env.TOKEN")
+
+//process.env.TOKEN
