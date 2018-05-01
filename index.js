@@ -76,7 +76,7 @@ if (message.content.startsWith(prefix + "infoserveur")){
 if (message.content.startsWith(prefix + "help")){
 
 	let botembed = new Discord.RichEmbed()
-	.setDescription("**Bonjour, je suis l'aide ! Et voici mes commandes !** :smiley:")
+	.setDescription("Bonjour, je suis l'aide ! Et voici mes commandes ! :smiley:")
 	.setColor("#00C1FF")
 	.setThumbnail("https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Emoji_u1f4dd.svg/1000px-Emoji_u1f4dd.svg.png")
 	.addField("8ball <ta question>","Pose moi une question et j'y répondrais !")
@@ -108,7 +108,7 @@ if (message.content.startsWith(prefix + "report")){
     if (rUser.id == message.author.id) return message.reply('Euh... Pourquoi tu veux te report toi même ? :thinking: ');
     if (rUser.id == client.user.id) return message.reply('Héhéhé... Tu as cru pouvoir me report ?! **IDIOT !**');
     if (rUser.id == 191272823170269184) return message.reply('Nop, tu peux pas le report. Même méchant, il est trop gentil.');
-    if (rUser.id == 334095574674571264) return message.reply(`C'est Eni quoi, tu peux pas le report, il est trop gentil :heart:`);
+
       var reason = args.join(" ").slice(29);
 
     var reportEmbed = new Discord.RichEmbed()
@@ -192,7 +192,7 @@ let bUser = message.guild.member(message.mentions.users.first() || message.guild
 if (message.content.startsWith(prefix + "adminhelp")){
 
 let botembed = new Discord.RichEmbed()
-	.setDescription("**Bonjour, je suis l'aide pour les administrateurs ! Et voici mes commandes !** :smiley:")
+	.setDescription("Bonjour, je suis l'aide pour les administrateurs ! Et voici mes commandes ! :smiley:")
 	.setColor("#00C1FF")
 	.setThumbnail("https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Emoji_u1f4dd.svg/1000px-Emoji_u1f4dd.svg.png")
 	.addField("kick <membre> <raison>","Pour l'exclure du serveur !")
@@ -205,6 +205,11 @@ return message.channel.send(botembed);
 
 
 //db!avatar
+if (message.content.startWith(prefix + "avatar"))
+
+let avatared = message.mentions.users.first();
+	if (!avatared) return message.reply("L'avatar que tu as demander: " + message.author.avatarURL);
+	message.channel.send("L'avatar que tu as demander:  " + avatared + " " + avatared.avatarURL);
 
 
 
