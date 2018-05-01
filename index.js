@@ -207,8 +207,8 @@ return message.channel.send(botembed);
 //db!avatar
 if (message.content.startsWith(prefix + "avatar")){
 
-let avatared = message.mentions.users.first();
-	if (!avatared) return message.reply("Ceci est l'avatar de " + message.author.avatarURL);
+let avatar = message.mentions.users.first();
+	if (!avatar) return message.reply("Ceci est l'avatar de " + message.author.avatarURL);
 	message.channel.send("Ceci est l'avatar de " + avatared + ", magnifique n'est-ce pas ? Ci-dessous un lien pour le lui voler. *Tu vas pas faire sa quand même ?*" + avatared.avatarURL);
 
 }
@@ -216,6 +216,6 @@ let avatared = message.mentions.users.first();
 
 });
 
-client.login(process.env.TOKEN)
+client.login("NDM5Nzc1NDU1NTM3NzkwOTc2.DclQug.7FTYbjF6Kq8WZ3ZF183ZYQUpBN8")
 
 //process.env.TOKEN
