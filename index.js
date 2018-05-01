@@ -208,8 +208,8 @@ return message.channel.send(botembed);
 if (message.content.startsWith(prefix + "avatar")){
 
 let avatared = message.mentions.users.first();
-	if (!avatared) return message.reply("L'avatar que tu as demander: " + message.author.avatarURL);
-	message.channel.send("Ceci est l'avatar de: " + avatared + ", magnifique n'est-ce pas ?" + avatared.avatarURL);
+	if (!avatared) return message.reply("Ceci est l'avatar de " + message.author.avatarURL);
+	message.channel.send("Ceci est l'avatar de " + avatared + ", magnifique n'est-ce pas ? Ci-dessous un lien pour le lui voler. *Tu vas pas faire sa quand même ?*" + avatared.avatarURL);
 
 }
 
