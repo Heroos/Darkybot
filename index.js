@@ -76,7 +76,7 @@ if (message.content.startsWith(prefix + "infoserveur")){
 if (message.content.startsWith(prefix + "help")){
 
 	let botembed = new Discord.RichEmbed()
-	.setDescription("Bonjour, je suis l'aide ! Et voici mes commandes ! :smiley:")
+	.setDescription("**Bonjour, je suis l'aide ! Et voici mes commandes !** :smiley:")
 	.setColor("#00C1FF")
 	.setThumbnail("https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Emoji_u1f4dd.svg/1000px-Emoji_u1f4dd.svg.png")
 	.addField("8ball <ta question>","Pose moi une question et j'y répondrais !")
@@ -192,7 +192,7 @@ let bUser = message.guild.member(message.mentions.users.first() || message.guild
 if (message.content.startsWith(prefix + "adminhelp")){
 
 let botembed = new Discord.RichEmbed()
-	.setDescription("Bonjour, je suis l'aide pour les administrateurs ! Et voici mes commandes ! :smiley:")
+	.setDescription("**Bonjour, je suis l'aide pour les administrateurs ! Et voici mes commandes !** :smiley:")
 	.setColor("#00C1FF")
 	.setThumbnail("https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Emoji_u1f4dd.svg/1000px-Emoji_u1f4dd.svg.png")
 	.addField("kick <membre> <raison>","Pour l'exclure du serveur !")
