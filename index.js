@@ -30,12 +30,12 @@ var replies = ["Ouais !","Nan...","Peut-être.","Chais pas, demande a ta mère. 
 var question = args.slice(1).join(" ")
 var result = Math.floor((Math.random() * replies.length));
 
-var ballembed = new Discord.RichEmbed()
-.setAuthor(message.author.tag)
-.setColor("RANDOM")
-.setThumbnail("https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/8-Ball_Pool.svg/2000px-8-Ball_Pool.svg.png")
-.addField("Question:", question)
-.addField("Réponse à la question:", replies[result]);
+   var ballembed = new Discord.RichEmbed()
+     .setAuthor(message.author.tag)
+     .setColor("RANDOM")
+     .setThumbnail("https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/8-Ball_Pool.svg/2000px-8-Ball_Pool.svg.png")
+     .addField("Question:", question)
+     .addField("Réponse à la question:", replies[result]);
 
 message.channel.send(ballembed);
 };
@@ -45,7 +45,7 @@ if (message.content.startsWith(prefix + "infobot")){
 
 	let bicon = client.user.displayAvatarURL;
 	let botembed = new Discord.RichEmbed()
-	.setDescription("Informations sur le bot !")
+	  .setDescription("Informations sur le bot !")
     .setColor("#15f153")
     .setThumbnail(bicon)
     .addField("Nom du bot:", "Darkybot#0140 :smiley:")
@@ -66,8 +66,8 @@ if (message.content.startsWith(prefix + "infoserveur")){
 	.setThumbnail(message.guild.iconURL)
 	.addField("Nom du serveur:", message.guild.name)
 	.addField("Rejoin le:", message.member.joinedAt)
-    .addField("Crée le:", message.guild.createdAt)
-    .addField("Membres total:", message.guild.memberCount)
+  .addField("Crée le:", message.guild.createdAt)
+  .addField("Membres total:", message.guild.memberCount)
 
 	return message.channel.send(serverembed);
 }
@@ -92,7 +92,13 @@ return message.channel.send(botembed);
 }
 
 //db!setgame
+if (message.content.startsWith(prefix + "setgame")){
+if (message.author.id == 191272823170269184)
+var game = args.slice(1).join(" ")
+  bot.user.setActivity(game, {
+  'type': 'PLAYING'}
 
+}
 
 //db!sayd <message>
 if (message.content.startsWith(prefix + "sayd")){
