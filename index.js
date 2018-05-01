@@ -85,6 +85,7 @@ if (message.content.startsWith(prefix + "help")){
 	.addField("infoserveur", "Pour avoir plus d'infos sur le serveur actuel !")
 	.addField("sayd <message>", "Pour me faire répeter ce que tu souhaite dire.")
 	.addField("report <utilisateur> <raison>", "pour rapporter un vilain membre :(")
+  .addField("avatar <utilisateur>", "Pour voir son avatar en plus grand et pour pouvoir le lui voler. èwé")
   .addField("adminhelp", "Pour afficher les commandes pour les administrateurs.")
 
 return message.channel.send(botembed);
@@ -208,7 +209,7 @@ return message.channel.send(botembed);
 if (message.content.startsWith(prefix + "avatar")){
 
 let avatared = message.mentions.users.first();
-	if (!avatared) return message.reply("Ceci est l'avatar de " + message.author.avatarURL);
+	if (!avatared) return message.reply("Et bien... voici ton avatar. On va juste dire que tu as perdu l'image sur ton système et que tu souhaite la récup'. Okay ? " + message.author.avatarURL);
 	message.channel.send("Ceci est l'avatar de " + avatared + ", magnifique n'est-ce pas ? Ci-dessous un lien pour le lui voler. *Tu vas pas faire sa quand même ?*" + avatared.avatarURL);
 
 }
