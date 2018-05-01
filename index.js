@@ -209,7 +209,7 @@ if (message.content.startsWith(prefix + "avatar")){
 
 let avatared = message.mentions.users.first();
 	if (!avatared) return message.reply("L'avatar que tu as demander: " + message.author.avatarURL);
-	message.channel.send("L'avatar que tu as demander:  " + avatared + " " + avatared.avatarURL);
+	message.channel.send("Ceci est l'avatar de" + avatared + " ");
 
 }
 
