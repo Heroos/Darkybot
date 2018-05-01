@@ -134,6 +134,7 @@ if (message.content.startsWith(prefix + "kick")){
 
 let kUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
 if(!kUser) return message.channel.send("Je n'ai pas trouver l'utilisateur :sweat:")
+if message.guild.members.find("id", args[1])
 if (kUser.id == message.author.id) return message.reply('Tu veux te kick toi même ?! Étrange... :thinking: ');
 if (kUser.id == client.user.id) return message.reply('Tu veux me kick ? :disappointed_relieved:')
  if(!message.member.hasPermission("MANAGE_MESSAGES")) return message.channel.send("Non, tu ne peux pas !");
@@ -163,6 +164,7 @@ if (message.content.startsWith(prefix + "ban")){
 
 let bUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
     if(!bUser) return message.channel.send("Je n'ai pas trouver l'utilisateur :sweat:");
+    if message.guild.members.find("id", args[1])
     if (bUser.id == message.author.id) return message.reply('Tu veux te bannir toi même ?! Tu est **vraiment** étrange... :cold_sweat: ');
     if (bUser.id == client.user.id) return message.reply('TU VEUX ME BANNIR !? :sob:')
     let bReason = args.join(" ").slice(26);
