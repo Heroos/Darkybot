@@ -205,7 +205,7 @@ return message.channel.send(botembed);
 
 
 //db!avatar
-if (message.content.startWith(prefix + "avatar")){
+if (message.content.startsWith(prefix + "avatar")){
 
 let avatared = message.mentions.users.first();
 	if (!avatared) return message.reply("L'avatar que tu as demander: " + message.author.avatarURL);
