@@ -128,9 +128,32 @@ if (message.content.startsWith(prefix + "report")){
 
 }
 
-//db!
+//db!kick <utilisateur> <raison>
+if (message.content.startWith(prefix + "kick")){
+
+let kUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
+if(!kUser) return message.channel.send("Je n'ai pas trouver l'utilisateur :sweat:")
+if (kUser.id == message.author.id) return message.reply('Tu veux te kick toi même ?! Étrange... :thinking: ');
+if (kUser.id == member.hasPermission("MANAGE_MESSAGES")) return message.reply('Kick un collègue ?! Euh... Nan jpeux pas faire sa ! Débrouille toi.');
+if (kUser.id == client.user.id) return message.reply('Tu veux me kick ? :disappointed_relieved:')
+   var reason = args.join(" ").slice(29);
+   if(!message.member.hasPermission("MANAGE_MESSAGES")) return messsage.channel.send("Nop, tu n'as pas l'autorisation !")
 
 
+   let kickEmbed = new Discord.RichEmbed()
+   .setDescription("~|kick|~")
+   .setColor("#ff7700")
+   .addField("Utilisateur kick: ", `${kUser} avec l'ID ${kUser.id}`)
+   .addField("Kick par: ", `<@${message.author.id}> avec l'ID ${message.author.id}`)
+   .addField("Kick a partir du salon: ", message.channel)
+   .addField("Le: ", message.createdAt)
+   .addField("Raison: ", kReason);
+
+   let kickChannel = message.guild.channels.find(`name`, "rapports");
+   if(!kickChannel) return message.channel.send("Je ne peux pas kick car le salon #rapports est inexistant, merci de le crée.");
+
+kickChannel.send(kickEmbed);
+}
 
 
 });
