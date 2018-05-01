@@ -1,2 +1,2 @@
 # Darkybot
-Bot pour Discord
+
