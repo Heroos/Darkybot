@@ -86,6 +86,7 @@ if (message.content.startsWith(prefix + "help")){
 	.addField("sayd <message>", "Pour me faire répeter ce que tu souhaite dire.")
 	.addField("report <utilisateur> <raison>", "pour rapporter un vilain membre :(")
   .addField("avatar <utilisateur>", "Pour voir son avatar en plus grand et pour pouvoir le lui voler. èwé")
+  .addField("hug <utilisateur>", "Pour faire un gros calin !")
   .addField("adminhelp", "Pour afficher les commandes pour les administrateurs.")
 
 return message.channel.send(botembed);
@@ -214,7 +215,22 @@ return message.channel.send(botembed);
 }
 
 //db!hug <membre>
+if (message.content.startsWith(prefix + "hug")){
 
+let toHug = message.mentions.users.first() || client.users.get(args[0]);
+ if (!toHug) return message.reply("Alors, euh... Je ne sait pas si caliner l'air est la meilleur chose.");
+ if (toHug.id == message.author.id) return message.reply("Te faire un calin toi même ? Pourquoi pas, c'est toi qui voit.");
+ if (toHug.id == client.user.id) return message.reply("Me faire a calin a moi et comme faire un calin a quelqu'un qui n'éxiste pas, enfaite...");
+ message.channel.send(`<@${toHug.id}> tu reçois un gros calin de la part de <@${message.author.id}> :wink: `)
+
+
+ let botembed = new Discord.RichEmbed()
+ .setColor("#FF8CFB")
+ .setImage("http://data.whicdn.com/images/161904270/large.gif");
+
+ return message.channel.send(botembed);
+
+}
 
 //db!avatar
 if (message.content.startsWith(prefix + "avatar")){
