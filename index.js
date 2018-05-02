@@ -93,12 +93,17 @@ return message.channel.send(botembed);
 
 //db!setgame
 if (message.content.startsWith(prefix + "setgame")){
-if (message.author.id == 191272823170269184) return message.reply("**BINGO !** Tu as trouver une commande réservé a l'owner du bot, bravo ! Mais tu peux pas t'en servir.*setgame run away.* ")
-var game = args.slice(1).join(" ")
-  client.user.setActivity(game,{
-  'type': 'PLAYING'})
+if (message.author.id == 191272823170269184){
+  message.reply("C'est fait ! :thumbsup::skin-tone-2:")
+  var game = args.slice(1).join(" ")
+        client.user.setActivity(game, {
+        'type': 'PLAYING'
 
-}
+})}} else{
+    if (message.content.startsWith(prefix + "setgame")){
+    message.reply("**BINGO !** Tu as trouver une commande réservé a l'owner du bot, bravo ! Mais tu ne peux pas t'en servir. *setgame run away.*")
+}};
+
 
 //db!sayd <message>
 if (message.content.startsWith(prefix + "sayd")){
@@ -223,5 +228,5 @@ let avatared = message.mentions.users.first();
 
 });
 
-client.login(process.env.TOEN)
+client.login(process.env.TOKEN)
 ///process.env.TOKEN
