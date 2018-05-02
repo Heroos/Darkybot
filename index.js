@@ -236,11 +236,15 @@ var result = Math.floor((Math.random() * replies.length));
 //db!avatar
 if (message.content.startsWith(prefix + "avatar")){
 
+let user = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
 let avatared = message.mentions.users.first();
-	if (!avatared) return message.reply("Et bien... voici ton avatar. On va juste dire que tu as perdu l'image sur ton système et que tu souhaite la récup'. Okay ? " + message.author.avatarURL);
+if(!avatared) return message.channel.send("Je n'ai pas trouver l'utilisateur :sweat:");
+if (user.id == message.author.id) return message.reply("Et bien... voici ton avatar. On va juste dire que tu as perdu l'image sur ton système et que tu souhaite la récup'. Okay ? " + message.author.avatarURL);
 	message.channel.send("Ceci est l'avatar de " + avatared + ", magnifique n'est-ce pas ? Ci-dessous un lien pour le lui voler. *Tu vas pas faire sa quand même ?*" + avatared.avatarURL);
 
 }
+
+//db!
 
 
 });
