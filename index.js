@@ -223,5 +223,5 @@ let avatared = message.mentions.users.first();
 
 });
 
-client.login(process.env.TOKEN)
+client.login(process.env.TOEN)
 ///process.env.TOKEN
