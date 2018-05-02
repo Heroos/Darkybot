@@ -223,10 +223,11 @@ let toHug = message.mentions.users.first() || client.users.get(args[0]);
  if (toHug.id == client.user.id) return message.reply("Me faire a calin a moi et comme faire un calin a quelqu'un qui n'éxiste pas, enfaite...");
  message.channel.send(`<@${toHug.id}> tu reçois un gros calin de la part de <@${message.author.id}> :wink: `)
 var replies = ["https://media1.tenor.com/images/b77fd0cfd95f89f967be0a5ebb3b6c6a/tenor.gif?itemid=7864716", "https://media1.tenor.com/images/b87f8b1e2732c534a00937ffb24baa79/tenor.gif?itemid=9136391", "https://media1.tenor.com/images/40aed63f5bc795ed7a980d0ad5c387f2/tenor.gif?itemid=11098589"]
+var result = Math.floor((Math.random() * replies.length));
 
  let botembed = new Discord.RichEmbed()
  .setColor("#FF8CFB")
- .setImage(replies);
+ .setImage(replies[result]);
 
  return message.channel.send(botembed);
 
