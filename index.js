@@ -1,6 +1,7 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
 
+
 client.on('warn', console.warn);
 client.on('error', console.error);
 client.on("ready", () => {
@@ -210,6 +211,8 @@ let botembed = new Discord.RichEmbed()
 	.setThumbnail("https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Emoji_u1f4dd.svg/1000px-Emoji_u1f4dd.svg.png")
 	.addField("kick <membre> <raison>","Pour l'exclure du serveur !")
   .addField("ban <membre> <raison>", "Pour le frapper avec le marteau du ban ! èwé")
+  .addField("giverole <membre> <role>", "Pour donner a un membre le rôle choisi.")
+  .addField("removerole <membre> <role>", "Pour retirer a un membre le rôle choisi.")
 
 return message.channel.send(botembed);
 }
@@ -244,10 +247,40 @@ if (user.id == message.author.id) return message.reply("Et bien... voici ton ava
 
 }
 
-//db!
+//db!giverole
+if (message.content.startsWith(prefix + "giverole")){
+
+    if(!message.member.hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) return message.reply("Nop, tu n'as pas les droits pour cette commande ! *giverole run away* ")
+    let rMember = message.guild.member(message.mentions.users.first()) || message.guild.members.get(args[0]);
+    if(!rMember) return message.reply("Je n'ai pas trouver l'utilisateur :sweat:");
+    var role = args.join(" ").slice(22);
+    if(!role) return message.reply("Il faut préciser le nom d'un rôle, je suis pas devin moi ! :sweat_smile:");
+    let gRole = message.guild.roles.find("name", role);
+    if(!gRole) return message.reply("Je n'ai pas trouver le rôle.");
+
+    if(!rMember.roles.has(gRole.id)) return message.reply("Il possède déjà ce rôle.")
+    rMember.addRole(role).catch(console.error)
+    message.channel.send(`C'est bon ! Le rôle "${gRole.name}" a bien été donner a <@${rMember.id}.`)
+}
+
+//db!removerole
+if (message.content.startsWith(prefix + "removerole")){
+
+    if(!message.member.hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) return message.reply("Nop, tu n'as pas les droits pour cette commande ! *removerole run away* ")
+    let rMember = message.guild.member(message.mentions.users.first()) || message.guild.members.get(args[0]);
+    if(!rMember) return message.reply("Je n'ai pas trouver l'utilisateur :sweat:");
+    let role = args.join(" ").slice(22);
+    if(!role) return message.reply("Il faut préciser le nom d'un rôle, je suis pas devin moi ! :sweat_smile:");
+    let gRole = message.guild.roles.find(`name`, role);
+    if(!gRole) return message.reply("Je n'ai pas trouver le rôle.");
+
+    if(!rMember.roles.has(gRole.id)) return message.reply("Je ne peux pas retirer un rôle qu'il n'a pas !");
+       rMember.removeRole(role).catch(console.error);
+       message.channel.send(`C'est bon ! Le rôle "${gRole.name}" a bien été retirer a <@${rMember.id}.`)
+}
 
 
 });
 
 client.login(process.env.TOKEN)
-///process.env.TOKEN
+///
