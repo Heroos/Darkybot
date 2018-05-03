@@ -255,11 +255,11 @@ if (message.content.startsWith(prefix + "giverole")){
     if(!rMember) return message.reply("Je n'ai pas trouver l'utilisateur :sweat:");
     var role = args.join(" ").slice(22);
     if(!role) return message.reply("Il faut préciser le nom d'un rôle, je suis pas devin moi ! :sweat_smile:");
-    let gRole = message.guild.roles.find("name", role);
+    let gRole = message.guild.roles.find(`name`, role);
     if(!gRole) return message.reply("Je n'ai pas trouver le rôle.");
 
     if(!rMember.roles.has(gRole.id)) return message.reply("Il possède déjà ce rôle.")
-    rMember.addRole(role).catch(console.error)
+    rMember.addRole(role)
     message.channel.send(`C'est bon ! Le rôle "${gRole.name}" a bien été donner a <@${rMember.id}.`)
 }
 
