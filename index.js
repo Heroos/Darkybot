@@ -51,7 +51,7 @@ if (message.content.startsWith(prefix + "infobot")){
     .addField("Nom du bot:", "Darkybot#0140 :smiley:")
     .addField("Bot crée par:", "D𝓪𝓻𝓴𝔂#9258")
     .addField("Mon prefix","db!")
-    .addField("Lien d'invitation:", "[Invite moi si tu veux ! ^-^](https://discordapp.com/oauth2/authorize?client_id=439775455537790976&scope=bot&permissions=3525696)");
+    .addField("Lien d'invitation:", "[Invite moi si tu veux ! ^-^](https://discordapp.com/oauth2/authorize?client_id=441409139294601216&scope=bot&permissions=3525696)");
 
     return message.channel.send(botembed);
 }
