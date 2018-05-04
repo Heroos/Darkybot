@@ -253,7 +253,7 @@ if (message.content.startsWith(prefix + "giverole")){
     if(!message.member.hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) return message.reply("Nop, tu n'as pas les droits pour cette commande ! *giverole run away* ")
     let rMember = message.guild.member(message.mentions.users.first()) || message.guild.members.get(args[0]);
     if(!rMember) return message.reply("Je n'ai pas trouver l'utilisateur :sweat:");
-    var role = args.join(" ").slice(22);
+    var role = args.join(" ").slice(0);
     if(!role) return message.reply("Il faut préciser le nom d'un rôle, je suis pas devin moi ! :sweat_smile:");
     let gRole = message.guild.roles.find(`name`, role);
     if(!gRole) return message.reply("Je n'ai pas trouver le rôle.");
@@ -269,7 +269,7 @@ if (message.content.startsWith(prefix + "removerole")){
     if(!message.member.hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) return message.reply("Nop, tu n'as pas les droits pour cette commande ! *removerole run away* ")
     let rMember = message.guild.member(message.mentions.users.first()) || message.guild.members.get(args[0]);
     if(!rMember) return message.reply("Je n'ai pas trouver l'utilisateur :sweat:");
-    let role = args.join(" ").slice(22);
+    let role = args.join(" ").slice(0);
     if(!role) return message.reply("Il faut préciser le nom d'un rôle, je suis pas devin moi ! :sweat_smile:");
     let gRole = message.guild.roles.find(`name`, role);
     if(!gRole) return message.reply("Je n'ai pas trouver le rôle.");
