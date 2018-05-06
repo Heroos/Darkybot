@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const superagent = require("superagent");
 const client = new Discord.Client();
 
 
@@ -6,6 +7,7 @@ client.on('warn', console.warn);
 client.on('error', console.error);
 client.on("ready", () => {
   console.log("Darkybot a bien démarrer !");
+  console.log(`${client.user.username} est en ligne sur ${client.guilds.size} serveurs !`);
 
      client.user.setStatus('Online')
      client.user.setGame('db!help')
@@ -15,6 +17,9 @@ const prefix = 'db!'
 client.on('message', message => {
 	var args = message.content.substring(prefix.length).split(" ");
      if(message.author.bot) return;
+
+     let cooldown = new Set();
+     let cdseconds = 3
 
 
 //db!ping
@@ -152,8 +157,8 @@ if (!args[0]) return message.channel.send("Va falloir choisir quelqu'un, je suis
 if(!kUser) return message.channel.send("Je n'ai pas trouver l'utilisateur :sweat:")
 if (kUser.id == message.author.id) return message.reply('Tu veux te kick toi même ?! Étrange... :thinking: ');
 if (kUser.id == client.user.id) return message.reply('Tu veux me kick ? :disappointed_relieved:')
- if(!message.member.hasPermission("MANAGE_MESSAGES")) return message.channel.send("Non, tu ne peux pas !");
-if (kUser.hasPermission("MANAGE_MESSAGES")) return message.reply("Nan, il a des privililèges qui m'empêche de faire sa.");
+ if(!message.member.hasPermission("MANAGE_MESSAGES")) return message.channel.send("Non, tu ne peux pas ! *kick run away*");
+if (kUser.hasPermission("MANAGE_MESSAGES")) return message.reply("Nan, il a des privililèges qui m'empêche de faire sa. *kick run away*");
    var kReason = args.join(" ").slice(26);
 
 let kickEmbed = new Discord.RichEmbed()
@@ -183,8 +188,8 @@ let bUser = message.guild.member(message.mentions.users.first() || message.guild
     if (bUser.id == message.author.id) return message.reply('Tu veux te bannir toi même ?! Tu est **vraiment** étrange... :cold_sweat: ');
     if (bUser.id == client.user.id) return message.reply('TU VEUX ME BANNIR !? :sob:')
     let bReason = args.join(" ").slice(26);
-    if(!message.member.hasPermission("MANAGE_MEMBERS")) return message.channel.send("Non, tu ne peux pas !");
-    if(bUser.hasPermission("MANAGE_MESSAGES")) return message.channel.send("Nan, il a des privililèges qui m'empêche de faire sa.");
+    if(!message.member.hasPermission("MANAGE_MEMBERS")) return message.channel.send("Non, tu ne peux pas ! *ban run away*");
+    if(bUser.hasPermission("MANAGE_MESSAGES")) return message.channel.send("Nan, il a des privililèges qui m'empêche de faire sa. *ban run away*");
 
     let banEmbed = new Discord.RichEmbed()
     .setDescription("**~|Bannissement|~**")
@@ -303,11 +308,41 @@ if(!rMember.roles.has(gRole.id)) return message.reply("Je ne peux pas retirer un
 
 }
 
-//db!
+//db!doggo
+if (message.content.startsWith(prefix + "doggo")){
+
+  let {body} = async superagent
+  .get(`https://random.dog/woof.json`);
+
+  let dogembed = new Discord.RichEmbed()
+  .setColor("#ffbb68")
+  .setTitle("Ouaf ! :dog: ")
+  .setImage(body.url);
+
+message.channel.send(dogembed)
+}
 
 
+
+
+
+
+
+
+if(!message.content.startsWith(prefix)) return;
+if(cooldown.has(message.author.id)){
+  message.delete();
+  return message.reply("**HEY HO !** Patiente 3 secondes entre chaque commandes ! Je vais pas plus vite que la lumière moi !")
+}
+if(!message.author.id == 191272823170269184){
+   cooldown.add(message.author.id);
+}
+
+setTimeout(() => {
+  cooldown.delete(message.author.id)
+}, cdseconds * 1000)
 });
 
-client.login(process.env.TOKEN)
+client.login("NDQxNDA5MTM5Mjk0NjAxMjE2.Dc0nRg.Hqf2AzgdYFcHUayOML40H_7yshA")
 
 ///process.env.TOKEN
