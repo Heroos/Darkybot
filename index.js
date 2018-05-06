@@ -311,15 +311,15 @@ if(!rMember.roles.has(gRole.id)) return message.reply("Je ne peux pas retirer un
 //db!doggo
 if (message.content.startsWith(prefix + "doggo")){
 
-  let {body} = async superagent
-  .get(`https://random.dog/woof.json`);
+//  let {body} = async superagent
+//  .get(`https://random.dog/woof.json`);
 
-  let dogembed = new Discord.RichEmbed()
-  .setColor("#ffbb68")
-  .setTitle("Ouaf ! :dog: ")
-  .setImage(body.url);
+//  let dogembed = new Discord.RichEmbed()
+// .setColor("#ffbb68")
+//  .setTitle("Ouaf ! :dog: ")
+//  .setImage(body.url);
 
-message.channel.send(dogembed)
+//message.channel.send(dogembed)
 }
 
 
@@ -343,6 +343,6 @@ setTimeout(() => {
 }, cdseconds * 1000)
 });
 
-client.login(process.env.TOKEN)
+client.log(inprocess.env.TOKEN)
 
 ///process.env.TOKEN
