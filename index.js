@@ -343,6 +343,6 @@ setTimeout(() => {
 }, cdseconds * 1000)
 });
 
-client.login("NDQxNDA5MTM5Mjk0NjAxMjE2.Dc0nRg.Hqf2AzgdYFcHUayOML40H_7yshA")
+client.login(process.env.TOKEN)
 
 ///process.env.TOKEN
