@@ -309,7 +309,7 @@ if(!rMember.roles.has(gRole.id)) return message.reply("Je ne peux pas retirer un
 }
 
 //db!doggo
-if (message.content.startsWith(prefix + "doggo")){
+//if (message.content.startsWith(prefix + "doggo")){
 
 //  let {body} = async superagent
 //  .get(`https://random.dog/woof.json`);
@@ -320,7 +320,7 @@ if (message.content.startsWith(prefix + "doggo")){
 //  .setImage(body.url);
 
 //message.channel.send(dogembed)
-}
+//}
 
 
 
