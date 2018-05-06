@@ -343,6 +343,6 @@ setTimeout(() => {
 }, cdseconds * 1000)
 });
 
-client.log(inprocess.env.TOKEN)
+client.login(process.env.TOKEN)
 
 ///process.env.TOKEN
