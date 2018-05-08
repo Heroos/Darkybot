@@ -1,7 +1,25 @@
 const Discord = require("discord.js");
 const superagent = require("superagent");
 const client = new Discord.Client();
+const YTDL = require("ytdl-core");
 
+function play(connection, message) {
+  var server = servers[message.guild.id];
+
+  server.dispatcher = connection.playStream(YTDL(server.queue[0], {filter: "audioonly"}));
+
+  server.queue.shift();
+
+  server.dispatcher.on("end", function() {
+    if (server.queue[0]) play(connection, message);
+    else connection.disconnect();
+  });
+}
+
+
+
+
+var servers = {};
 
 client.on('warn', console.warn);
 client.on('error', console.error);
@@ -127,7 +145,8 @@ if (message.content.startsWith(prefix + "report")){
     if(!rUser) return message.channel.send("Je n'ai pas trouver l'utilisateur :sweat:")
     if (rUser.id == message.author.id) return message.reply('Euh... Pourquoi tu veux te report toi même ? :thinking: ');
     if (rUser.id == client.user.id) return message.reply('Héhéhé... Tu as cru pouvoir me report ?! **IDIOT !**');
-    if (rUser.id == 191272823170269184) return message.reply('Nop, tu peux pas le report. Même méchant, il est trop gentil.');
+    if (rUser.id == 191272823170269184) return message.reply("Nop, tu peux pas le report. C'est l'owner du bot, c'est un peu bête, non ?");
+    if (rUser.id == 334095574674571264) return message.reply("C'est Eni quand même, tu ne peut pas le report...")
 
       var reason = args.join(" ").slice(29);
 
@@ -267,13 +286,13 @@ if (message.content.startsWith(prefix + "giverole")){
     let gRole = message.guild.roles.find("name", role);
     if(!gRole) return message.reply("Je n'ai pas trouver le rôle.");
 
-   if(!rMember.roles.has(gRole.id)) return message.reply("Il possède déja ce rôle.")
-     (rMember.addRole(gRole.id));
+   if(!rMember.roles.has(gRole.id)) //return message.channel("Il possède déja ce rôle.")
+   (rMember.addRole(gRole.id));
+try{
 
-   try{
      var giveEmbed = new Discord.RichEmbed()
       .setColor("#00ff00")
-      .addField("SUCCÈS !", (`Le rôle "${gRole.name}" a bien été donner a **${rMember}**.`));
+      .addField("SUCCÈS !", `Le rôle "${gRole.name}" a bien été donner a **${rMember}**.`);
 
 
     }catch(e){}
@@ -294,7 +313,7 @@ if (message.content.startsWith(prefix + "removerole")){
     let gRole = message.guild.roles.find(`name`, role);
     if(!gRole) return message.reply("Je n'ai pas trouver le rôle.");
 
-if(!rMember.roles.has(gRole.id)) return message.reply("Je ne peux pas retirer un rôle qu'il n'a pas !");
+if(!rMember.roles.has(gRole.id)) //return message.reply("Je ne peux pas retirer un rôle qu'il n'a pas !");
   (rMember.removeRole(gRole.id));
 
  try{
@@ -311,38 +330,66 @@ if(!rMember.roles.has(gRole.id)) return message.reply("Je ne peux pas retirer un
 //db!doggo
 if (message.content.startsWith(prefix + "doggo")){
 
-  let {body} = superagent
-  .get(`https://random.dog/woof.json`);
+  superagent
+  .get(`https://random.dog/woof.json`)
+  .then((res) => {
+    console.log(res.body)
+    let dogembed = new Discord.RichEmbed()
+    .setColor("#ffbb68")
+    .setTitle("Ouaf ! :dog: ")
+   .setImage(res.boby.url);
 
-  let dogembed = new Discord.RichEmbed()
-  .setColor("#ffbb68")
-  .setTitle("Ouaf ! :dog: ")
-  .setImage(body.url);
+  message.channel.send(dogembed)
+})
+}
 
-message.channel.send(dogembed)
+///Partie bot musique
+//db!play
+if (message.content.startsWith(prefix + "play")){
+
+  if (!args[1]) {
+    message.channel.sendMessage(":musical_note: Merci de bien vouloir mettre un lien valide.");
+    return;
+  }
+
+  if (!message.member.voiceChannel) {
+    message.channel.sendMessage(":musical_note:  Tu doit être dans un salon vocal !");
+    return;
+  }
+
+  if(!servers[message.guild.id]) servers[message.guild.id] = {
+
+    queue: []
+  };
+
+  var server = servers[message.guild.id];
+
+  server.queue.push(args[1]);
+
+  if (!message.guild.voiceConnection) message.member.voiceChannel.join().then(function(connection) {
+    play(connection, message);
+
+});
+}
+
+//db!skip
+if (message.content.startsWith(prefix + "skip")){
+  var server = servers[message.guild.id];
+
+  if (server.dispatcher) server.dispatcher.end();
+}
+
+//db!stop
+if (message.content.startsWith(prefix + "stop")){
+   var server = servers[message.guild.id];
+
+   if (!message.guild.voiceConnection) message.guild.voiceChannel.disconnect();
 }
 
 
 
-
-
-
-
-
-if(!message.content.startsWith(prefix)) return;
-if(cooldown.has(message.author.id)){
-  message.delete();
-  return message.reply("**HEY HO !** Patiente 3 secondes entre chaque commandes ! Je vais pas plus vite que la lumière moi !")
-}
-if(!message.author.id == 191272823170269184){
-   cooldown.add(message.author.id);
-}
-
-setTimeout(() => {
-  cooldown.delete(message.author.id)
-}, cdseconds * 1000)
 });
 
-client.login(process.env.TOKEN)
+client.login("NDQxNDA5MTM5Mjk0NjAxMjE2.Dc0nRg.Hqf2AzgdYFcHUayOML40H_7yshA")
 
 ///process.env.TOKEN
