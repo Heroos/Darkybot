@@ -4,8 +4,14 @@
   "description": "Bah c'est un bot,voila",
   "main": "index.js",
   "dependencies": {
+    "bufferutil": "^3.0.5",
     "discord.js": "^11.3.2",
-    "ms": "^2.1.1"
+    "ffmpeg": "0.0.4",
+    "ms": "^2.1.1",
+    "npm": "^5.6.0",
+    "opusscript": "0.0.6",
+    "superagent": "^3.8.3",
+    "ytdl-core": "^0.20.2"
   },
   "devDependencies": {},
   "scripts": {
