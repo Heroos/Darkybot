@@ -1,3 +1,14 @@
+const http = require('http');
+const express = require('express');
+const app = express();
+app.get("/", (request, response) => {
+  console.log(Date.now() + " Ping Received");
+  response.sendStatus(200);
+});
+app.listen(process.env.PORT);
+setInterval(() => {
+  http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
+}, 280000);
 const Discord = require("discord.js");
 const superagent = require("superagent");
 const client = new Discord.Client();
@@ -28,7 +39,7 @@ client.on("ready", () => {
   console.log(`${client.user.username} est en ligne sur ${client.guilds.size} serveurs !`);
 
      client.user.setStatus('Online')
-     client.user.setGame('db!help')
+     client.user.setActivity('db!help')
 });
 const prefix = 'db!'
 
@@ -36,9 +47,7 @@ client.on('message', message => {
 	var args = message.content.substring(prefix.length).split(" ");
      if(message.author.bot) return;
 
-     let cooldown = new Set();
-     let cdseconds = 3
-
+    
 
 //db!ping
 if (message.content.startsWith(prefix + 'ping')) {
@@ -129,6 +138,7 @@ if (message.author.id == 191272823170269184){
     if (message.content.startsWith(prefix + "setgame")){
     message.reply("**BINGO !** Tu as trouver une commande réservé a l'owner du bot, bravo ! Mais tu ne peux pas t'en servir. *setgame run away.*")
 }};
+
 
 
 //db!sayd <message>
@@ -286,7 +296,7 @@ if (message.content.startsWith(prefix + "giverole")){
     let gRole = message.guild.roles.find("name", role);
     if(!gRole) return message.reply("Je n'ai pas trouver le rôle.");
 
-   if(!rMember.roles.has(gRole.id)) //return message.channel("Il possède déja ce rôle.")
+   if(!rMember.roles.has(gRole.id)) return message.channel("Il possède déja ce rôle.")
    (rMember.addRole(gRole.id));
 try{
 
@@ -313,7 +323,7 @@ if (message.content.startsWith(prefix + "removerole")){
     let gRole = message.guild.roles.find(`name`, role);
     if(!gRole) return message.reply("Je n'ai pas trouver le rôle.");
 
-if(!rMember.roles.has(gRole.id)) //return message.reply("Je ne peux pas retirer un rôle qu'il n'a pas !");
+if(!rMember.roles.has(gRole.id)) return message.reply("Je ne peux pas retirer un rôle qu'il n'a pas !");
   (rMember.removeRole(gRole.id));
 
  try{
@@ -327,9 +337,9 @@ if(!rMember.roles.has(gRole.id)) //return message.reply("Je ne peux pas retirer 
 
 }
 
-//db!doggo
+//db!doggo [NON FONCTIONNEL]
 if (message.content.startsWith(prefix + "doggo")){
-
+  
   superagent
   .get(`https://random.dog/woof.json`)
   .then((res) => {
@@ -339,57 +349,70 @@ if (message.content.startsWith(prefix + "doggo")){
     .setTitle("Ouaf ! :dog: ")
    .setImage(res.boby.url);
 
-  message.channel.send(dogembed)
+message.channel.send(dogembed)
 })
 }
 
+//db!
+ 
+  
+  
+  
+  
+  
+  
+  
+  
+  
 ///Partie bot musique
 //db!play
-if (message.content.startsWith(prefix + "play")){
+//if (message.content.startsWith(prefix + "play")){
 
-  if (!args[1]) {
-    message.channel.sendMessage(":musical_note: Merci de bien vouloir mettre un lien valide.");
-    return;
-  }
+//  if (!args[1]) {
+//    message.channel.sendMessage(":musical_note: Merci de bien vouloir mettre un lien valide.");
+//    return;
+//  }
 
-  if (!message.member.voiceChannel) {
-    message.channel.sendMessage(":musical_note:  Tu doit être dans un salon vocal !");
-    return;
-  }
+//  if (!message.member.voiceChannel) {
+//    message.channel.sendMessage(":musical_note:  Tu doit être dans un salon vocal !");
+//    return;
+//  }
 
-  if(!servers[message.guild.id]) servers[message.guild.id] = {
+//  if(!servers[message.guild.id]) servers[message.guild.id] = {
 
-    queue: []
-  };
+//    queue: []
+//  };
 
-  var server = servers[message.guild.id];
+//  var server = servers[message.guild.id];
 
-  server.queue.push(args[1]);
+//  server.queue.push(args[1]);
 
-  if (!message.guild.voiceConnection) message.member.voiceChannel.join().then(function(connection) {
-    play(connection, message);
+//  if (!message.guild.voiceConnection) message.member.voiceChannel.join().then(function(connection) {
+//    play(connection, message);
 
-});
-}
+//});
+//}
 
 //db!skip
-if (message.content.startsWith(prefix + "skip")){
-  var server = servers[message.guild.id];
+//if (message.content.startsWith(prefix + "skip")){
+//  var server = servers[message.guild.id];
 
-  if (server.dispatcher) server.dispatcher.end();
-}
+//  if (server.dispatcher) server.dispatcher.end();
+//}
 
 //db!stop
-if (message.content.startsWith(prefix + "stop")){
-   var server = servers[message.guild.id];
+//if (message.content.startsWith(prefix + "stop")){
+//   var server = servers[message.guild.id];
 
-   if (!message.guild.voiceConnection) message.guild.voiceChannel.disconnect();
-}
+//   if (!message.guild.voiceConnection) message.guild.voiceChannel.disconnect();
+//}
 
+  
+///Fin partie bot musique  
 
 
 });
 
-client.login("NDQxNDA5MTM5Mjk0NjAxMjE2.Dc0nRg.Hqf2AzgdYFcHUayOML40H_7yshA")
+client.login(process.env.TOKEN)
 
 ///process.env.TOKEN
