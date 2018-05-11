@@ -8,10 +8,10 @@
     "discord.js": "^11.3.2",
     "ffmpeg": "0.0.4",
     "ms": "^2.1.1",
-    "npm": "^5.6.0",
+    "npm": "^6.0.0",
     "opusscript": "0.0.6",
     "superagent": "^3.8.3",
-    "ytdl-core": "^0.20.2",
+    "ytdl-core": "^0.20.3",
     "express": "^4.16.3"
   },
   "devDependencies": {},
