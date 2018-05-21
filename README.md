@@ -34,6 +34,5 @@ ________________________________________________________________
 
 Shop? ~~
 Un systeme level ~~
-db!cat -> trouver site img chat random ~~
 
 

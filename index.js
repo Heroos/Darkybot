@@ -161,7 +161,7 @@ if (message.content.startsWith(prefix + "help")){
 	.setTitle("Bonjour, je suis l'aide ! Et voici mes commandes ! :smiley:")
 	.setColor("#00C1FF")
 	.setThumbnail("https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Emoji_u1f4dd.svg/1000px-Emoji_u1f4dd.svg.png")
-  .addField("Fun: ", "`8ball`, `sayd`, `avatar`, `doggo`, `pileouface`, `rps`")
+  .addField("Fun: ", "`8ball`, `sayd`, `avatar`, `doggo`, `cat`, `pileouface`, `rps`")
   .addField("jeux d'argent: ", "**[+ bientôt]** mais en attendant, jouez avec `$rps`")
   .addField("Action/RP: ", "`hug`, `slap`, `kiss`, `bite`")
   .addField("Administration: ", "`report`, pour + de commandes, faites db!adminhelp")
@@ -424,14 +424,20 @@ if (message.content.startsWith(prefix + "doggo")){
 
 //db!eval
 if (message.content.startsWith(prefix + "eval")){  
-  if (message.author.id != 191272823170269184) return message.reply("**BINGO !** Tu as trouver une commande réservé a l'owner du bot, bravo ! Mais tu ne peux pas t'en servir. *eval run away.*");
+  if (message.author.id != 191272823170269184) 
+  if (message.author.id != 361225964417449985) return message.reply("**BINGO !** Tu as trouver une commande réservé a l'owner du bot, bravo ! Mais tu ne peux pas t'en servir. *eval run away.*");
    
+  
+  
   try {
-        const code = args.slice(1).join(" ");
+        const code = args.join(" ");
+    if(code.match("process.env.TOKEN")) return message.channel.send(":no_entry_sign: Besoin d'un coup de main ? Tu te crois chez ta maman a tenter de prendre mon token ? :smirk:");
+// B
         let evaled = eval(code);
         if (typeof evaled !== "string")
           evaled = require("util").inspect(evaled);
         message.channel.send(clean(evaled), {code:"xl"});
+    
       } catch (err) {
         message.channel.send(`\`ERREUR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
       }
