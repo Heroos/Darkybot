@@ -13,9 +13,11 @@ const Discord = require("discord.js");
 const superagent = require("superagent");
 const client = new Discord.Client();
 const YTDL = require("ytdl-core");
+const format = require("node.date-time");
 
 let coins = require("./coins.json");
 var fs = require("fs");
+let talkedRecently = [];
 
 function play(connection, message) {
   var server = servers[message.guild.id];
@@ -29,7 +31,11 @@ function play(connection, message) {
     else connection.disconnect();
   });
 }
-
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
+}
 function clean(text) {
   if (typeof(text) === "string")
     return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
@@ -41,19 +47,25 @@ function clean(text) {
 
 var servers = {};
 
+
 client.on('warn', console.warn);
 client.on('error', console.error);
 client.on("ready", () => {
   console.log("Darkybot a bien démarrer !");
   console.log(`${client.user.username} est en ligne sur ${client.guilds.size} serveurs !`);
-
+  
      client.user.setStatus('Online')
-     client.user.setActivity('db!help')
+     client.user.setActivity("db!help")
 });
 const prefix = 'db!'
 
+
 client.on('message', async (message) => {
-	var args = message.content.substring(prefix.length).split(" ");
+//	var args = message.content.substring(prefix.length).split(" ");
+ 
+let messageArray = message.content.split(" ")
+    let args = messageArray.slice(1);
+
      if(message.author.bot) return;
 
 if(!coins[message.author.id]){
@@ -61,10 +73,11 @@ if(!coins[message.author.id]){
     coins: 0
   };
 }
- 
+  
+
 //coins.json 
-let coinAmt = Math.floor(Math.random() * 20) + 1;
-let baseAmt = Math.floor(Math.random() * 20) + 1;
+let coinAmt = Math.floor(Math.random() * 30) + 1;
+let baseAmt = Math.floor(Math.random() * 30) + 1;
 
   
 if(coinAmt === baseAmt){
@@ -84,7 +97,11 @@ let coinEmbed = new Discord.RichEmbed()
 } 
 ///////
   
-  
+  if (!message.content.startsWith(prefix)) return;
+    if (talkedRecently.indexOf(message.author.id) !== -1) {
+            message.channel.send(":clock10: **HÉ HO !** Patiente deux secondes entres chaques commandes " + message.author + " !");
+       return;
+    }
 //db!ping
 if (message.content.startsWith(prefix + 'ping')) {
 
@@ -107,7 +124,7 @@ var botmessage = args.slice(1).join(" ");
 
 /// rep positives: 6 | négative: 6 | mitigé: 6
 var replies = ["Ouais !","Nan...","Peut-être.","Chais pas, demande a ta mère. :/","Compte la dessus !","Nan, oublie", "Re-demande moi plus tard. :sweat_smile:", "Euh... Tu n'as pas une meilleur question ?", "Je demanderais a mon cheval ! *PS: il a répondu oui.  :smirk:*","Alors là... Aucune idée frère","Je demanderais a mon cheval ! *PS: Il a répondu non cbatar...*", "Mouais...", "Je pense que ouais.", "OUAIS, OUAIS, OUAIS, OUAIIIS !", "Hahaha ! Non.", "Peut-être que oui, peut-être que non.", "C'est sûr et certaint !", "Même pas en rêve",];
-var question = args.slice(1).join(" ")
+var question = args.join(" ")
 var result = Math.floor((Math.random() * replies.length));
 
    var ballembed = new Discord.RichEmbed()
@@ -130,8 +147,8 @@ if (message.content.startsWith(prefix + "infoserveur")){
 	.setColor("#E82142")
 	.setThumbnail(message.guild.iconURL)
 	.addField("Nom du serveur:", message.guild.name)
-	.addField("Rejoin le:", message.member.joinedAt)
-  .addField("Crée le:", message.guild.createdAt)
+	.addField("Rejoin le:", message.member.joinedAt.format("dd-MM-Y à HH:mm:SS"))
+  .addField("Crée le:", message.guild.createdAt.format("dd-MM-Y à HH:mm:SS"))
   .addField("Membres total:", message.guild.memberCount)
 
 	return message.channel.send(serverembed);
@@ -144,11 +161,13 @@ if (message.content.startsWith(prefix + "help")){
 	.setTitle("Bonjour, je suis l'aide ! Et voici mes commandes ! :smiley:")
 	.setColor("#00C1FF")
 	.setThumbnail("https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Emoji_u1f4dd.svg/1000px-Emoji_u1f4dd.svg.png")
-  .addField("Fun: ", "`8ball`, `sayd`, `avatar`, `doggo`")
+  .addField("Fun: ", "`8ball`, `sayd`, `avatar`, `doggo`, `pileouface`, `rps`")
+  .addField("jeux d'argent: ", "**[+ bientôt]** mais en attendant, jouez avec `$rps`")
   .addField("Action/RP: ", "`hug`, `slap`, `kiss`, `bite`")
   .addField("Administration: ", "`report`, pour + de commandes, faites db!adminhelp")
   .addField("Musique: **[EN MAINTENANCE]**", "`play`, `skip`, `stop`")
-  .addField("Autre:", "`ping`, `infoserveur`, `coins`, `help`")
+  .addField("Argent: ", "`coins`, `pay`")
+  .addField("Autre:", "`ping`, `infoserveur`, `help`, `ui`")
   .addField("Owner bot seul.:", "`setgame`, `setstream`, `setwatch`, `eval`")
   .addField("Ajoute moi sur ton serveur !", "[Clique ici! ^-^](https://discordapp.com/api/oauth2/authorize?client_id=441409139294601216&permissions=8&scope=bot)");
   
@@ -179,7 +198,7 @@ return message.channel.send(botembed);
 if (message.content.startsWith(prefix + "setgame")){
   if (message.author.id != 191272823170269184) return message.reply("**BINGO !** Tu as trouver une commande réservé a l'owner du bot, bravo ! Mais tu ne peux pas t'en servir. *setgame run away.*")
   message.reply("C'est fait ! :thumbsup::skin-tone-2:")
-  var game = args.slice(1).join(" ")
+  var game = args.slice(1).join(" ");
         client.user.setActivity(game, {
         'type': 'PLAYING'
 
@@ -189,8 +208,8 @@ if (message.content.startsWith(prefix + "setgame")){
 if (message.content.startsWith(prefix + "setstream")){
   if (message.author.id != 191272823170269184) return message.reply("**BINGO !** Tu as trouver une commande réservé a l'owner du bot, bravo ! Mais tu ne peux pas t'en servir. *setstream run away.*")
   message.reply("C'est fait ! :thumbsup::skin-tone-2:")
-  var game = args.slice(1).join(" ")
-        client.user.setActivity(game, {
+  var stream = args.slice(1).join(" ");
+        client.user.setActivity(stream, {
         'type': 'STREAMING',
         'url': "https://www.twitch.tv/thedarknightshoww"
 
@@ -198,17 +217,18 @@ if (message.content.startsWith(prefix + "setstream")){
   
 //db!setwatch  
 if (message.content.startsWith(prefix + "setwatch")){
-  if (message.author.id != 191272823170269184) return message.reply("**BINGO !** Tu as trouver une commande réservé a l'owner du bot, bravo ! Mais tu ne peux pas t'en servir. *setstream run away.*")
+  if (message.author.id != 191272823170269184) return message.reply("**BINGO !** Tu as trouver une commande réservé a l'owner du bot, bravo ! Mais tu ne peux pas t'en servir. *setwatch run away.*")
   message.reply("C'est fait ! :thumbsup::skin-tone-2:")
-  var game = args.slice(1).join(" ")
-        client.user.setActivity(game, {
+  var watch = args.slice(1).join(" ");
+        client.user.setActivity(watch, {
         'type': 'WATCHING',
 
 })};
   
 //db!sayd <message>
 if (message.content.startsWith(prefix + "sayd")){
-var botmessage = args.slice(1).join(" ");
+var botmessage = args.join(" ");
+if (!botmessage) return message.channel.send("Envoye un truc stp")
 message.delete();
 message.channel.send(botmessage);
 }
@@ -438,41 +458,132 @@ message.channel.send(coinEmbed)
 
 }
   
-//db!pay [INSTABLE]
-//if (message.content.startsWith(prefix + "pay")) {
+//db!pay
+if (message.content.startsWith(prefix + "pay")) {
  
-//if(!coins[message.author.id]){
-//  return message.reply("Tu n'a pas de pièces !")
-//}
+if(!coins[message.author.id]){
+  return message.reply("Tu n'a pas de pièces !")
+}
   
-//  let pUser = message.guild.member(message.mentions.users.first()) || message.guild.members.get(args[0])
-  
-//  if(!coins[pUser.id]){
-//    coins[pUser.id] = {
-//      coins: 0
-//    };
-//  }
+  let pUser = message.mentions.users.first() || message.guild.members.get(args[0])
+  if (isNaN(args[1])) return message.channel.send("Veuillez mettre un numéro.")
+  if (args[1].startsWith("-")) return message.channel.send("Un nombre négatif, Carrement ?")
+  if(!coins[pUser.id]){
+    coins[pUser.id] = {
+      coins: 0
+    };
+  }
 
-//  let pCoins = coins[pUser.id].coins;
-//  let sCoins = coins[message.author.id].coins;
+  let pCoins = coins[pUser.id].coins;
+  let sCoins = coins[message.author.id].coins;
+    if(sCoins < args[1]) return message.reply("Tu n'as pas assez de pièces !");
   
-//  if(sCoins < args[0]) return message.reply("Tu n'as pas assez de pièces !");
+  coins[message.author.id]= {
+    coins: sCoins - parseInt(args[1])
   
-//  coins[message.author.id]= {
-//    coins: sCoins - parseInt(args[1])
+  }; 
+
+       coins[pUser.id] = { 
+    coins: pCoins + parseInt(args[1])
+  };
   
-//  };        
-//        coins[pUser.id] = {
-//    coins: pCoins + parseInt(args[1])
-//  };
+  message.channel.send(`${pUser} a reçu ${args[1]} pièces par ${message.author} !`)
   
-//  message.channel.send(`${pUser} a reçu ${args[2]} pièces par ${message.author} !`)
+fs.writeFile("./coins.json", JSON.stringify(coins), (err) => {
+  if(err) console.log(err)
+});
+}
+
+//db!rps
+  if (message.content.startsWith(prefix + "rps")){
+    
+    function rand(low, high) {
+      return Math.random() * (high + 1 - low) + low | 0;
+    }
+  const rpsargs = message.content.split(" ").slice(1).join(" ");
+    
+      //choix
+      let computer_choice = rand(0,2);
+let user_choice;
+if (args[0].toLowerCase() == "pierre") { 
+user_choice = 0 
+
+} else
+ if (args[0].toLowerCase() == "feuille") {
+user_choice = 1
+
+} else 
+if (args[0].toLowerCase() == "ciseaux") {
+user_choice = 2
+} else {
+message.channel.send("Alors, il faut choisir entre `feuille`, `ciseaux` ou `pierre` et rien d'autres.")
+return;
+}
+      if (computer_choice == user_choice) {
+       message.channel.send("**Égalité !** <:doggy:435146226527240213>")
+        
+      }
+      if (computer_choice == 0 && user_choice == 2) {
+        var rpsEmbed = new Discord.RichEmbed()
+        .setTitle("**Tu as perdu !**")
+        .setColor("#e22500")
+        .addField("Tu as choisi: ", ":scissors: | Ciseaux !")
+        .addField("J'ai choisi: ", ":punch: | Pierre !")
+        
+    message.channel.send(rpsEmbed);
+        
+      }
+      if (computer_choice == 2 && user_choice == 0) {
+        var rpsEmbed = new Discord.RichEmbed()
+        .setTitle("**Tu as gagné(e) !**")
+        .setColor("#60c435")
+        .addField("Tu as choisi: ", ":punch: | Pierre !")
+        .addField("J'ai choisi: ", ":scissors: | Ciseaux !")
+        
+    message.channel.send(rpsEmbed);
+      }
+      if (computer_choice == 1 && user_choice == 0) {
+        var rpsEmbed = new Discord.RichEmbed()
+        .setTitle("**Tu as perdu !**")
+        .setColor("#e22500")
+        .addField("Tu as choisi: ", ":punch: | Pierre !")
+        .addField("J'ai choisi: ", ":page_facing_up: | Feuille !")
+        
+    message.channel.send(rpsEmbed);
+      }
+      if (computer_choice == 0 && user_choice == 1) {
+          var rpsEmbed = new Discord.RichEmbed()
+        .setTitle("**Tu as gagné(e)!**")
+        .setColor("#60c435")
+        .addField("Tu as choisi: ", ":page_facing_up: | Feuille !")
+        .addField("J'ai choisi: ", ":punch: | Pierre !")
+        
+    message.channel.send(rpsEmbed);
+        
+      }
+      if (computer_choice == 1 && user_choice == 2) {
+        var rpsEmbed = new Discord.RichEmbed()
+        .setTitle("**Tu as gagné(e)!**")
+        .setColor("#60c435")
+        .addField("Tu as choisi: ", ":scissors: | Ciseaux !")
+        .addField("J'ai choisi: ", ":page_facing_up: | Feuille !")
+        
+    message.channel.send(rpsEmbed);
+        
+      }
+      if (computer_choice == 2 && user_choice == 1) {
+       var rpsEmbed = new Discord.RichEmbed()
+        .setTitle("**Tu as perdu !**")
+        .setColor("#e22500")
+        .addField("Tu as choisi: ", ":page_facing_up: | Feuille !")
+        .addField("J'ai choisi: ", ":scissors: | Ciseaux !")
+        
+    message.channel.send(rpsEmbed);
+        
+      }
   
-//fs.writeFile("./coins.json", JSON.stringify(coins), (err) => {
-//  if(err) console.log(err)
-//});
-//}
-  
+}
+
 //db!slap
   if (message.content.startsWith(prefix + "slap")){
 
@@ -532,49 +643,228 @@ var result = Math.floor((Math.random() * replies.length));
  return message.channel.send(botembed);
 
 }   
+
+//db!pileouface
+  if (message.content.startsWith(prefix + "pileouface")) {
+let p = "Et c'est pile !",
+    f = "Et c'est face !" 
+    var x = getRandomInt(0, 8)
+    if (x < 4) {
+message.reply(p)
+} else {
+message.reply(f)
+}
+}
+ 
+//db!ui  
+  if (message.content.startsWith(prefix + "ui")) {
+    let ment = message.mentions.users.first();
+  if(!ment) {
+    let nomentembed = new Discord.RichEmbed()
+    .addField("Ton Tag", message.author.tag)
+		.addField("Ton ID", message.author.id)
+		.addField("Statut ", message.author.presence.status)
+		.addField("Sur Discord depuis", `${message.author.createdAt.format("dd-MM-Y à HH:mm:SS")}`)
+    .addField("Ton meilleur role", message.member.highestRole.name)
+    .setThumbnail(message.author.avatarURL)
+    .setColor('RANDOM')
+		message.channel.send(nomentembed)
+  }
+		let embed = new Discord.RichEmbed()
+		.addField("Tag", ment.tag)
+		.addField("ID", ment.id)
+		.addField("Statut :", ment.presence.status)
+		.addField("Sur discord depuis", `${ment.createdAt.format("dd-MM-Y à HH:mm:SS")}`)
+    .addField("Son meilleur role", message.member.highestRole.name)
+    .setThumbnail(ment.avatarURL)
+    .setColor('RANDOM')
+		message.channel.send(embed)
+}
+
+//db!$rps
+   if (message.content.startsWith(prefix + "$rps")){
+    
+    function rand(low, high) {
+      return Math.random() * (high + 1 - low) + low | 0;
+    }
+  const rpsargs = message.content.split(" ").slice(1).join(" ");
+     
+     if(!coins[message.author.id]){
+    coins[message.author.id] = {
+      coins: 0
+    };
+  }
   
-///Partie bot musique
+  let uCoins = coins[message.author.id].coins;
+    
+      let computer_choice = rand(0,2);
+let user_choice;
+if (args[0] == "pierre") {
+user_choice = 0 
+
+} else
+ if (args[0] == "feuille") {
+user_choice = 1
+
+} else 
+if (args[0] == "ciseaux") {
+user_choice = 2
+} else {
+message.channel.send("Alors, il faut choisir entre `feuille`, `ciseaux` ou `pierre` et rien d'autres.")
+return;
+}
+      if (computer_choice == user_choice) {
+       message.channel.send("**Égalité !** <:doggy:435146226527240213>")
+        
+      }
+      if (computer_choice == 0 && user_choice == 2) {
+         var rpsEmbed = new Discord.RichEmbed()
+        .setTitle("**Tu as perdu 10 pièces!**")
+        .setColor("#e22500")
+        .addField("Tu as choisi: ", ":scissors: | Ciseaux !")
+        .addField("J'ai choisi: ", ":punch: | Pierre !")
+        .addField("Ton porte monnaie actuel: ", uCoins - 10 + " pièces ! <:coins:443940640103858176>")
+        
+    message.channel.send(rpsEmbed);
+    
+        coins[message.author.id] = {
+    coins: coins[message.author.id].coins - 10
+      
+        }}
+      if (computer_choice == 2 && user_choice == 0) {
+        var rpsEmbed = new Discord.RichEmbed()
+        .setTitle("**Tu as gagné(e) 10 pièces !**")
+        .setColor("#60c435")
+        .addField("Tu as choisi: ", ":punch: | Pierre !")
+        .addField("J'ai choisi: ", ":scissors: | Ciseaux !")
+        .addField("Ton porte monnaie actuel: ", uCoins + 10 + " pièces ! <:coins:443940640103858176>")
+        
+    message.channel.send(rpsEmbed);
+        coins[message.author.id] = {
+    coins: coins[message.author.id].coins + 10
+          
+      }}
+      if (computer_choice == 1 && user_choice == 0) {
+        var rpsEmbed = new Discord.RichEmbed()
+        .setTitle("**Tu as perdu 10 pièces !**")
+        .setColor("#e22500")
+        .addField("Tu as choisi: ", ":punch: | Pierre !")
+        .addField("J'ai choisi: ", ":page_facing_up: | Feuille !")
+        .addField("Ton porte monnaie actuel: ", uCoins - 10 + " pièces ! <:coins:443940640103858176>")
+        
+    message.channel.send(rpsEmbed);
+        coins[message.author.id] = {
+    coins: coins[message.author.id].coins - 10
+        
+      }}
+      if (computer_choice == 0 && user_choice == 1) {
+          var rpsEmbed = new Discord.RichEmbed()
+        .setTitle("**Tu as gagné(e) 10 pièces !**")
+        .setColor("#60c435")
+        .addField("Tu as choisi: ", ":page_facing_up: | Feuille !")
+        .addField("J'ai choisi: ", ":punch: | Pierre !")
+        .addField("Ton porte monnaie actuel: ", uCoins + 10 + " pièces ! <:coins:443940640103858176>")
+        
+    message.channel.send(rpsEmbed);
+        coins[message.author.id] = {
+    coins: coins[message.author.id].coins + 10
+      }}
+      if (computer_choice == 1 && user_choice == 2) {
+        var rpsEmbed = new Discord.RichEmbed()
+        .setTitle("**Tu as gagné(e) 10 pièces !**")
+        .setColor("#60c435")
+        .addField("Tu as choisi: ", ":scissors: | Ciseaux !")
+        .addField("J'ai choisi: ", ":page_facing_up: | Feuille !")
+        .addField("Ton porte monnaie actuel: ", uCoins + 10 + " pièces ! <:coins:443940640103858176>")
+        
+    message.channel.send(rpsEmbed);
+        coins[message.author.id] = {
+    coins: coins[message.author.id].coins + 10
+        
+      }}
+      if (computer_choice == 2 && user_choice == 1) {
+       var rpsEmbed = new Discord.RichEmbed()
+        .setTitle("**Tu as perdu 10 pièces !**")
+        .setColor("#e22500")
+        .addField("Tu as choisi: ", ":page_facing_up: | Feuille !")
+        .addField("J'ai choisi: ", ":scissors: | Ciseaux !")
+        .addField("Ton porte monnaie actuel: ", uCoins - 10 + " pièces ! <:coins:443940640103858176>")
+        
+    message.channel.send(rpsEmbed);
+        coins[message.author.id] = {
+    coins: coins[message.author.id].coins - 10
+        
+        }}
+  
+}
+
+//db!cat
+  
+if (message.content.startsWith(prefix + "cat")){
+
+  var replies = ["http://random.cat/view/1394","https://purr.objects-us-west-1.dream.io/i/dLIZu.jpg","https://purr.objects-us-west-1.dream.io/i/NaJaQ.jpg","https://purr.objects-us-west-1.dream.io/i/44jtgl.jpg","https://purr.objects-us-west-1.dream.io/i/img_20140920_145408.jpg","http://img-comment-fun.9cache.com/media/c81c59c9145641080812687141_700wa_0.gif", "https://reseauinternational.net/wp-content/uploads/2015/10/gifa-cat-surprised.gif", "http://img4.hostingpics.net/pics/113686catmousetabletpounce.gif", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-vslRfH69TDhw9to9dtiBi9fwtiOwjHJ7HRSvi7wYSCvqP6rl","https://img.purch.com/w/660/aHR0cDovL3d3dy5saXZlc2NpZW5jZS5jb20vaW1hZ2VzL2kvMDAwLzA5Ny85NTkvb3JpZ2luYWwvc2h1dHRlcnN0b2NrXzYzOTcxNjY1LmpwZw=="," http://www.ordanburdansurdan.com/wp-content/uploads/2017/06/oxgkvrvnd5o-1.jpg", "https://ichef.bbci.co.uk/news/660/cpsprodpb/71E1/production/_99735192_gettyimages-459467912.jpg", "https://cms.kienthuc.net.vn/zoom/500/Uploaded/ctvkhoahoc/2017_10_20/10_NMHD.jpg", "http://i0.kym-cdn.com/photos/images/facebook/000/012/445/lime-cat.jpg", "https://i2-prod.mirror.co.uk/incoming/article11812659.ece/ALTERNATES/s1200/The-Feline-World-Gathers-For-The-Supreme-Cat-Show-2017.jpg", "https://mymodernmet.com/wp/wp-content/uploads/2017/11/minimalist-cat-art-subreddit-10.jpg", "https://metrouk2.files.wordpress.com/2017/11/capture16.png?w=748&h=706&crop=1"]
+
+var result = Math.floor((Math.random() * replies.length));
+  
+  let botembed = new Discord.RichEmbed()
+ .setDescription(`Miaou ! :cat:`)
+ .setColor("#ff7070")
+ .setImage(replies[result]);
+
+
+ return message.channel.send(botembed);
+
+}
+  
+/////////  
+  talkedRecently.push(message.author.id);
+  setTimeout(() => {
+    talkedRecently.splice(talkedRecently.indexOf(message.author.id), 1);
+  }, 2000);
+
+  ///Partie bot musique qui reviendra un jour ;)
 //db!play
-//if (message.content.startsWith(prefix + "play")){
+if (message.content.startsWith(prefix + "play")){
 
-// if (!args[1]) {
-//   message.channel.sendMessage(":musical_note: Merci de bien vouloir mettre un lien valide.");
-//    return;
-//  }
+ if (!args[0]) {
+   message.channel.send(":musical_note: Merci de bien vouloir mettre un lien.");
+    return;
+  }
+  if (!message.member.voiceChannel) {
+    message.channel.send(":musical_note:  Tu doit être dans un salon vocal !");
+    return;
+  }
 
-//  if (!message.member.voiceChannel) {
-//    message.channel.sendMessage(":musical_note:  Tu doit être dans un salon vocal !");
-//    return;
-//  }
+  if(!servers[message.guild.id]) servers[message.guild.id] = {
 
-//  if(!servers[message.guild.id]) servers[message.guild.id] = {
+    queue: []
+  };
 
-//    queue: []
-//  };
+  var server = servers[message.guild.id];
 
-//  var server = servers[message.guild.id];
+  server.queue.push(args[0]);
 
-//  server.queue.push(args[1]);
-
-//  if (!message.guild.voiceConnection) message.member.voiceChannel.join().then(function(connection) {
-//    play(connection, message);
-
-//});
-//}
+  if (!message.guild.voiceConnection) message.member.voiceChannel.join().then(function(connection) {
+    play(connection, message);
+message.channel.send("Musique ajoutée a la playlist !")
+});
+}
 
 //db!skip
-//if (message.content.startsWith(prefix + "skip")){
-//  var server = servers[message.guild.id];
+if (message.content.startsWith(prefix + "skip")){
+  var server = servers[message.guild.id];
+  message.channel.send(":track_next: Musique passée !")
 
-//  if (server.dispatcher) server.dispatcher.end();
-//}
+  if (server.dispatcher) server.dispatcher.end();
+}
 
 //db!stop
-//if (message.content.startsWith(prefix + "stop")){
-//   var server = servers[message.guild.id];
+if (message.content.startsWith(prefix + "stop")){
+   var server = servers[message.guild.id];
+   message.channel.send(":stop_button: J'ai bien quitter le salon !")
 
-//   if (!message.guild.voiceConnection) message.guild.voiceChannel.disconnect();
-//}
+   if (!message.guild.voiceConnection) message.member.voiceChannel.leave();
+}
 
   
 ///Fin partie bot musique  
