@@ -27,12 +27,16 @@
 `db!setstream`
 `db!setwatch`
 `db!eval`
+`db!level <mention>`
+`db!mute <mention <temps en ms>`
+`db!cat`
+`db!poasson`
+`db!oazo`
 
 ________________________________________________________________
 
 ~ A faire:
 
-Shop? ~~
-Un systeme level ~~
+Shop [en cours] ~~
 
 

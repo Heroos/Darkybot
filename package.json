@@ -8,13 +8,17 @@
     "discord.js": "^11.3.2",
     "ffmpeg": "0.0.4",
     "ms": "^2.1.1",
-    "npm": "^6.0.1",
+    "npm": "^6.1.0",
     "opusscript": "0.0.6",
     "superagent": "^3.8.3",
     "ytdl-core": "^0.20.4",
     "express": "^4.16.3",
     "node-datetime": "^2.0.6",
-    "node.date-time": "^1.2.2"
+    "node.date-time": "^1.2.2",
+    "economy": "^1.1.0",
+    "discord-eco": "^0.0.10",
+    "discord-eco-chito": "^1.0.0",
+    "pretty-ms": "^3.1.0"
   },
   "devDependencies": {},
   "scripts": {

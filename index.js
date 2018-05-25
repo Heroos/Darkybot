@@ -14,9 +14,14 @@ const superagent = require("superagent");
 const client = new Discord.Client();
 const YTDL = require("ytdl-core");
 const format = require("node.date-time");
+const economy = require('discord-eco');
+const ms = require("ms");
+const prettyMs = require('pretty-ms');
 
 let coins = require("./coins.json");
+let xp = require("./xp.json");
 var fs = require("fs");
+let items = require("./items.json");
 let talkedRecently = [];
 
 function play(connection, message) {
@@ -55,13 +60,14 @@ client.on("ready", () => {
   console.log(`${client.user.username} est en ligne sur ${client.guilds.size} serveurs !`);
   
      client.user.setStatus('Online')
-     client.user.setActivity("db!help")
+     //client.user.setActivity(`Maintenance | Modif. bot.`)
+     client.user.setActivity(`db!help  ■  ${client.guilds.size} serveurs !`)
 });
 const prefix = 'db!'
 
 
 client.on('message', async (message) => {
-//	var args = message.content.substring(prefix.length).split(" ");
+ //var args = message.content.substring(prefix.length).split(" ");
  
 let messageArray = message.content.split(" ")
     let args = messageArray.slice(1);
@@ -93,8 +99,36 @@ let coinEmbed = new Discord.RichEmbed()
 .addField("Argent trouvé :moneybag:", ` Tu as trouver ${coinAmt} pièces en parlant !`);
   
   message.channel.send(coinEmbed).then(msg => {msg.delete(5000)})
-
 } 
+  
+ let xpAdd = Math.floor(Math.random() * 7) + 8; 
+  
+  
+ if(!xp[message.author.id]){
+   xp[message.author.id] = {
+     xp: 0,
+     level: 1
+   };
+ }
+  
+ let curxp = xp[message.author.id].xp;
+ let curlvl = xp[message.author.id].level;
+ let nxtLvl = xp[message.author.id].level * 500;
+ xp[message.author.id].xp = curxp + xpAdd;
+ if(nxtLvl <= xp[message.author.id].xp){
+   xp[message.author.id].level = curlvl + 1;
+   let lvlup = new Discord.RichEmbed()
+   .setTitle("**LEVEL UP POUR " + (message.author.tag) + " !**")
+   .setThumbnail("https://cdn4.iconfinder.com/data/icons/arrows-2-9/32/double_arrow_up-256.png")
+   .setColor("RANDOM")
+   .addField("Tu est maintenant:", "niveau " + curlvl + " !");
+   
+   message.channel.send(lvlup)
+}
+   fs.writeFile("./xp.json", JSON.stringify(xp), (err) => {
+   if(err) console.log(err)
+});
+
 ///////
   
   if (!message.content.startsWith(prefix)) return;
@@ -161,15 +195,17 @@ if (message.content.startsWith(prefix + "help")){
 	.setTitle("Bonjour, je suis l'aide ! Et voici mes commandes ! :smiley:")
 	.setColor("#00C1FF")
 	.setThumbnail("https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Emoji_u1f4dd.svg/1000px-Emoji_u1f4dd.svg.png")
-  .addField("Fun: ", "`8ball`, `sayd`, `avatar`, `doggo`, `cat`, `pileouface`, `rps`")
+  .addField("Fun: ", "`8ball`, `sayd`, `avatar`, `doggo`, `cat`, `oazo`, `poasson`, `pileouface`, `rps`")
   .addField("jeux d'argent: ", "**[+ bientôt]** mais en attendant, jouez avec `$rps`")
   .addField("Action/RP: ", "`hug`, `slap`, `kiss`, `bite`")
   .addField("Administration: ", "`report`, pour + de commandes, faites db!adminhelp")
   .addField("Musique: **[EN MAINTENANCE]**", "`play`, `skip`, `stop`")
   .addField("Argent: ", "`coins`, `pay`")
+  .addField("Utilisateur: ", "`ui`, `level`")
   .addField("Autre:", "`ping`, `infoserveur`, `help`, `ui`")
   .addField("Owner bot seul.:", "`setgame`, `setstream`, `setwatch`, `eval`")
-  .addField("Ajoute moi sur ton serveur !", "[Clique ici! ^-^](https://discordapp.com/api/oauth2/authorize?client_id=441409139294601216&permissions=8&scope=bot)");
+  .addField("Ajoute moi sur ton serveur !", "[Clique ici! ^-^](https://discordapp.com/api/oauth2/authorize?client_id=441409139294601216&permissions=8&scope=bot)")
+  .addField("Des idées ? Bugs trouvé ? etc..." , "[Vien sur le serveur support !](https://discord.gg/Y97BY7k)");
   
 
 return message.channel.send(botembed);
@@ -186,8 +222,9 @@ let botembed = new Discord.RichEmbed()
 	.setThumbnail("https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Emoji_u1f4dd.svg/1000px-Emoji_u1f4dd.svg.png")
 	.addField("kick <membre> <raison>","Pour l'exclure du serveur !")
   .addField("ban <membre> <raison>", "Pour le frapper avec le marteau du ban ! èwé")
-  .addField("giverole <membre> <role>", "Pour donner a un membre le rôle choisi. *[INSTABLE]*")
+  .addField("giverole <membre> <role>", "Pour donner a un membre le rôle choisi.")
   .addField("removerole <membre> <role>", "Pour retirer a un membre le rôle choisi.")
+  .addField("mute <membre> <temps en ms>", "Pour pouvoir mute un membre trop dissident.")
 
 return message.channel.send(botembed);
 }
@@ -243,7 +280,7 @@ if (message.content.startsWith(prefix + "report")){
     if (rUser.id == 191272823170269184) return message.reply("Nop, tu peux pas le report. C'est l'owner du bot, c'est un peu bête, non ?");
     if (rUser.id == 334095574674571264) return message.reply("C'est Eni quand même, tu ne peut pas le report...")
 
-      var reason = args.join(" ").slice(29);
+      var reason = args.slice(1).join(" ")
 
     var reportEmbed = new Discord.RichEmbed()
     .setDescription("Caftage")
@@ -424,15 +461,12 @@ if (message.content.startsWith(prefix + "doggo")){
 
 //db!eval
 if (message.content.startsWith(prefix + "eval")){  
-  if (message.author.id != 191272823170269184) 
-  if (message.author.id != 361225964417449985) return message.reply("**BINGO !** Tu as trouver une commande réservé a l'owner du bot, bravo ! Mais tu ne peux pas t'en servir. *eval run away.*");
+  if (message.author.id == 191272823170269184 || message.author.id == 361225964417449985) {
    
-  
-  
   try {
         const code = args.join(" ");
     if(code.match("process.env.TOKEN")) return message.channel.send(":no_entry_sign: Besoin d'un coup de main ? Tu te crois chez ta maman a tenter de prendre mon token ? :smirk:");
-// B
+ 
         let evaled = eval(code);
         if (typeof evaled !== "string")
           evaled = require("util").inspect(evaled);
@@ -441,8 +475,10 @@ if (message.content.startsWith(prefix + "eval")){
       } catch (err) {
         message.channel.send(`\`ERREUR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
       }
-    }
-
+    }  else {
+message.reply("**BINGO !** Tu as trouver une commande réservé a l'owner du bot, bravo ! Mais tu ne peux pas t'en servir. *eval run away.*");
+}
+}
 //db!coins
 if (message.content.startsWith(prefix + "coins")){  
   
@@ -808,7 +844,7 @@ return;
   
 if (message.content.startsWith(prefix + "cat")){
 
-  var replies = ["http://random.cat/view/1394","https://purr.objects-us-west-1.dream.io/i/dLIZu.jpg","https://purr.objects-us-west-1.dream.io/i/NaJaQ.jpg","https://purr.objects-us-west-1.dream.io/i/44jtgl.jpg","https://purr.objects-us-west-1.dream.io/i/img_20140920_145408.jpg","http://img-comment-fun.9cache.com/media/c81c59c9145641080812687141_700wa_0.gif", "https://reseauinternational.net/wp-content/uploads/2015/10/gifa-cat-surprised.gif", "http://img4.hostingpics.net/pics/113686catmousetabletpounce.gif", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-vslRfH69TDhw9to9dtiBi9fwtiOwjHJ7HRSvi7wYSCvqP6rl","https://img.purch.com/w/660/aHR0cDovL3d3dy5saXZlc2NpZW5jZS5jb20vaW1hZ2VzL2kvMDAwLzA5Ny85NTkvb3JpZ2luYWwvc2h1dHRlcnN0b2NrXzYzOTcxNjY1LmpwZw=="," http://www.ordanburdansurdan.com/wp-content/uploads/2017/06/oxgkvrvnd5o-1.jpg", "https://ichef.bbci.co.uk/news/660/cpsprodpb/71E1/production/_99735192_gettyimages-459467912.jpg", "https://cms.kienthuc.net.vn/zoom/500/Uploaded/ctvkhoahoc/2017_10_20/10_NMHD.jpg", "http://i0.kym-cdn.com/photos/images/facebook/000/012/445/lime-cat.jpg", "https://i2-prod.mirror.co.uk/incoming/article11812659.ece/ALTERNATES/s1200/The-Feline-World-Gathers-For-The-Supreme-Cat-Show-2017.jpg", "https://mymodernmet.com/wp/wp-content/uploads/2017/11/minimalist-cat-art-subreddit-10.jpg", "https://metrouk2.files.wordpress.com/2017/11/capture16.png?w=748&h=706&crop=1"]
+  var replies = ["https://purr.objects-us-west-1.dream.io/i/c9pLd.jpg","https://purr.objects-us-west-1.dream.io/i/YGb6f.jpg","https://purr.objects-us-west-1.dream.io/i/4VewR.jpg","https://purr.objects-us-west-1.dream.io/i/CnCkq.jpg","https://purr.objects-us-west-1.dream.io/i/unnamed-1.jpg","https://purr.objects-us-west-1.dream.io/i/IekT6.jpg","http://random.cat/view/1394","https://purr.objects-us-west-1.dream.io/i/dLIZu.jpg","https://purr.objects-us-west-1.dream.io/i/NaJaQ.jpg","https://purr.objects-us-west-1.dream.io/i/44jtgl.jpg","https://purr.objects-us-west-1.dream.io/i/img_20140920_145408.jpg","http://img-comment-fun.9cache.com/media/c81c59c9145641080812687141_700wa_0.gif", "https://reseauinternational.net/wp-content/uploads/2015/10/gifa-cat-surprised.gif", "http://img4.hostingpics.net/pics/113686catmousetabletpounce.gif", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-vslRfH69TDhw9to9dtiBi9fwtiOwjHJ7HRSvi7wYSCvqP6rl","https://img.purch.com/w/660/aHR0cDovL3d3dy5saXZlc2NpZW5jZS5jb20vaW1hZ2VzL2kvMDAwLzA5Ny85NTkvb3JpZ2luYWwvc2h1dHRlcnN0b2NrXzYzOTcxNjY1LmpwZw=="," http://www.ordanburdansurdan.com/wp-content/uploads/2017/06/oxgkvrvnd5o-1.jpg", "https://ichef.bbci.co.uk/news/660/cpsprodpb/71E1/production/_99735192_gettyimages-459467912.jpg", "https://cms.kienthuc.net.vn/zoom/500/Uploaded/ctvkhoahoc/2017_10_20/10_NMHD.jpg", "http://i0.kym-cdn.com/photos/images/facebook/000/012/445/lime-cat.jpg", "https://i2-prod.mirror.co.uk/incoming/article11812659.ece/ALTERNATES/s1200/The-Feline-World-Gathers-For-The-Supreme-Cat-Show-2017.jpg", "https://mymodernmet.com/wp/wp-content/uploads/2017/11/minimalist-cat-art-subreddit-10.jpg", "https://metrouk2.files.wordpress.com/2017/11/capture16.png?w=748&h=706&crop=1"]
 
 var result = Math.floor((Math.random() * replies.length));
   
@@ -822,12 +858,262 @@ var result = Math.floor((Math.random() * replies.length));
 
 }
   
-/////////  
+//db!oazo
+  if (message.content.startsWith(prefix + "oazo")){
+
+  var replies = ["https://pcenerelli.files.wordpress.com/2012/09/red-winged_blackbird-male_2-12-05-12-web.jpg","http://4.bp.blogspot.com/-SFSXd_pW6Ws/TfqLE45M5WI/AAAAAAAABLk/NwUN9qYMn7c/s400/birds_with_arms5.jpg","https://4.bp.blogspot.com/-nJEMY6QveKA/V6Ebd7DfHLI/AAAAAAAAFHk/wWLcWeo0ILw9xawqhwy3728djyhgFutzwCLcB/s1600/American%2BPygmy%2BKingfisher.jpg","https://i.pinimg.com/736x/b5/eb/86/b5eb863e6d0adcfbc047d8e771387b56.jpg","https://i1.wp.com/www.windycityparrot.com/images/assets/images/products/graphics/00000001/custom_budgies_many_stick_549w.jpg?w=840","https://i.ytimg.com/vi/KwORJU3Czws/maxresdefault.jpg","http://www.newhdwallpaper.in/wp-content/uploads/2014/09/Flying-bird-beautiful-wallpaper.jpg","http://feedinspiration.com/wp-content/uploads/2015/04/Some-Random-Bird.jpg","https://randomfunnypicture.com/wp-content/uploads/2011/06/bread-one-pigeon-zero.png",]
+
+var result = Math.floor((Math.random() * replies.length));
+  
+  let oazoEmbed = new Discord.RichEmbed()
+ .setDescription(`Cui cui ! :bird:`)
+ .setColor("#38c600")
+ .setImage(replies[result]);
+
+
+ return message.channel.send(oazoEmbed);
+  
+  }
+  
+//db!level
+  if (message.content.startsWith(prefix + "level")){
+    
+    if(!xp[message.author.id]){
+     xp[message.author.id] = {
+       xp: 0,
+       level: 1
+    };
+  }
+    let curxp = xp[message.author.id].xp;
+    let curlvl = xp[message.author.id].level;
+    let nxtLvlXp = curlvl * 300;
+    let difference = nxtLvlXp - curxp;
+    
+    
+    let ment = message.mentions.users.first();
+  if(!ment) {
+    let lvlEmbed = new Discord.RichEmbed()
+    .setAuthor(message.author.username)
+    .setColor("RANDOM")
+    .setThumbnail(message.author.displayAvatarURL)
+    .addField("Niveau:", curlvl - 1, true)
+    .addField("XP:", curxp, true)
+    .setFooter(`Il te reste ${difference} XP avant de passer au niveau ${curlvl} !`, "https://cdn4.iconfinder.com/data/icons/arrows-2-9/32/double_arrow_up-256.png");
+    
+    message.channel.send(lvlEmbed)
+  }
+    let mentcurxp = xp[ment.id].xp;
+    let mentcurlvl = xp[ment.id].level;
+    let mentnxtLvlXp = curlvl * 300;
+    let mentdifference = nxtLvlXp - curxp;
+    
+    let lvlEmbed = new Discord.RichEmbed()
+    
+    .setAuthor(ment.username)
+    .setColor("RANDOM")
+    .setThumbnail(ment.avatarURL)
+    .addField("Niveau:", mentcurlvl - 1, true)
+    .addField("XP:", mentcurxp, true)
+    
+    message.channel.send(lvlEmbed)
+  }
+  
+  //db!poasson
+  
+  if (message.content.startsWith(prefix + "poasson")){
+
+  var replies = ["https://thumbs-prod.si-cdn.com/c86on9yeBmn5_G7b4ng_ZQWjiII=/800x600/filters:no_upscale()/https://public-media.smithsonianmag.com/filer/d6/93/d6939718-4e41-44a8-a8f3-d13648d2bcd0/c3npbx.jpg","https://d2kwjcq8j5htsz.cloudfront.net/1970/01/30153329/clownfish.jpg","https://blog.auntybinnaz.com/wp-content/uploads/fish.jpg","https://pbs.twimg.com/profile_images/448238813773430784/w4lr82sW.jpeg","http://a57.foxnews.com/images.foxnews.com/content/fox-news/us/2017/10/23/berkeley-city-council-bans-use-fish-as-prizes-at-carnivals/_jcr_content/par/featured_image/media-0.img.jpg/931/524/1508750077165.jpg?ve=1&tl=1&text=big-top-image","https://www.worldofbanter.com/wp-content/uploads/2017/06/funny-fish-photo-1.jpg","http://www.funnyjunksite.com/pictures/wp-content/uploads/2015/04/Funny-Man-Fish-Image.jpg","https://farm1.staticflickr.com/151/430446668_6ee8c2dc17_b.jpg"]
+
+var result = Math.floor((Math.random() * replies.length));
+  
+  let botembed = new Discord.RichEmbed()
+ .setDescription(`Bl bl bl ! :fish: `)
+ .setColor("#0095c6")
+ .setImage(replies[result]);
+
+
+ return message.channel.send(botembed);
+
+}
+  
+//db!buy
+  ///embed liste
+  if (message.content.startsWith(prefix + "buy")){
+     let categories = []; 
+     if (!args.join(" ")) { 
+
+        for (var i in items) { 
+        if (!categories.includes(items[i].type)) {
+           categories.push(items[i].type)
+         }
+        }
+              const embed = new Discord.RichEmbed()
+                .setDescription(`Items disponible à l'achat`)
+                .setColor("RANDOM")
+
+              for (var i = 0; i < categories.length; i++) { 
+              var tempDesc = '';
+              for (var c in items) { 
+              if (categories[i] === items[c].type) {
+
+                 tempDesc += `**${items[c].name}** - ${items[c].price} pieces - ${items[c].desc}\n`;
+
+         }
+        }
+            embed.addField(categories[i], tempDesc);
+
+        }
+
+            return message.channel.send({
+                embed
+        }); 
+       }
+
+         
+
+        
+        let itemName = '';
+        let itemPrice = 0;
+        let itemDesc = '';
+
+        for (var i in items) { 
+            if (args.join(" ").trim().toUpperCase() === items[i].name.toUpperCase()) {
+                itemName = items[i].name;
+                itemPrice = items[i].price;
+                itemDesc = items[i].desc;
+            }
+        }
+
+        ///réponses
+        if (itemName === '') {
+            return message.channel.send(`L'item **${args.join(" ").trim()}** n'a pas été trouver.`)
+        }
+
+        
+        economy.fetchBalance(message.author.id + message.guild.id).then((i) => { 
+            if (i.coins <= itemPrice) { 
+                
+                return message.channel.send(`Tu n'as pas assez de pièces pour acheter cela.`);
+            }
+        
+          
+          
+            economy.updateBalance(message.author.id + message.guild.id, parseInt(`-${itemPrice}`)).then((i) => {
+
+                message.channel.send('**Tu as acheter ' + itemName + '!**');
+              
+              fs.writeFile("./coins.json", JSON.stringify(coins), (err) => {
+  if (err) console.log(err)
+
+            ///items en vente    
+                let memberrole = message.member;
+                if (itemName === 'rouge') {
+                  let role = message.guild.roles.find("name", "rouge");
+                  
+                  if (!role){
+
+                  message.guild.createRole({
+                     name: "rouge",
+                     color: "#ff0000",
+                     permissions:[]
+                     })
+                  }
+                  memberrole.addRole(role).catch(console.error);
+                }
+              if (itemName === 'bleu') {
+                    message.guild.members.get(message.author.id).addRole(message.guild.roles.find("name", "bleu"));
+                  if (!itemName){
+                  try{
+                   itemName = message.guild.createRole({
+                     name: "bleu",
+                     color: "#0099ff",
+                     permissions:[]
+                     })                
+                      message.guild.channels.ea()
+                  }catch(e){
+                     console.log(e.stack);
+                  }
+                }}
+            if (itemName === 'blurple') {
+                    message.guild.members.get(message.author.id).addRole(message.guild.roles.find("name", "blurple"));
+                  if (!itemName){
+                  try{
+                   itemName = message.guild.createRole({
+                     name: "blurple",
+                     color: "#7289DA",
+                     permissions:[]
+                     })                                  
+                      message.guild.channels
+                  }catch(e){
+                     console.log(e.stack);
+                  }
+                }}
+            
+            })
+          })});
+           }
+       
+//db!mute <membre> s/m/h/d
+if (message.content.startsWith(prefix + "mute")){
+  if(!message.member.hasPermission("MANAGE_GUILD")) return message.channel.send("Non, tu ne peux pas ! *mute run away*");
+  
+  if (isNaN(args[1])){
+    return message.channel.send("Non, il faut des chiffres et uniquement des chiffres.")
+  }
+  //vvvv Création role vvvvv
+     let tomute = message.mentions.members.first() || message.guild.members.get(args[0]);
+     if(!tomute) return message.reply("Je n'ai pas trouver l'utilisateur :sweat:");
+     if(tomute.hasPermission("MANAGE_MESSAGES")) return message.reply("je ne peux pas le mute, il a la permission de **gérer les messages**, m'interdisant donc de le mute !");
+     let muterole = message.guild.roles.find(`name`, "muté");
+     if(!muterole){
+   try{
+     message.channel.send('**Rôle "muté" inexistant. Création du rôle...**')
+     muterole = await message.guild.createRole({
+      name: "muté",
+      color: "#464646",
+      permissions: []
+      })
+   message.guild.channels.forEach(async (channel, id) => {
+    await channel.overwritePermissions(muterole, {
+       SEND_MESSAGES: false,
+       ADD_REACTIONS: false
+      });
+     });
+     message.channel.send('**Rôle "muté" crée avec succès !**')
+    }catch(e){
+   console.log(e.stack);
+   }
+  }
+  
+  
+//^^^^ Création role ^^^^
+ 
+ let mutetime = args[1];
+ if(!mutetime) return message.reply("il faut que tu donne un temps ! *1000ms = 1s; 60000 = 1min; 600000 = 10min; 3600000 = 1h*");
+  
+   
+   await(tomute.addRole(muterole.id));
+   message.channel.send(`<@${tomute.id}> a été mute pendant ${ms(ms(mutetime))}`);
+   
+   setTimeout(function(){
+     tomute.removeRole(muterole.id);
+     message.channel.send(`<@${tomute.id}> n'est plus mute !`);
+   }, ms(mutetime));
+  
+  
+ 
+ }
+  
+ //db! 
+  
+  
+//////////////////////////////////////////////// 
   talkedRecently.push(message.author.id);
   setTimeout(() => {
     talkedRecently.splice(talkedRecently.indexOf(message.author.id), 1);
   }, 2000);
-
+////////////////////////////////////////////////
+ 
   ///Partie bot musique qui reviendra un jour ;)
 //db!play
 if (message.content.startsWith(prefix + "play")){
@@ -879,5 +1165,3 @@ if (message.content.startsWith(prefix + "stop")){
 });
 
 client.login(process.env.TOKEN)
-
-///process.env.TOKEN

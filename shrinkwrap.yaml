@@ -1,13 +1,17 @@
 dependencies:
   bufferutil: 3.0.5
+  discord-eco: 0.0.10
+  discord-eco-chito: 1.0.0
   discord.js: 11.3.2
+  economy: 1.1.0
   express: 4.16.3
   ffmpeg: 0.0.4
   ms: 2.1.1
   node-datetime: 2.0.6
   node.date-time: 1.2.2
-  npm: 6.0.1
+  npm: 6.1.0
   opusscript: 0.0.6
+  pretty-ms: 3.1.0
   superagent: 3.8.3
   ytdl-core: 0.20.4
 packages:
@@ -222,6 +226,18 @@ packages:
       node: '>=0.10'
     resolution:
       integrity: sha1-+hN8S9aY7fVc1c0CrFWfkaTEups=
+  /discord-eco-chito/1.0.0:
+    dependencies:
+      sqlite3: 3.1.13
+    dev: false
+    resolution:
+      integrity: sha512-gRyYPpiDolJ9BoFqHwseOlRoZKk+e+qajOkoURojx9/G1qZXTO9bypxZgoroQ73uq6PlqEWTR7k7bNKE1tX6Zw==
+  /discord-eco/0.0.10:
+    dependencies:
+      sqlite3: 3.1.13
+    dev: false
+    resolution:
+      integrity: sha512-8+x7z211xhiDt2kldpuX3FzsKzSyUkZ8CwgFzsr6HV9NSXoRTdWpIoTa5QhgB1foTD0JtFkm7wXV59ihxvwz5Q==
   /discord.js/11.3.2:
     dependencies:
       long: 4.0.0
@@ -242,6 +258,12 @@ packages:
       uws: ^9.14.0
     resolution:
       integrity: sha512-Abw9CTMX3Jb47IeRffqx2VNSnXl/OsTdQzhvbw/JnqCyqc2imAocc7pX2HoRmgKd8CgSqsjBFBneusz/E16e6A==
+  /economy/1.1.0:
+    dependencies:
+      getval: 1.0.1
+    dev: false
+    resolution:
+      integrity: sha1-4e0gvaT4vqjipAar59p6hglCKrk=
   /ee-first/1.1.1:
     dev: false
     resolution:
@@ -376,6 +398,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-LANAXHU4w51+s3sxcCLjJfsBi/c=
+  /getval/1.0.1:
+    dev: false
+    resolution:
+      integrity: sha1-U6yrUzqgcqJCXg05kHrFp4zu1uw=
   /github-from-package/0.0.0:
     dev: false
     resolution:
@@ -432,6 +458,12 @@ packages:
       node: '>= 0.10'
     resolution:
       integrity: sha1-4/o1e3c9phnybpXwSdBVxyeW+Gs=
+  /irregular-plurals/1.4.0:
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha1-LKmwM2UREYVUEvFr5dd8YqRYp2Y=
   /is-fullwidth-code-point/1.0.0:
     dependencies:
       number-is-nan: 1.0.1
@@ -538,6 +570,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-bAdJv7fBLhWC+/Bls0Oza+mvTaNQtP+1RyhhhvD95pgUJz6XM5IzgmxOkItJ9tkoCiplvAnXI1tNmmUD/eScyA==
+  /nan/2.7.0:
+    dev: false
+    resolution:
+      integrity: sha1-2Vv3IeyHfgjbJ27T/G63j5CDrUY=
   /negotiator/0.6.1:
     dev: false
     engines:
@@ -564,7 +600,7 @@ packages:
     dev: false
     resolution:
       integrity: sha1-lKKxYzxPExdVMAfYlm/Q6EG2pMI=
-  /npm/6.0.1:
+  /npm/6.1.0:
     bundledDependencies:
       - abbrev
       - ansi-regex
@@ -687,7 +723,7 @@ packages:
       - lock-verify
     dev: false
     resolution:
-      integrity: sha512-N3uW8jeIXIBp5G3Q6Yu3TTN1ss6BUWuDTHk2JkdTUGaUf0AwKdtVs63O5B75C9NNn7y/7tMpkMCE++xpRhjUBw==
+      integrity: sha512-e38cCtJ0lEjLXXpc4twEfj8Xw5hDLolc2Py87ueWnUhJfZ8GA/5RVIeD+XbSr1+aVRGsRsdtLdzUNO63PvQJ1w==
   /npmlog/4.1.2:
     dependencies:
       are-we-there-yet: 1.1.4
@@ -733,6 +769,12 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-/7xJiDNuDoM94MFox+8VISGqf7M=
+  /parse-ms/1.0.1:
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha1-VjRtR0nXjyNDDKDHE4UK75GqNh0=
   /parseurl/1.3.2:
     dev: false
     engines:
@@ -743,6 +785,14 @@ packages:
     dev: false
     resolution:
       integrity: sha1-32BBeABfUi8V60SQ5yR6G/qmf4w=
+  /plur/2.1.2:
+    dependencies:
+      irregular-plurals: 1.4.0
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha1-dIJFLBoPUI4+NE6uwxLJHCncZVo=
   /prebuild-install/4.0.0:
     dependencies:
       detect-libc: 1.0.3
@@ -765,6 +815,15 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha512-7tayxeYboJX0RbVzdnKyGl2vhQRWr6qfClEXDhOkXjuaOKCw2q8aiuFhONRYVsG/czia7KhpykIlI2S2VaPunA==
+  /pretty-ms/3.1.0:
+    dependencies:
+      parse-ms: 1.0.1
+      plur: 2.1.2
+    dev: false
+    engines:
+      node: '>=4'
+    resolution:
+      integrity: sha1-6crJx2v27lL+lC3ZxsQhMVOxKIE=
   /prism-media/0.0.2:
     dev: false
     resolution:
@@ -925,6 +984,15 @@ packages:
     dev: false
     resolution:
       integrity: sha512-NjxjITIj04Ffqid5lqr7XdgwM7X61c/Dns073Ly170bPQHLm6jkmelye/eglS++1nfTWktpP6Y2bFXjdPlQqdw==
+  /sqlite3/3.1.13:
+    bundledDependencies:
+      - node-pre-gyp
+    dependencies:
+      nan: 2.7.0
+    dev: false
+    requiresBuild: true
+    resolution:
+      integrity: sha512-JxXKPJnkZ6NuHRojq+g2WXWBt3M1G9sjZaYiHEWSTGijDM3cwju/0T2XbWqMXFmPqDgw+iB7zKQvnns4bvzXlw==
   /statuses/1.4.0:
     dev: false
     engines:
@@ -1099,13 +1167,17 @@ shrinkwrapMinorVersion: 6
 shrinkwrapVersion: 3
 specifiers:
   bufferutil: ^3.0.5
+  discord-eco: ^0.0.10
+  discord-eco-chito: ^1.0.0
   discord.js: ^11.3.2
+  economy: ^1.1.0
   express: ^4.16.3
   ffmpeg: 0.0.4
   ms: ^2.1.1
   node-datetime: ^2.0.6
   node.date-time: ^1.2.2
-  npm: ^6.0.1
+  npm: ^6.1.0
   opusscript: 0.0.6
+  pretty-ms: ^3.1.0
   superagent: ^3.8.3
   ytdl-core: ^0.20.4
