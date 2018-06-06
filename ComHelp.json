@@ -1,0 +1,15 @@
+{
+    "ping": {
+      "commande":"db!ping",
+      "desc":"Sert a connaitre le temps de latence du bot, plus le chiffre est plus petit, plus le bot est rapide."
+    },
+    "help": {
+      "commande":"db!help",
+      "desc":"Vous êtes ici. Plus ou moins..."
+  },
+    "8ball": {
+      "commande":"db!8ball <question>",
+      "desc":"Pose moi une question et j'y réponderais !"
+  }
+
+}
