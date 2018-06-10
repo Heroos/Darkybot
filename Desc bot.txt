@@ -1,0 +1,120 @@
+<body><center>
+  <h2 style="font-size: 30px">
+    Mon préfix de base est "db!", si vous voulez utiliser une commande, mettez le au début de votre message suivi de la commande souhaité !
+  </h2>
+  <br/>
+  <table>
+    <thead>
+        <tr>
+          <th>Commande</th>
+          <th>Résultat</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>8ball</td>
+          <td>Posez une question, le bot répondra.</td>
+        </tr>
+        <tr>
+          <td>sayd</td>
+          <td>Écrivez un message, le bot le répétera.</td>
+        </tr>
+        <tr>
+          <td>avatar</td>
+          <td>Mentionnez quelqu'un pour avoir son avatar.</td>
+        </tr>
+        <tr>
+          <td>doggo</td>
+          <td>Donne une image aléatoire de chien.</td>
+        </tr>
+        <tr>
+          <td>pileouface</td>
+          <td>Le bot lance une pièce. Pile ? ou face ?</td>
+        </tr>
+        <tr>
+          <td>rps</td>
+          <td>Vous jouez contre le bot, Pierre ? Feuille ? ou ciseaux ?</td>
+        </tr>
+        <tr>
+          <td>hug</td>
+          <td>Mentionnez une personne, et faite lui un gros calin !</td>
+        </tr>
+        <tr>
+          <td>oazo</td>
+          <td>Vous envoit une image aléatoire d'oiseaux.</td>
+        </tr>
+        <tr>
+          <td>cat</td>
+          <td>Vous envoit une image aléatoire de chat.</td>
+        </tr>
+        <tr>
+          <td>poasson</td>
+          <td>Vous envoit une image aléatoire de poissons.</td>
+        </tr>
+        <tr>
+          <td>kiss</td>
+          <td>Mentionnez une personne, et faite lui un bisous !</td>
+        </tr>
+        <tr>
+          <td>slap</td>
+          <td>Mentionnez une personne, et mettez lui une claque !</td>
+        </tr>
+        <tr>
+          <td>bite</td>
+          <td>Mentionnez une personne, et... Quoi ? Vous le mordez là ?</td>
+        </tr>
+        <tr>
+          <td>$rps</td>
+          <td>C'est comme le rps normal, mais avec de l'argent.</td>
+        </tr>
+        <tr>
+          <td>rmemes</td>
+          <td>Vous envoit un memes aléatoire.</td>
+        </tr>
+        <tr>
+          <td>report</td>
+          <td>Vous permet d'envoyer un rapport au sujet d'un membre a un modérateur du serveur !</td>
+        </tr>
+        <tr>
+          <td>adminhelp</td>
+          <td>Pour connaitre plus de commandes de modération.</td>
+        </tr>
+        <tr>
+          <td>coins</td>
+          <td>Pour savoir combien vous avez de pièces.</td>
+        </tr>
+        <tr>
+          <td>pay</td>
+          <td>Pour donner de l'argent a un autre membre.</td>
+        </tr>
+        <tr>
+          <td>ui</td>
+          <td>Vous voulez en savoir plus sur vous-même ou quelqu'un d'autres ?</td>
+        </tr>
+        <tr>
+          <td>level</td>
+          <td>Pour connaitre l'EXP et le level actuel.</td>
+        </tr>
+        <tr>
+          <td>ping</td>
+          <td>Sert a connaitre la latence du bot. Utile pour savoir si je suis vivant ou non.</td>
+        </tr>
+        <tr>
+          <td>infoserveur</td>
+          <td>Pour en savoir plus sur le serveur actuel.</td>
+        </tr>
+        <tr>
+          <td>help</td>
+          <td>Pour avoir une aide mais de poche, pas comme ce site :3</td>
+        </tr>
+      </tbody>
+    </table>
+  <br/>
+  <p style="fonts-size:10px;"><i>
+    Il est possible que ce tableau ne soit pas à jour, il est vivement conseillé de faire la commande "db!help".
+  </i></p>
+</center></body>
+  <br/>
+  <h4><i><center>
+    © Darky 2018
+  </center></i></h4>
