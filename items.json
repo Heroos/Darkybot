@@ -1,0 +1,21 @@
+{
+    "Rouge": {
+      "name":"rouge",
+      "type":"Role",
+      "price":"500",
+      "desc":"Transformez votre pseudo en rouge !"
+    },
+    "Bleu": {
+      "name":"bleu",
+      "type":"Role",
+      "price":"500",
+      "desc":"Transformez votre pseudo en bleu !"
+  },
+    "Blurple": {
+      "name":"blurple",
+      "type":"Role",
+      "price":"1500",
+      "desc":"Transformez votre pseudo en blurple !"
+  }
+
+}
