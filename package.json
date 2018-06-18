@@ -28,8 +28,9 @@
     "quick.log": "^1.2.1",
     "meme": "^0.1.2",
     "meme-maker": "^2.1.2",
-    "memejs": "^1.0.4",
-    "simple-youtube-api": "^5.0.2"
+    "memejs": "^1.0.7",
+    "simple-youtube-api": "^5.0.2",
+    "node-opus": "^0.3.0"
   },
   "devDependencies": {},
   "scripts": {

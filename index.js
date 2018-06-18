@@ -23,6 +23,18 @@ const db = require('quick.db');
 const meme = require('memejs');
 const YouTube = require('simple-youtube-api');
 const ytdl = require('ytdl-core');
+var opus = require('node-opus');
+ 
+// Create the encoder.
+// Specify 48kHz sampling rate and 10ms frame size.
+// NOTE: The decoder must use the same values when decoding the packets.
+var rate = 48000;
+var encoder = new opus.OpusEncoder( rate );
+ 
+
+
+
+
 
 let coins = require("./coins.json");
 var fs = require("fs");
@@ -61,20 +73,36 @@ function clean(text) {
       return text;
 }
 
+ function play(connection, message) {
+   var server = servers[message.guild.id];
+ 
+   server.dispatcher = connection.playStream(ytdl(server.queue[0], {filter: "audioonly"}));
+ 
+   server.queue.shift();
+ 
+   server.dispatcher.on("end", function() {
+     
 
+   });
+ }
 
 var servers = {};
 
-
+let act;
+let acts;
 client.on('warn', console.warn);
 client.on('error', console.error);
 client.on("ready", () => {
   console.log("Darkybot a bien démarrer !");
   console.log(`${client.user.username} est en ligne sur ${client.guilds.size} serveurs !`);
   
-     client.user.setStatus('Online')
-     //client.user.setActivity(`Maintenance | Modif. bot.`)
-     client.user.setActivity(`db!help  ■  ${client.guilds.size} serveurs !`)
+     //client.user.setStatus('dnd')
+     //client.user.setActivity(`Maintenance en cours.`)
+    
+  client.user.setStatus('Online')
+  client.user.setActivity(`db!help  ■  ${client.guilds.size} serveurs !`)
+     acts = ['Une belle nuit d\hiver', 'Une douce Nuit d\'été', 'Lors d\'une puissant rafale', 'A la saint-valentin', 'Au restaurant', 'Au ciel', 'Dans un café a chandelles :heart:']
+       act = acts[getRandomInt(0, acts.length)]
 });
 
 //PREFIX
@@ -108,13 +136,51 @@ if(coinAmt === baseAmt){
 fs.writeFile("./coins.json", JSON.stringify(coins), (err) => {
   if (err) console.log(err)
 });
-} 
+}
+  
+let xp = require("./xp.json");
+  
+  
+  
+  
+  
+  
+  
+  
+ /* let xpAdd = Math.floor(Math.random() * 5) + 2;
+
+
+        if(!xp[message.author.id]){
+          xp[message.author.id] = {
+            xp: 0,
+            level: 1
+          };
+        }
+        let curxp = xp[message.author.id].xp;
+        let curlvl = xp[message.author.id].level;
+        let nxtLvl = xp[message.author.id].level * 600;
+        xp[message.author.id].xp =  curxp + xpAdd;
+        if(nxtLvl <= xp[message.author.id].xp){
+          xp[message.author.id].level = curlvl + 1;
+
+
+        }
+          fs.writeFile("./xp2.json", JSON.stringify(xp), (err) => {
+            if(err) console.log(err)
+          });
+
+  if(!xp[message.author.id]){
+   xp[message.author.id] = {
+     xp: 0,
+     level: 1
+   };
+}*/
+  
   
  let xpAdd = Math.floor(Math.random() * 7) + 8; 
   
-const xp = require("./xp.json");
- 
-  if(!xp[message.author.id]){
+  
+ if(!xp[message.author.id]){
    xp[message.author.id] = {
      xp: 0,
      level: 1
@@ -126,35 +192,66 @@ const xp = require("./xp.json");
  let nxtLvl = xp[message.author.id].level * 500;
  xp[message.author.id].xp = curxp + xpAdd;
  if(nxtLvl <= xp[message.author.id].xp){
-   xp[message.author.id].level = curlvl++;
-   //let lvlup = new Discord.RichEmbed()
-   //.setTitle("**LEVEL UP POUR " + (message.author.tag) + " !**")
-   //.setThumbnail("https://cdn4.iconfinder.com/data/icons/arrows-2-9/32/double_arrow_up-256.png")
-   //.setColor("RANDOM")
-   //.addField("Tu est maintenant:", "niveau " + curlvl + 1 + " !");
+   xp[message.author.id].level = curlvl + 1;
+   let lvlup = new Discord.RichEmbed()
+   .setTitle("**LEVEL UP POUR " + (message.author.tag) + " !**")
+   .setThumbnail("https://cdn4.iconfinder.com/data/icons/arrows-2-9/32/double_arrow_up-256.png")
+   .setColor("RANDOM")
+   .addField("Tu est maintenant:", `niveau ${curlvl + 1} !`);
    
-   //message.channel.send(lvlup).then(msg => {msg.delete(3000)})
+   message.channel.send(lvlup).then(msg => {msg.delete(3000)})
 }
    fs.writeFile("./xp.json", JSON.stringify(xp), (err) => {
    if(err) console.log(err)
 });
 
-
 ///////
-  if (message.content.toLowerCase().includes("countstp")){
-client.channels.get('453658360475025436').fetchMessage('453660627802521630').then(m => {
-let newarg = m.content.split(" ").slice(1)
-let num = parseInt(newarg[0]) + 1
-m.edit("Maths_Compteur: " + num)
-}
-)
-    }
+
   //Mention bot --> donne prefix
   if (message.content.includes('<@441409139294601216>')) {
   
   message.channel.send("Bonjour ! Mon préfix est `db!` !")
   } 
-  
+// Citations.
+  if (message.channel.id == '456478178240757775') {
+if (message.content.startsWith('-')) return;
+let cited = (message.mentions.users.first() ? message.mentions.users.first() : message.author)
+let cite = (message.mentions.users.first() ? args.join(" ") : message.content)
+let e = new Discord.RichEmbed()
+  .setThumbnail(cite.avatarURL)
+  .setDescription(`***"${cite}"***\n *~${cited.username} 2018*`)
+  .setFooter("Citation deposée par " + message.author.username, message.author.avatarURL)
+  .setColor('#f4a460')
+message.channel.send(e)
+message.delete()
+}
+if (message.channel.id == '456579123050184714') {
+if (message.content.startsWith('(')) return;
+
+args = message.content.split(' ')
+
+if (message.content == 'changelieu')  act = acts[getRandomInt(0, acts.length)]
+
+let cited = (message.mentions.users.first()  ? message.mentions.users.first() : client.users.find('username', args[0]) || client.users.get(args[0]) || message.author)
+
+let cite = (message.mentions.users.first() || client.users.find('username', args[0]) || client.users.get(args[0]) ? args.slice(1).join(" ") : message.content)
+
+let e = new Discord.RichEmbed()
+  .setAuthor(cited.username + " :", cited.avatarURL)
+  .setDescription(cite)
+  .setColor(message.guild.members.get(cited.id).highestRole.color)
+  .setFooter(act)
+if (message.content.includes('action:')) {
+
+e.setDescription('***' + cited.username+' '+ args.slice(args.indexOf('action:') + 1).join(" ") + '***')
+}
+if(message.content.startsWith('rp:')) {
+e.setDescription('***' + args.slice(args.indexOf('rp:')+ 1).join(" ") + '***')
+   e.setAuthor('Narrateur', client.user.avatarURL)
+}
+message.channel.send(e)
+message.delete()
+}
   if (!message.content.startsWith(prefix)) return;
     if (talkedRecently.indexOf(message.author.id) !== -1) {
             message.channel.send(":clock10: **HÉ HO !** Patiente deux secondes entres chaques commandes " + message.author + " !");
@@ -195,19 +292,26 @@ message.channel.send(ballembed);
 };
 
 
-//db!infoserveur
-if (message.content.startsWith(prefix + "infoserveur")){
+//db!is [anciennement infoserveur]
+if (message.content.startsWith(prefix + "is")){
 
-	let sicon = message.guild.displayIconURL;
-	let serverembed = new Discord.RichEmbed()
+  let online = message.guild.members.filter(m => m.presence.status === 'online').size;
+  let offline = message.guild.members.filter(m => m.presence.status === 'offline').size;
+  let bots = message.guild.members.filter(m => m.user.bot).size;
+  let total = online + offline + bots;
+  let totalnobot = online + offline;
+  let serverembed = new Discord.RichEmbed()
 	.setDescription("Informations sur le serveur !")
-	.setColor("#E82142")
+	.setColor("#FF0000")
 	.setThumbnail(message.guild.iconURL)
-	.addField("Nom du serveur:", message.guild.name)
-	.addField("Rejoin le:", message.member.joinedAt.format("dd-MM-Y à HH:mm:SS"))
-  .addField("Crée le:", message.guild.createdAt.format("dd-MM-Y à HH:mm:SS"))
-  .addField("Membres total:", message.guild.memberCount)
-
+	.addField(":red_circle:  Nom du serveur: ", message.guild.name, true)
+  .addField(":id: ID du serveur: ", message.guild.id, true)
+	.addField(":wave::skin-tone-2: Rejoin le: ", message.member.joinedAt.format("dd-MM-Y à HH:mm:SS"), true)
+  .addField(":clock5: Crée le: ", message.guild.createdAt.format("dd-MM-Y à HH:mm:SS"), true)
+  //.addField("Owner serveur: ", message.guild.owner.user.tag, true)
+  .addField(":busts_in_silhouette: Membres: ","<:online:313956277808005120> " + online + " | <:offline:313956277237710868> " + offline + " | <:botTag:230105988211015680> " + bots + " | Total: " + total + " membres." + " (*total sans bots:* " + totalnobot + " )")
+  .setTimestamp();
+  
 	return message.channel.send(serverembed);
 }
 
@@ -231,19 +335,19 @@ if (message.content.startsWith(prefix + "help")){
  //   }
 
 	let botembed = new Discord.RichEmbed()
-	.setTitle("Bonjour, je suis l'aide ! Et voici mes commandes ! :smiley:")
+	.setTitle("Bonjour, je suis l'aide ! Et voici mes commandes ! :smile:")
 	.setColor("#00C1FF")
-	.setThumbnail("https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Emoji_u1f4dd.svg/1000px-Emoji_u1f4dd.svg.png")
+	.setThumbnail("https://cdn.glitch.com/4408aca9-8fbf-46d4-8142-5b4cd8c3059e%2FDarky%20chibis%20think.png?1529196405408")
   .addField("Fun: ", "`8ball`, `sayd`, `avatar`, `doggo`, `cat`, `oazo`, `poasson`, `pileouface`, `rps`, `rmemes`")
   .addField("jeux d'argent: ", "**[+ bientôt]** mais en attendant, jouez avec `$rps`")
   .addField("Action/RP: ", "`hug`, `slap`, `kiss`, `bite`")
   .addField("Administration: ", "`report`, pour + de commandes, faites db!adminhelp")
-  .addField("Musique: **[not working atm]**", "`play`, `skip`, `stop`")
+  .addField("Musique: ", "`play`, `skip`, `stop`")
   .addField("Argent: ", "`coins`, `pay`")
   .addField("Utilisateur: ", "`ui`, `level`")
-  .addField("Autre:", "`ping`, `infoserveur`, `help`")
+  .addField("Autre:", "`ping`, `is`, `help`")
   .addField("Owner bot seul.:", "`setgame`, `setstream`, `setwatch`, `eval`, `guildlist`")
-  .addField("Liens utile: ", "[Website](https://darkybot-site.glitch.me) ● [Serveur support](https://discord.gg/Y97BY7k) ● [Invite moi !](https://discordapp.com/api/oauth2/authorize?client_id=441409139294601216&permissions=8&scope=bot)");
+  .addField("Liens utile: ", "[Website](https://darkybot-site.glitch.me) ● [Serveur support](https://discord.gg/Y97BY7k) ● [Invite moi !](https://discordapp.com/api/oauth2/authorize?client_id=441409139294601216&permissions=8&scope=bot) ● [Votez pour moi !](https://discordbots.org/bot/441409139294601216)");
  
 
 return message.channel.send(botembed);
@@ -317,6 +421,7 @@ if (message.content.startsWith(prefix + "report")){
     if (rUser.id == client.user.id) return message.reply('Héhéhé... Tu as cru pouvoir me report ?! **IDIOT !**');
     if (rUser.id == 191272823170269184) return message.reply("Nop, tu peux pas le report. C'est l'owner du bot, c'est un peu bête, non ?");
     if (rUser.id == 334095574674571264) return message.reply("C'est Eni quand même, tu ne peut pas le report...")
+    if (rUser.id == 234043341749092352) return message.reply("Tu peux pas report ironcaptain467 (dommage)")
 
       var reason = args.slice(1).join(" ")
 
@@ -611,18 +716,18 @@ fs.writeFile("./coins.json", JSON.stringify(coins), (err) => {
       //choix
       let computer_choice = rand(0,2);
 let user_choice;
-if (args[0].toLowerCase() == "pierre") { 
+if (args[0] == "pierre") { 
 user_choice = 0 
 
 } else
- if (args[0].toLowerCase() == "feuille") {
+ if (args[0] == "feuille") {
 user_choice = 1
 
 } else 
-if (args[0].toLowerCase() == "ciseaux") {
+if (args[0] == "ciseaux") {
 user_choice = 2
 } else {
-message.channel.send("Alors, il faut choisir entre `feuille`, `ciseaux` ou `pierre` et rien d'autres.")
+message.channel.send("Il faut choisir entre `feuille`, `ciseaux` ou `pierre` !")
 return;
 }
       if (computer_choice == user_choice) {
@@ -752,14 +857,17 @@ var result = Math.floor((Math.random() * replies.length));
 
 //db!pileouface
   if (message.content.startsWith(prefix + "pileouface")) {
-let p = "Et c'est pile !",
-    f = "Et c'est face !" 
+
+ message.channel.send("`*Lance la pièce en l'air.*`")   
+setTimeout(() => {
+    let p = "et c'est pile !",
+    f = "et c'est face !" 
     var x = getRandomInt(0, 8)
     if (x < 4) {
 message.reply(p)
 } else {
 message.reply(f)
-}
+}}, 3000)
 }
  
 //db!ui  
@@ -782,7 +890,7 @@ message.reply(f)
        status = "<:offline:313956277237710868>Hors ligne"
      } else
      if(message.author.presence.status === "streaming") {
-       status = "<:streaming:313956277132853248>En streaming<:invisible:313956277107556352>"
+       status = "<:streaming:313956277132853248>En streaming"
      } else
      if(message.author.presence.status === "invisible") {
        status = "<:invisible:313956277107556352>Invisible 👀"
@@ -791,7 +899,7 @@ message.reply(f)
     if(!ment) {
     let nomentembed = new Discord.RichEmbed()
     .addField("Ton Tag:", message.author.tag, true)
-		.addField("Ton ID", message.author.id, true)
+		.addField("Ton ID", "`"+message.author.id+"`", true)
 		.addField("Statut ", status, true)
 		.addField("Sur Discord depuis", `${message.author.createdAt.format("dd-MM-Y à HH:mm:SS")}`, true)
     .addField("Jeu en cours:", `${message.author.presence.game ? message.author.presence.game.name : 'Aucun'}`, true)
@@ -862,7 +970,7 @@ user_choice = 1
 if (args[0] == "ciseaux") {
 user_choice = 2
 } else {
-message.channel.send("Alors, il faut choisir entre `feuille`, `ciseaux` ou `pierre` et rien d'autres.")
+message.channel.send("Il faut choisir entre `feuille`, `ciseaux` ou `pierre` !")
 return;
 }
       if (computer_choice == user_choice) {
@@ -986,8 +1094,8 @@ var result = Math.floor((Math.random() * replies.length));
   }
   
 //db!level
-  if (message.content.startsWith(prefix + "level")){
-    
+    if (message.content.startsWith(prefix + "level")){
+   
     if(!xp[message.author.id]){
      xp[message.author.id] = {
        xp: 0,
@@ -1215,7 +1323,7 @@ if (message.content.startsWith(prefix + "mute")){
  
  }
   
- //db!memes
+ //db!rmemes 
 if (message.content.startsWith(prefix + "rmemes")){
 
   /*let{body} = await superagent
@@ -1254,12 +1362,85 @@ message.channel.send(guildslist)
 } 
   
  
- //db!
+ //db!rtd <montant> [EN COURS]
+ /* if (message.content.startsWith(prefix + "rtd")) {
+    
+    let uCoins = coins[message.author.id].coins;
+    
+     function rand(low, high) {
+      return Math.random() * (high + 1 - low) + low | 0;
+       
+    
+    let computer_choice = rand(1,6);
+    let player_choice = args[1]
+    console.log(computer_choice)
+       
+       if (player_choice === computer_choice){
+      
+         return message.channel.send("**test** Sa marche et tu gagne")}
+      
+       if (player_choice != computer_choice){
+        return message.channel.send("**test** Sa fonctionne aussi, mais tu perd")}
+    
+  
+      
+      }}*/
+  
+  //db!goto
+  if (message.content.startsWith(prefix + "goto")) {
+    if (message.author.id == 191272823170269184 | message.author.id == 334095574674571264) {
+  
+  client.guilds.get(args[0]).channels.first().createInvite().catch((e) => {
+message.channel.send("Je n'ai pas reconnu le channel deso bb.")
+let i2 = client.guilds.get(args[0]).channels.find("name", "general") || client.guilds.get(args[0]).channels.find("name", "général")
+i2.createInvite().then(invite => message.channel.send('discord.gg/' + invite.code))
+})
+          .then(invite => message.channel.send("discord.gg/" + invite.code))
+}else
+  message.channel.send("Non tu ne peux pas ! Owner seulement !")
+  }
+  
+  //db!aov
+/*if (message.content.startsWith(prefix + "aov")){
+  
+   let verite = (`Que penses-tu de ${y} `)
+   var result1 = Math.floor((Math.random() * verite.length));
+   let action = (``)
+   var result2 = Math.floor((Math.random() * action.length));
+  
+message.reply("`Action` ou `vérité` ❓")
+.then(() => {
+  message.channel.awaitMessages(response => response.author.id === message.author.id, {
+    max: 1,
+    time: 10000,
+    errors: ['time'],
+  })
+})
+  let user_choice;
+if (args[0] == "vérité") { 
+user_choice = 0 
+
+} else
+ if (args[0] == "action") {
+user_choice = 1
+} else {
+message.channel.send("Tu doit choissir entre une `action` ou une `vérité` !")
+return;
+}
+  
+  
+  
+}*/
+  
+  
   
   ////TEMPORAIRE
 // db!maths
 if (message.content.startsWith(prefix + "maths")) {
 if (message.channel.id != '452960073367552001') return message.channel.send("Cette fonction est uniquement disponible dans ma classe :(")
+  if(!coins[message.author.id]){
+  return message.reply("Tu n'a pas de pièces !")}
+    if(coins[message.author.id].coins < 20) return message.reply("Il te faut minimum 20 pièces pour jouer");
 let first = getRandomInt(1, 200);
 let second = getRandomInt(1, 200);
 let toWin = getRandomInt(10, 20);
@@ -1375,6 +1556,9 @@ fs.writeFile("./coins.json", JSON.stringify(coins))
   /////db!quiz
  if (message.content.startsWith(prefix + "quiz")) {
 if (message.channel.id != '452960073367552001') return message.channel.send("Commande temporairement desactivée.")
+   if(!coins[message.author.id]){
+  return message.reply("Tu n'a pas de pièces !")}
+    if(coins[message.author.id].coins < 500) return message.reply("Il te faut minimum 500 pièces pour jouer");
 let str =  message.guild.members.random(1)[0].user 
 let randmem = str.username.substring(0, 2)
 let ind = (str.bot ? "C'est un bot" : "ce n'est pas un bot");
@@ -1453,7 +1637,7 @@ let questions = [
   {
     question : "Qu'es qui est jaune, et qui attend ?",
     answer : "Jonathan",
-    duration : 5000
+    duration : 50000
   }, 
   {
     question : "Qui vit dans un ananas sous la mer ?",
@@ -1563,6 +1747,8 @@ fs.writeFile("./coins.json", JSON.stringify(coins))
       }}
     
  }
+ 
+  
 
 
   
@@ -1574,195 +1760,129 @@ fs.writeFile("./coins.json", JSON.stringify(coins))
 ////////////////////////////////////////////////
 
   ///Partie bot musique
- const youtube = new YouTube(process.env.ytTOKEN);
- const queue = new Discord.RichEmbed();
+  var url = args[1] ? args[1].replace(/<(.+)>/g, '$1') : '';
+  const searchString = args.slice(1).join(' ');
+  const youtube = new YouTube(process.env.ytTOKEN);
+  var server = servers[message.guild.id];
+        
+        
+ 
   
+  //db!play
+if (message.content.startsWith(prefix + "play")){
+ if (!args[0]) {
+  message.channel.send(":musical_note: Merci de bien vouloir mettre un lien.");
+    return;
+  }
+  if (!message.member.voiceChannel) {
+    message.channel.send(":musical_note:  Tu doit être dans un salon vocal !");
+    return;
+  }
   
-  var searchString = args.slice(1).join(' ');
-	var url = args[1] ? args[1].replace(/<(.+)>/g, '$1') : '';
-	var serverQueue = queue.get(message.guild.id); /// Essayer de trouver la raison de l'erreur "UnhandledPromiseRejectionWarning: TypeError: queue.get is not a function" (Si quelqu'un passe part la, et trouve la soluce, putain de bordel... merci bcp)
-    if (args[0].toLowerCase()) {
+  if(!servers[message.guild.id]) servers[message.guild.id] = {
+    queue: []
+  };
   
-    
-      //db!play
-  if (message.content.startsWith(prefix + "play")){
-    var voiceChannel = message.member.voiceChannel;
-		if (!voiceChannel) return message.channel.send('Tu doit te trouver dans un salon vocal !');
-		var permissions = voiceChannel.permissionsFor(message.client.user);
-		if (!permissions.has('CONNECT')) {
-			return message.channel.send('Je ne peux pas me connecter a ce salon, merci de vérifier les permissions !');
-		}
-		if (!permissions.has('SPEAK')) {
-			return message.channel.send('Je ne peux pas parler dans ce salon, merci de vérifier les permissions !');
-		}
-      if (url.match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)) {
-			var playlist = await youtube.getPlaylist(url);
-			var videos = await playlist.getVideos();
-			for (const video of Object.values(videos)) {
-				var video2 = await youtube.getVideoByID(video.id); 
-				await handleVideo(video2, message, voiceChannel, true); 
-			}
-			return message.channel.send(`✅ Playlist: **${playlist.title}** a été ajouter a la file !`);
-		} else {
-			try {
-				var video = await youtube.getVideo(url);
-			} catch (error) {
-				try {
-					var videos = await youtube.searchVideos(searchString, 10);
-					var index = 0;
-					message.channel.send(`
+  var server = servers[message.guild.id];
+  server.queue.push(args[0]);
+  if (!message.guild.voiceConnection) message.member.voiceChannel.join().then(function(connection) {
+    play(connection, message);
+message.channel.send("Musique ajoutée a la playlist !")
+});
+}
+  
+                                              //[VV VERSION AMELIORER NON-FINI ET NON-FONCTIONNEL VV]
+        
+        
+          /*  const voiceChannel = message.member.voiceChannel;
+            if (!voiceChannel) return message.channel.send('');
+            if (url.match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)) {
+                const playlist = await youtube.getPlaylist(url);
+                const videos = await playlist.getVideos();
+                for (const video of Object.values(videos)) {
+                    const video2 = await youtube.getVideoByID(video.id);
+                    await handleVideo(video2, message, voiceChannel, true);
+                }
+                return message.channel.send(`✅ Playlist: **${playlist.title}** a été ajoutée a la file d'attente`);
+            } else {
+                try {
+                    var video = await youtube.getVideo(url);
+                } catch (error) {
+                    try {
+                        var videos = await youtube.searchVideos(searchString, 10);
+                        let index = 0;
+                        message.channel.send(`
 __**Song selection:**__
 ${videos.map(video2 => `**${++index} -** ${video2.title}`).join('\n')}
-Please provide a value to select one of the search results ranging from 1-10.
+Merci de rentrée une valeur entre 1 et 10 pour choisir parmis la liste.
 					`);
-					
-					try {
-						var response = await message.channel.awaitMessages(message2 => message2.content > 0 && message2.content < 11, {
-							maxMatches: 1,
-							time: 10000,
-							errors: ['time']
-						});
-					} catch (err) {
-						console.error(err);
-						return message.channel.send('Valeur non ou non valide entrée, annulation de la sélection vidéo.');
-					}
-					var videoIndex = parseInt(response.first().content);
-					var video = await youtube.getVideoByID(videos[videoIndex - 1].id);
-				} catch (err) {
-					console.error(err);
-					return message.channel.send('🆘 Je n\'ai rien trouver !');
-				}
-			}
-			return handleVideo(video, message, voiceChannel);
-		}
-         }}
+                        try {
+                            var response = await message.channel.awaitMessages(message2 => message2.content > 0 && message2.content < 11, {
+                                maxMatches: 1,
+                                time: 10000,
+                                errors: ['time']
+                            });
+                        } catch (err) {
+                            console.error(err);
+                            return message.channel.send('Valeur entrée non valide ou inexistante. Fermeture.');
+                        }
+                        const videoIndex = parseInt(response.first().content);
+                        var video = await youtube.getVideoByID(videos[videoIndex - 1].id);
+                    } catch (err) {
+                        console.error(err);
+                        return message.channel.send('🆘 Je n'ai pas pu obtenir des résultats.');
+                    }
+                }
+                return handleVideo(video, message, voiceChannel);
+            }
+}*/
   
-  //db!skip
-      if (message.content.startsWith(prefix + "skip")){
-		if (!message.member.voiceChannel) return message.channel.send('Tu ne te trouve pas dans un salon vocal.');
-		if (!serverQueue) return message.channel.send('Il n\'y a rien a passer ¯\_(ツ)_/¯');
-		serverQueue.connection.dispatcher.end(':track_next: La musique a bien été passer !');
-		return undefined;
-      }
-  //db!stop
-      if (message.content.startsWith(prefix + "stop")){
-		if (!message.member.voiceChannel) return message.channel.send('Tu ne te trouve pas dans un salon vocal.');
-		if (!serverQueue) return message.channel.send('Il n\'y a rien a arrêter !');
-		serverQueue.songs = [];
-		serverQueue.connection.dispatcher.end(':stop_button: Musique arrêter !');
-		return undefined;
-      }
-  //db!volume
-      if (message.content.startsWith(prefix + "volume")){
-		if (!message.member.voiceChannel) return message.channel.send('Tu ne te trouve pas dans un salon vocal.');
-		if (!serverQueue) return message.channel.send('Il n\'y a pas de musique actuellement. :thinking:');
-		if (!args[1]) return message.channel.send(`Le volume actuel est: **${serverQueue.volume}**`);
-		serverQueue.volume = args[1];
-		serverQueue.connection.dispatcher.setVolumeLogarithmic(args[1] / 5);
-		return message.channel.send(`J'ai mis le volume a: **${args[1]}**`);
-      }
-  //db!song
-      if (message.content.startsWith(prefix + "song")){
-		if (!serverQueue) return message.channel.send('Il n\'y a pas de musique actuellement. :thinking:');
-		return message.channel.send(`🎶 Joue en se moment: **${serverQueue.songs[0].title}**`);
-      }
-  //db!queue
-      if (message.content.startsWith(prefix + "queue")){
-		if (!serverQueue) return message.channel.send('Il n\'y a pas de musique actuellement. :thinking:');
-		return message.channel.send(`
-__**Playlist:**__
-${serverQueue.songs.map(song => `**-** ${song.title}`).join('\n')}
-**Joue en se moment:** ${serverQueue.songs[0].title}
-		`);
-      }
+  
   //db!pause
-      if (message.content.startsWith(prefix + "pause")){
-		if (serverQueue && serverQueue.playing) {
-			serverQueue.playing = false;
-			serverQueue.connection.dispatcher.pause();
-			return message.channel.send('⏸ C\'est en pause !');
-		}
-		return message.channel.send('TIl n\'y a pas de musique actuellement. :thinking:');
-      }
-  //db!resume
-      if (message.content.startsWith(prefix + "resume")){
-		if (serverQueue && !serverQueue.playing) {
-			serverQueue.playing = true;
-			serverQueue.connection.dispatcher.resume();
-			return message.channel.send('▶ Et c\'est reparti !');
-		}
-		return message.channel.send('Il n\'y a pas de musique actuellement. :thinking:');
-	
+if (message.content.startsWith(prefix + "pause")){
+if (!message.member.voiceChannel) {
+                message.channel.send(":musical_note: Merci de bien vouloir mettre un lien.");
+                return;
+            }
 
-	return undefined;
-      }
-
-async function handleVideo(video, message, voiceChannel, playlist = false) {
-	var serverQueue = queue.get(message.guild.id);
-	console.log(video);
-	var song = {
-		id: video.id,
-		title: video.title,
-		url: `https://www.youtube.com/watch?v=${video.id}`
-	};
-	if (!serverQueue) {
-		var queueConstruct = {
-			textChannel: message.channel,
-			voiceChannel: voiceChannel,
-			connection: null,
-			songs: [],
-			volume: 5,
-			playing: true
-		};
-		queue.set(message.guild.id, queueConstruct);
-
-		queueConstruct.songs.push(song);
-
-		try {
-			var connection = await voiceChannel.join();
-			queueConstruct.connection = connection;
-			play(message.guild, queueConstruct.songs[0]);
-		} catch (error) {
-			console.error(`Je n'arrive pas a rejoindre le salon: ${error}`);
-			queue.delete(message.guild.id);
-			return message.channel.send(`Je n'arrive pas a rejoindre le salon: ${error}`);
-		}
-	} else {
-		serverQueue.songs.push(song);
-		console.log(serverQueue.songs);
-		if (playlist) return undefined;
-		else return message.channel.send(`✅ **${song.title}** a été ajouter a la playlist !`);
-	}
-	return undefined;
+            var server = servers[message.guild.id];
+            if (server.dispatcher) server.dispatcher.pause();
+            message.channel.send(':pause_button:  La musique est en pause !');
 }
-  function play(guild, song) {
-	var serverQueue = queue.get(guild.id);
-
-	if (!song) {
-		serverQueue.voiceChannel.leave();
-		queue.delete(guild.id);
-		return;
-	}
-	console.log(serverQueue.songs);
-
-	const dispatcher = serverQueue.connection.playStream(ytdl(song.url))
-		.on('end', reason => {
-      message.channel.send('``La playlist est terminé !``');
-			if (reason === 'Stream is not generating quickly enough.') console.log('Song ended.');
-			else console.log(reason);
-			serverQueue.songs.shift();
-			play(guild, serverQueue.songs[0]);
-		})
-		.on('error', error => console.error(error));
-	dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
-
-	serverQueue.textChannel.send(`🎶 Joue actuellement: **${song.title}**`);
-  }
-                                 
   
+  //db!resume
+if (message.content.startsWith(prefix + "resume")){
+      if (!message.member.voiceChannel) {
+                message.channel.send(":musical_note:  Tu doit être dans un salon vocal !");
+                return;
+            }
 
+            var server = servers[message.guild.id];
+            if (server.dispatcher) server.dispatcher.resume();
+            message.channel.send(':arrow_forward: La musique est relancée !');                         
+
+}
+ 
+ //db!skip
+if (message.content.startsWith(prefix + "skip")){
+var server = servers[message.guild.id];
+ message.channel.send(":track_next: Musique passée !")
+ 	 
+if (server.dispatcher) server.dispatcher.end()
+  message.channel.send("Playlist vide, je m'en vais !");
+}
   
-///Fin partie bot musique
+  //db!leave
+if (message.content.startsWith(prefix + "leave")){
+  if (!message.guild.voiceConnection) message.channel.send("Je suis pas en cours d'utilisation...") 
+  return;
+var server = servers[message.guild.id];
+   message.channel.send(":stop_button: J'ai bien quitter le salon !")
+ 	 
+if (message.guild.voiceConnection) message.member.voiceChannel.leave();
+}
+  
+ ///Fin partie bot musique
   
 //////////////////////////////////////////////////////////////////////////////////////////////
 });

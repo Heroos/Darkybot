@@ -13,6 +13,7 @@ dependencies:
   memejs: 1.0.7
   ms: 2.1.1
   node-datetime: 2.0.6
+  node-opus: 0.3.0
   node.date-time: 1.2.2
   npm: 6.1.0
   opusscript: 0.0.6
@@ -161,6 +162,10 @@ packages:
     requiresBuild: true
     resolution:
       integrity: sha512-D2EOD+fMdz8GsGQiVz82MpeGedH6AvFW8NZaUCKFWAPZnGsDDQIP4TIRst2TYoJonhCPHBSpa7PlojeG0gSWrQ==
+  /bindings/1.2.1:
+    dev: false
+    resolution:
+      integrity: sha1-FK1hE4EtLTfXLme0ystLtyZQXxE=
   /bindings/1.3.0:
     dev: false
     resolution:
@@ -344,6 +349,10 @@ packages:
       node: '>= 0.8'
     resolution:
       integrity: sha1-cj599ugBrFYTETp+RFqbactjKBg=
+  /commander/2.15.1:
+    dev: false
+    resolution:
+      integrity: sha512-VlfT9F3V0v+jr4yxPc5gg9s62/fIVWsd2Bk2iD435um1NlGMYdVCq+MjcXnhYq2icNOizHr1kK+5TI6H0Hy0ag==
   /component-bind/1.0.0:
     dev: false
     resolution:
@@ -1432,6 +1441,19 @@ packages:
       node: 4.x || >=6.0.0
     resolution:
       integrity: sha1-q4hOjn5X44qUR1POxwb3iNF2i7U=
+  /node-opus/0.3.0:
+    dependencies:
+      bindings: 1.2.1
+      commander: 2.15.1
+      nan: 2.10.0
+    dev: false
+    engines:
+      node: '>=5.10.0'
+    optionalDependencies:
+      ogg-packet: 1.0.0
+    requiresBuild: true
+    resolution:
+      integrity: sha512-Hih2TCi/vQUY4D9PBiATT6fluJSjMJPLBfCNgAxJx03v6jT+UlVmXUKR62RXYWyijhXNghsFJMyeBe7MBm3cmQ==
   /node.date-time/1.2.2:
     dependencies:
       left-pad: 1.3.0
@@ -1619,6 +1641,13 @@ packages:
     dev: false
     resolution:
       integrity: sha1-8MaapQ78lbhmwYb0AKM3acsvEpE=
+  /ogg-packet/1.0.0:
+    dependencies:
+      ref-struct: 1.1.0
+    dev: false
+    optional: true
+    resolution:
+      integrity: sha1-RbiFchrI991c8iOR1CEGrlM6xng=
   /on-finished/2.3.0:
     dependencies:
       ee-first: 1.1.1
@@ -1951,6 +1980,24 @@ packages:
     dev: false
     resolution:
       integrity: sha512-tQtKA9WIAhBF3+VLAseyMqZeBjW0AHJoxOtYqSUZNJxauErmLbVm2FW1y+J/YA9dUrAC39ITejlZWhVIwawkKw==
+  /ref-struct/1.1.0:
+    dependencies:
+      debug: 2.6.9
+      ref: 1.3.5
+    dev: false
+    optional: true
+    resolution:
+      integrity: sha1-XV7mWtQc78Olxf60BYcmHkee3BM=
+  /ref/1.3.5:
+    dependencies:
+      bindings: 1.3.0
+      debug: 2.6.9
+      nan: 2.10.0
+    dev: false
+    optional: true
+    requiresBuild: true
+    resolution:
+      integrity: sha512-2cBCniTtxcGUjDpvFfVpw323a83/0RLSGJJY5l5lcomZWhYpU2cuLdsvYqMixvsdLJ9+sTdzEkju8J8ZHDM2nA==
   /request/2.85.0:
     dependencies:
       aws-sign2: 0.7.0
@@ -2573,9 +2620,10 @@ specifiers:
   ifunny: ^1.3.0
   meme: ^0.1.2
   meme-maker: ^2.1.2
-  memejs: ^1.0.4
+  memejs: ^1.0.7
   ms: ^2.1.1
   node-datetime: ^2.0.6
+  node-opus: ^0.3.0
   node.date-time: ^1.2.2
   npm: ^6.1.0
   opusscript: 0.0.6
