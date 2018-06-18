@@ -1,0 +1,17 @@
+const Discord = require("discord.js");
+
+module.exports.run = async (client, message) => {
+
+let messageArray = message.content.split(" ")
+let args = messageArray.slice(1);
+
+
+
+
+
+
+
+
+module.exports.help = {
+    name: "  "
+}
