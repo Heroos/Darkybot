@@ -7,9 +7,7 @@ let messageArray = message.content.split(" ")
 
   if(!message.member.hasPermission("MANAGE_GUILD")) return message.channel.send("Non, tu ne peux pas ! *mute run away*");
   
-  if (isNaN(args[1])){
-    return message.channel.send("Non, il faut des chiffres et uniquement des chiffres.")
-  }
+
   //vvvv Création role vvvvv
      let tomute = message.mentions.members.first() || message.guild.members.get(args[0]);
      if(!tomute) return message.reply("Je n'ai pas trouver l'utilisateur :sweat:");
@@ -39,8 +37,9 @@ let messageArray = message.content.split(" ")
 //^^^^ Création role ^^^^
  
  let mutetime = args[1];
- mutetime = mutetime.replace('s', 1000)
+// mutetime = mutetime.replace('s', 1000)
  if(!mutetime) return message.reply("il faut que tu donne un temps ! *1000ms = 1s; 60000 = 1min; 600000 = 10min; 3600000 = 1h*");
+    if (isNaN(args[1])) return message.channel.send("Non, il faut des chiffres et uniquement des chiffres.")
   
    
    await(tomute.addRole(muterole.id));

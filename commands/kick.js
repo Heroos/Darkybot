@@ -14,7 +14,7 @@ if (kUser.id == message.author.id) return message.reply('Tu veux te kick toi mê
 if (kUser.id == client.user.id) return message.reply('Tu veux me kick ? :disappointed_relieved:')
 if(!message.member.hasPermission("MANAGE_MEMBERS")) return message.channel.send("Non, tu ne peux pas ! *kick run away*");
 if (kUser.hasPermission("MANAGE_MESSAGES")) return message.reply("Nan, il a des privililèges qui m'empêche de faire sa. *kick run away*");
-   var kReason = args.join(" ").slice(23);
+   var kReason = args.join(" ").slice(22);
   if (!kReason) return message.reply("il faut mettre un motif !")
 
 let kickEmbed = new Discord.RichEmbed()
@@ -24,8 +24,8 @@ let kickEmbed = new Discord.RichEmbed()
    .addField("Utilisateur kick: ", `${kUser} avec l'ID \`${kUser.id}\``)
    .addField("Kick par: ", `<@${message.author.id}> avec l'ID \`${message.author.id}\``)
    .addField("Kick a partir du salon: ", message.channel)
-   .addField("Le: ", message.createdAt.format("dd-MM-Y à HH:mm:SS"))
-   .addField("Raison: ", kReason);
+   .addField("Le: ", message.createdAt.format("dd-MM-Y à HH:mm:SS"), true)
+   .addField("Raison: ", kReason, true);
 
    let kickChannel = message.guild.channels.find(`name`, "rapports");
    if(!kickChannel) return message.channel.send("Je ne peux pas le kick car le salon #rapports est inexistant, merci de le crée.");

@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 
 module.exports.run = async (client, message, args) => {
   
-  let xp = require("../xp.json");
+  let xp = require("./xp.json");
 
 let messageArray = message.content.split(" ")
    
@@ -12,13 +12,15 @@ let messageArray = message.content.split(" ")
        level: 1
     };
   }
+  
+  let ment = message.mentions.users.first();
+    
     let curxp = xp[message.author.id].xp;
     let curlvl = xp[message.author.id].level;
     let nxtLvlXp = curlvl * 500;
     let difference = nxtLvlXp - curxp;
     
-    
-    let ment = message.mentions.users.first();
+   
   if(!ment) {
     let lvlEmbed = new Discord.RichEmbed()
     .setAuthor(message.author.username)
@@ -45,12 +47,8 @@ let messageArray = message.content.split(" ")
     
     message.channel.send(lvlEmbed)
   }
-}
   
-
-
-
-
+}
 
 
 module.exports.help = {

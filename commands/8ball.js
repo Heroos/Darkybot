@@ -18,8 +18,8 @@ var result = Math.floor((Math.random() * replies.length));
      .setAuthor(message.author.tag)
      .setColor("RANDOM")
      .setThumbnail("https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/8-Ball_Pool.svg/2000px-8-Ball_Pool.svg.png")
-     .addField("Question:", question)
-     .addField("Réponse à la question:", replies[result]);
+     .addField(":grey_question: Question:", question)
+     .addField(":exclamation: Réponse à la question:", replies[result]);
 
 message.channel.send(ballembed);
 };

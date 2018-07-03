@@ -22,5 +22,5 @@ var result = Math.floor((Math.random() * replies.length));
 
 
 module.exports.help = {
-    name: "poisson"
+    name: "fishy"
 }

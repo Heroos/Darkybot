@@ -25,9 +25,16 @@ const meme = require('memejs');
 const YouTube = require('simple-youtube-api');
 const ytdl = require('ytdl-core');
 var opus = require('node-opus');
-
-
- 
+const teams = require('./teams.json');
+let interval;
+function getTeam(guild, id) {
+let role1 = guild.roles.get("451420902857375745")
+let role2 = guild.roles.get("451463313302224916")
+if (role1.members.get(id)) return 1;
+if (role2.members.get(id)) return 2;
+  return false;
+}
+const xprecent = []
 // Create the encoder.
 // Specify 48kHz sampling rate and 10ms frame size.
 // NOTE: The decoder must use the same values when decoding the packets.
@@ -65,8 +72,8 @@ client.on("ready", () => {
   console.log("Darkybot a bien démarrer !");
   console.log(`${client.user.username} est en ligne sur ${client.guilds.size} serveurs !`);
   
-     //client.user.setStatus('dnd')
-     //client.user.setActivity(`Maintenance. Risque de non-réponse.`)
+   // client.user.setStatus('dnd')
+   // client.user.setActivity(`Maintenance. Risque de non-réponse.`)
     
   client.user.setStatus('Online')
   client.user.setActivity(`db!help  ■  ${client.guilds.size} serveurs !`)
@@ -76,6 +83,7 @@ client.on("ready", () => {
 
 //PREFIX
 var prefix = 'db!'
+
 
 fs.readdir("./commands/", (err, files) => {
   if(err) console.log(err);
@@ -92,15 +100,55 @@ fs.readdir("./commands/", (err, files) => {
   });
 });
 
+client.on("guildCreate", guild => {
+  let guildCreateChannel = client.channels.get("440512900873060362");
+   
+    let joinEmbed = new Discord.RichEmbed()
+     .setTitle('Serveur rejoint !')
+      .setColor('#00c61a')
+     .setThumbnail(guild.iconURL)
+     .addField('Info serveur', `Nom: **${guild.name}** \nID: **${guild.id}** \nMembres: **${guild.members.size}**`)
+   
+    guildCreateChannel.send(joinEmbed);
+});
+  
+
+client.on("guildDelete", guild => {
+  let guildCreateDelete = client.channels.get("440512900873060362");
+  
+  let leaveEmbed = new Discord.RichEmbed()
+    .setTitle('Serveur quitté')
+    .setColor("#ff0000")
+    .setThumbnail(guild.iconURL)
+    .addField('Info serveur', `Nom: **${guild.name}** \nID: **${guild.id}** \nMembres: **${guild.members.size}**`)
+  
+  guildCreateDelete.send(leaveEmbed);
+});
 
 
 client.on('message', async (message) => {
   
 let messageArray = message.content.split(" ")
     let args = messageArray.slice(1);
+     if (xprecent.indexOf(message.author.id) === -1) {
+             xprecent.push(message.author.id);
+  setTimeout(() => {
+    xprecent.splice(xprecent.indexOf(message.author.id), 1);
+  }, 30000);
+   if (message.guild.id == '434832646896484352') {
+if (getTeam(message.guild, message.author.id)) {
+if (!teams[message.author.id]) teams[message.author.id] = {
+point : 1,
+rank : getTeam(message.guild, message.author.id)
+}
 
-   
+  if (!teams[message.author.id].rank != getTeam(message.guild, message.author.id)) teams[message.author.id].rank = getTeam(message.guild, message.author.id)
+  teams[message.author.id].point++
   
+  fs.writeFile('./teams.json', JSON.stringify(teams));
+}
+}
+     }
   //event message
 let cmd = message.content.split(" ")[0].slice(prefix.length).toLowerCase();
   let commandfile = client.commands.get(cmd); 
@@ -111,6 +159,13 @@ let cmd = message.content.split(" ")[0].slice(prefix.length).toLowerCase();
   
  //var args = message.content.substring(prefix.length).split(" ");
  
+ /* if (message.channel == client.channels.get('446045762502000640')) {
+  let num = parseInt(message.content)
+if (isNaN(num)) {
+  message.delete() 
+  message.channel.send("Il faut compter, pas parler ! :p").then(msg => {message.delete(3000)});
+    }
+}*/
 
      if(message.author.bot) return;
 
@@ -200,10 +255,54 @@ let xp = require("./xp.json");
 
                                                                                 
               //Mention bot --> donne prefix
-  if (message.content.includes('<@441409139294601216>')) {
+  if (message.content.startsWith('<@441409139294601216>')) {
   
   message.channel.send("Bonjour ! Mon préfix est `db!` !")
   } 
+  
+  // Citations.
+  if (message.channel.id == '456478178240757775') {
+if (message.content.startsWith('-')) return;
+let cited = (message.mentions.users.first() ? message.mentions.users.first() : message.author)
+let cite = (message.mentions.users.first() ? args.join(" ") : message.content)
+let e = new Discord.RichEmbed()
+  .setThumbnail(cite.avatarURL)
+  .setDescription(`***"${cite}"***\n *~${cited.username} 2018*`)
+  .setFooter("Citation deposée par " + message.author.username, message.author.avatarURL)
+  .setColor('#f4a460')
+message.channel.send(e)
+message.delete()
+}
+if (message.channel.id == '456579123050184714' || message.channel.id == '428954864706650123') {
+if (message.content.startsWith('(')) return;
+
+args = message.content.split(' ')
+
+if (message.content == 'changelieu')  act = acts[getRandomInt(0, acts.length)]
+
+let cited = (message.mentions.users.first()  ? message.mentions.users.first() : client.users.find('username', args[0]) || client.users.get(args[0]) || message.author)
+
+let cite = (message.mentions.users.first() || client.users.find('username', args[0]) || client.users.get(args[0]) ? args.slice(1).join(" ") : message.content)
+
+let e = new Discord.RichEmbed()
+  .setAuthor(cited.username + " :", cited.avatarURL)
+  .setDescription(cite)
+  .setColor(message.guild.members.get(cited.id).highestRole.color)
+  .setFooter(act)
+if (message.content.includes('action:')) {
+
+e.setDescription('***' + cited.username+' '+ args.slice(args.indexOf('action:') + 1).join(" ") + '***')
+}
+if(message.content.startsWith('rp:')) {
+e.setDescription('***' + args.slice(args.indexOf('rp:')+ 1).join(" ") + '***')
+   e.setAuthor('Narrateur', client.user.avatarURL)
+}
+message.channel.send(e)
+message.delete()
+}
+//
+// PARTIE TEAMMS
+//
 
   if (!message.content.startsWith(prefix)) return;
     if (talkedRecently.indexOf(message.author.id) !== -1) {
@@ -226,30 +325,6 @@ $$ |  $$\ $$ |  $$ |$$ |$$ |  $$ |        $$ |$$\ $$   ____| \____$$\   $$ |$$\
 \$$$$$$  |\$$$$$$  |$$ |$$ |  $$ |        \$$$$  |\$$$$$$$\ $$$$$$$  |  \$$$$  |
  \______/  \______/ \__|\__|  \__|         \____/  \_______|\_______/    \____/ */
   
- 
- //db!rtd <montant> [EN COURS]
- /* if (message.content.startsWith(prefix + "rtd")) {
-    
-    let uCoins = coins[message.author.id].coins;
-    
-     function rand(low, high) {
-      return Math.random() * (high + 1 - low) + low | 0;
-       
-    
-    let computer_choice = rand(1,6);
-    let player_choice = args[1]
-    console.log(computer_choice)
-       
-       if (player_choice === computer_choice){
-      
-         return message.channel.send("**test** Sa marche et tu gagne")}
-      
-       if (player_choice != computer_choice){
-        return message.channel.send("**test** Sa fonctionne aussi, mais tu perd")}
-    
-  
-      
-      }}*/
   
   
   
@@ -360,18 +435,89 @@ message.channel.send("<:Baldiconten:452980705761296385> | Tu gagne " + toWin + "
 });
 fs.writeFile("./coins.json", JSON.stringify(coins))
 }
+if (message.content.startsWith(prefix + "infotoken")) {
+  let toks = require('./toks.json');
+if(!toks[message.author.id]) return message.channel.send("Tu n'as pas de tickets.");
+let e = new Discord.RichEmbed()
+  .setTitle("Info du token.")
+  .addField("Code", toks[message.author.id].code)
+  .addField("Points", toks[message.author.id].points ? toks[message.author.id].points : "Aucun point.")
+message.channel.send(e)
+
+}
+  // Give et delpoint
+if (message.content.startsWith(prefix + "givepoint")) {
+  let toks = require('./toks.json');
+
+if (message.author.id != '191272823170269184' && message.author.id != '334095574674571264') return  message.channel.send("Hein");
+if (!toks[args[0]]) return message.channel.send("Il a pas de ticket wtf.");
+if (!toks[args[0]].points) toks[args[0]].points = 0
+toks[args[0]].points += 1
+fs.writeFile('./toks.json', JSON.stringify(toks));
+  message.channel.send("K")
+}
+if (message.content.startsWith(prefix + "delpoint")) {
+  let toks = require('./toks.json');
+
+if (message.author.id != '191272823170269184' && message.author.id != '334095574674571264') return  message.channel.send("Hein");
+if (!toks[args[0]]) return message.channel.send("Il a pas de ticket wtf.");
+if (!toks[args[0]].points) toks[args[0]].points = 0
+toks[args[0]].points -= 1
+fs.writeFile('./toks.json', JSON.stringify(toks));
+  message.channel.send("RIP")
+}
+//db!chasson
+if (message.content.startsWith(prefix + "chassons")) {
+var duckcha = client.channels.get('459686672557277185')
+/*val = getRandomInt(0, 100)
+if (val < 50) val = 0 */
+ let val = 1
+let birbs = [{
+  emo : ":bird:",
+  value : 1
+    },
+    {
+  emo : ":duck:" ,
+  value : 2
+     }   
+        ]
+ interval = setInterval(() => {
+duckcha.send(birbs[val].emo).then((sentMessage) => {
+duckcha.awaitMessages(response => response.content == "pan", {
+      max: 1,
+      time: 50000,
+      errors: ['time'],
+    }).then((collected) => {
+  if (birbs[val].value == 1) {
+  client.channels.get('460007735614898186').send("Shoot sur un oiseau de " + "**" + collected.first().author.username +"**")
+  } else {
+  client.channels.get('460007735614898186').send("Excellent shoot de " + "**"+ collected.first().author.username +"**")
+  }
+  sentMessage.delete();
+
+}).catch(() => {
+sentMessage.delete();
+});
 
 
+})
+}, 50000/*getRandomInt(60000, 10000)*/)
+message.channel.send("Lancement de la chasse.")
+}
+if (message.content.startsWith(prefix + "chasseoff")) {
+client.clearInterval(interval)
+message.channel.send("Arrêt.")
+}
 //db!ange
 
-  if (message.content.startsWith(prefix + "ange")){
+  if (message.content.startsWith(prefix + "moderne")){
     console.log("commande")
       let angeid = message.member;
      
   let demonrole = ("451420902857375745");
 
   if(angeid.roles.has(demonrole)) {
-     message.reply("tu est déjà un démon !")
+     message.reply("tu est déjà dans l'équipe rétro !")
     return;
   }else {
     if(!angeid.roles.has(demonrole)) {
@@ -381,7 +527,7 @@ fs.writeFile("./coins.json", JSON.stringify(coins))
     console.log("attribution role2");       
     
     if(angeid.roles.has(angerole)) {
-      message.reply("Tu as deja ce role !");
+      message.reply("Tu as déjà ce rôle !");
       return;
     } else {
       if (!angeid.roles.has(angerole)){
@@ -389,13 +535,62 @@ fs.writeFile("./coins.json", JSON.stringify(coins))
     
     console.log("role attribué")
    angeid.addRole(angerole).catch(error => message.channel.send(error))
-   message.channel.send(`<@${angeid.id}> à rejoint les anges !`);
+   message.channel.send(`<@${angeid.id}> à rejoint les cartoons modernes !`);
    
       }}}}
     
  }
+  //db!board 
+  if (message.content.startsWith(prefix + "board")) {
+let fnum = 0
+let wnum = 0
+let flimit = 0 
+let wlimit = 0
+var fboy;
+var wboy;
+var fnumber = 0
+var wnumber = 0
+ for (let mes in teams) {
+if (teams[mes].rank == 1)  {
+  fnumber++
+  fnum += teams[mes].point
+  if (teams[mes].point > flimit) { 
+fboy = mes
+flimit = teams[mes].point
+}
+}
+if (teams[mes].rank == 2) {
+  wnumber++
+  wnum += teams[mes].point
+  if (teams[mes].point > wlimit)  {
+wboy = mes
+wlimit = teams[mes].point
+}
+}
+ }
+var color = (fnum > wnum ? message.guild.roles.get('451420902857375745').color : message.guild.roles.get('451463313302224916').color)
+var e = new Discord.RichEmbed()
+  .setTitle("Totals de points des deux teams")
+  .addField("("+ fnumber + ") Team des Cartoons retros :", fnum + " points", true)
+  .addField("("+ wnumber +") Team des Cartooons moderne :", wnum + " points", true)
+  .addField("Meilleur retro, jusqu'ici : ", client.users.get(fboy).username)
+  .addField("Meilleur moderne, jusque là :", client.users.get(wboy).username, true)
+  .setColor(color)
+message.channel.send(e)
+  
+}
+  if (message.content.startsWith(prefix + "team")) {
+var auth = message.mentions.users.first() || client.users.find('username', args.join(" ")) || message.author
+if (!teams[auth.id]) return message.channel.send("J'ai pas eu le temps de referencier cet utilisateur ou il n'est pas encore inscrit dans l'un des teams, ressayez plus tard.")
+var e = new Discord.RichEmbed()
+  .setTitle("Carte team de de " + auth.username)
+  .addField("Reconnu en tant que ", teams[auth.id].rank == 1 ? "Cartoon Retro": "Cartoon Moderne")
+  .addField("Nombre de points : ", teams[auth.id].point + " points")
+  .setColor(teams[auth.id].rank == 1 ? message.guild.roles.get('451420902857375745').color : message.guild.roles.get('451463313302224916').color)
+message.channel.send(e)
+}
   //db!leaveange
-   if (message.content.startsWith(prefix + "leaveange")){
+   if (message.content.startsWith(prefix + "leavemoderne")){
     console.log("commande")
       
    let angeid = message.member;
@@ -414,10 +609,10 @@ fs.writeFile("./coins.json", JSON.stringify(coins))
     
     console.log("role attribué")
    angeid.removeRole(angerole).catch(error => message.channel.send(error))
-   message.channel.send(`<@${angeid.id}> à quitté les anges !`);
+   message.channel.send(`<@${angeid.id}> à quitté les cartoons modernes !`);
    
       }}
-    
+    return;
  }
   
   /////db!quiz
@@ -554,10 +749,36 @@ console.log(err)
 fs.writeFile("./coins.json", JSON.stringify(coins))
 }
  
+//db!token
+  if (message.content.startsWith(prefix + "token")) {
+  var c = "aDf54Er"
+  var toks = require("./toks.json")
+  if (coins[message.author.id].coins < 50) return message.channel.send("Vous n'avez pas assez de coins. :smirk:");
+  if (toks[message.author.id]) {
+  if (toks[message.author.id].code == c) return message.channel.send("Vous possedez déjà un ticket valable.");
+  }
+  toks[message.author.id] = {
+  code : c
+  }
+  coins[message.author.id].coins -= 50
+fs.writeFile('./coins.json', JSON.stringify(coins), 'utf8', (error) => console.log(error));
+fs.writeFile('./toks.json', JSON.stringify(toks), 'utf8', (error) => console.log(error));
+  message.channel.send("Vous venez d'acheter un ticket a 50 coins.")
+}
 
 
+//db!verif 
+  if (message.content.startsWith(prefix + "verif")) {
+    var c = "aDf54Er"
+  var toks = require("./toks.json")
+  let verif = message.mentions.users.first()
+  if (!toks[verif.id]) return message.channel.send("Circulez, cette personne n'a pas de tickets.")
+  if (toks[verif.id].code != c) return message.channel.send("Tu crois nous douiller avec un vieux ticket ? Malin.")
+  message.channel.send("Mh...OK, son ticket est valable.")
+  
+  }
 //db!demon
-  if (message.content.startsWith(prefix + "demon")){
+  if (message.content.startsWith(prefix + "retro")){
     console.log("commande")
       let demonid = message.member;
 
@@ -565,7 +786,7 @@ fs.writeFile("./coins.json", JSON.stringify(coins))
     
     
   if(demonid.roles.has(angerole)) {
-     message.reply("tu est déjà un ange !")
+     message.reply("tu est déjà déja dans l'équipe moderne !")
     return;
   }else {
     if(!demonid.roles.has(angerole)) {
@@ -583,14 +804,14 @@ fs.writeFile("./coins.json", JSON.stringify(coins))
     
     console.log("role attribué")
    demonid.addRole(demonrole).catch(error => message.channel.send(error))
-   message.channel.send(`<@${demonid.id}> à rejoint les démons !`);
+   message.channel.send(`<@${demonid.id}> à rejoint les cartoons retro !`);
    
       }}}}
     
  }
  
   //db!leavedemon
- if (message.content.startsWith(prefix + "leavedemon")){
+ if (message.content.startsWith(prefix + "leaveretro")){
     console.log("commande")
       
    let demonid = message.member;
@@ -609,53 +830,15 @@ fs.writeFile("./coins.json", JSON.stringify(coins))
     
     console.log("role attribué")
    demonid.removeRole(demonrole).catch(error => message.channel.send(error))
-   message.channel.send(`<@${demonid.id}> à quitté les démons !`);
+   message.channel.send(`<@${demonid.id}> à quitté les cartoons rétro !`);
    
       }}
+   return;
     
  }
  
   
-  // Citations.
-  if (message.channel.id == '456478178240757775') {
-if (message.content.startsWith('-')) return;
-let cited = (message.mentions.users.first() ? message.mentions.users.first() : message.author)
-let cite = (message.mentions.users.first() ? args.join(" ") : message.content)
-let e = new Discord.RichEmbed()
-  .setThumbnail(cite.avatarURL)
-  .setDescription(`***"${cite}"***\n *~${cited.username} 2018*`)
-  .setFooter("Citation deposée par " + message.author.username, message.author.avatarURL)
-  .setColor('#f4a460')
-message.channel.send(e)
-message.delete()
-}
-if (message.channel.id == '456579123050184714') {
-if (message.content.startsWith('(')) return;
-
-args = message.content.split(' ')
-
-if (message.content == 'changelieu')  act = acts[getRandomInt(0, acts.length)]
-
-let cited = (message.mentions.users.first()  ? message.mentions.users.first() : client.users.find('username', args[0]) || client.users.get(args[0]) || message.author)
-
-let cite = (message.mentions.users.first() || client.users.find('username', args[0]) || client.users.get(args[0]) ? args.slice(1).join(" ") : message.content)
-
-let e = new Discord.RichEmbed()
-  .setAuthor(cited.username + " :", cited.avatarURL)
-  .setDescription(cite)
-  .setColor(message.guild.members.get(cited.id).highestRole.color)
-  .setFooter(act)
-if (message.content.includes('action:')) {
-
-e.setDescription('***' + cited.username+' '+ args.slice(args.indexOf('action:') + 1).join(" ") + '***')
-}
-if(message.content.startsWith('rp:')) {
-e.setDescription('***' + args.slice(args.indexOf('rp:')+ 1).join(" ") + '***')
-   e.setAuthor('Narrateur', client.user.avatarURL)
-}
-message.channel.send(e)
-message.delete()
-}
+  
   
   
   
