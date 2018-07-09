@@ -13,7 +13,9 @@ const mapping = {
   '!': ':grey_exclamation:',
   '?': ':grey_question:',
   '#': ':hash:',
-  '*': ':asterisk:'
+  '*': ':asterisk:',
+  'cool': ':cool:',
+  'ok': ':ok:'
 };
 
 'abcdefghijklmnopqrstuvwxyz'.split('').forEach(c => {
@@ -34,13 +36,7 @@ message.channel.send(
 );
 };
 
-exports.conf = {
-  enabled: true,
-  guildOnly: false,
-  aliases: [],
-  permLevel: "User"
-};
-
 exports.help = {
   name: "emojifier",
+  aliases: "etxt"
 }

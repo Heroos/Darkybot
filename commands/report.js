@@ -24,8 +24,8 @@ let messageArray = message.content.split(" ")
     .addField("Membre rapporté: ", `${rUser} avec l'ID: \`${rUser.id}\``)
     .addField("Rapporté par: ", `${message.author} avec l'ID: \`${message.author.id}\``)
     .addField("Dans le salon: ", message.channel)
-    .addField("Le :", message.createdAt.format("dd-MM-Y à HH:mm:SS"))
-    .addField("Raison: ", reason);
+    .addField("Le :", message.createdAt.format("dd-MM-Y à HH:mm:SS"), true)
+    .addField("Raison: ", reason, true);
 
     let reportschannel = message.guild.channels.find(`name`, "rapports");
     if(!reportschannel) return message.channel.send("Je n'arrive pas a trouver le salon #rapports, demandez a votre administrateur d'en crée un !")

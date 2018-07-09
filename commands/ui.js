@@ -78,5 +78,6 @@ let messageArray = message.content.split(" ")
 
 
 module.exports.help = {
-    name: "ui"
+    name: "ui",
+    aliases: "userinfo"
 }

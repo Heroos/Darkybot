@@ -26,5 +26,6 @@ message.reply(f)
 
 
 module.exports.help = {
-    name: "pileouface"
+    name: "pof",
+    aliases: "pileouface"
 }

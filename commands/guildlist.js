@@ -18,5 +18,6 @@ message.channel.send(guildslist.substring(0, 992))
 
 
 module.exports.help = {
-    name: "guildlist"
+    name: "guildlist",
+    aliases: "gl"
 }

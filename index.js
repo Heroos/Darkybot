@@ -17,7 +17,6 @@ const format = require("node.date-time");
 const economy = require('discord-eco');
 const ms = require("ms");
 const prettyMs = require('pretty-ms');
-const ifunny = require("ifunny");
 const randomPuppy = require('random-puppy');
 const randomCat = require('random-cat');
 const db = require('quick.db');
@@ -34,6 +33,8 @@ if (role1.members.get(id)) return 1;
 if (role2.members.get(id)) return 2;
   return false;
 }
+var team1 = "Héros",
+    team2 = "Vilains"  
 const xprecent = []
 // Create the encoder.
 // Specify 48kHz sampling rate and 10ms frame size.
@@ -72,11 +73,22 @@ client.on("ready", () => {
   console.log("Darkybot a bien démarrer !");
   console.log(`${client.user.username} est en ligne sur ${client.guilds.size} serveurs !`);
   
-   // client.user.setStatus('dnd')
-   // client.user.setActivity(`Maintenance. Risque de non-réponse.`)
+ let ClientGame = [`db!help  ■  ${client.guilds.size} serveurs !`, `db!help  ■  ${client.users.size} membres total !`]
+ var ClientchangGame = ClientGame[Math.floor(Math.random()*ClientGame.length)];
+  
+    //client.user.setStatus('dnd')
+    //client.user.setActivity(`Maintenance. Risque de non-réponse.`)
     
-  client.user.setStatus('Online')
-  client.user.setActivity(`db!help  ■  ${client.guilds.size} serveurs !`)
+    client.user.setStatus('Online')
+  var interval = setInterval(function() {
+        var actID = Math.floor(Math.random() * Math.floor(ClientGame.length));
+    
+        client.user.setActivity(ClientchangGame);
+    }, 60000)
+
+    
+    
+  
      acts = ['Une belle nuit d\'hiver', 'Une douce Nuit d\'été', 'Lors d\'une puissante rafale', 'A la saint-valentin', 'Au restaurant', 'Au ciel', 'Dans un café a chandelles :heart:', 'A la plage', 'Sur la terasse', 'Dans la rue']
        act = acts[getRandomInt(0, acts.length)]
 });
@@ -96,7 +108,8 @@ fs.readdir("./commands/", (err, files) => {
   jsfile.forEach((f, i) =>{
     let props = require(`./commands/${f}`);
     console.log(`${f} bien chargé !`);
-    client.commands.set(props.help.name, props);
+    client.commands.set(props.help.name, props, );
+    client.commands.set(props.help.aliases, props, );
   });
 });
 
@@ -136,16 +149,27 @@ let messageArray = message.content.split(" ")
     xprecent.splice(xprecent.indexOf(message.author.id), 1);
   }, 30000);
    if (message.guild.id == '434832646896484352') {
+var n1;
+var n2;
+for (let mes in teams) {
+if (teams[mes].rank == 1) {
+n1 += teams[mes].point
+} else {
+n2 += teams[mes].point
+}
+}
 if (getTeam(message.guild, message.author.id)) {
 if (!teams[message.author.id]) teams[message.author.id] = {
 point : 1,
 rank : getTeam(message.guild, message.author.id)
 }
 
-  if (!teams[message.author.id].rank != getTeam(message.guild, message.author.id)) teams[message.author.id].rank = getTeam(message.guild, message.author.id)
-  teams[message.author.id].point++
+  if (teams[message.author.id].rank != getTeam(message.guild, message.author.id)) teams[message.author.id].rank = getTeam(message.guild, message.author.id)
+  teams[message.author.id].point += (teams[message.author.id].rank == 1 && n1 > n2 ? 1 : 2)
   
-  fs.writeFile('./teams.json', JSON.stringify(teams));
+  fs.writeFile('./teams.json', JSON.stringify(teams), (err) => {
+  if (err) console.log(err)
+  });
 }
 }
      }
@@ -358,7 +382,45 @@ return;
   
   
   
-}*/
+}
+
+*/ 
+
+  function clean(text) {
+  if (typeof(text) === "string")
+    return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
+  else
+    return text;
+}
+  
+  //db!eval
+ if (message.content.startsWith(prefix + "eval")){  
+ if (message.author.id == 191272823170269184 || message.author.id == 361225964417449985) {
+     
+   try {
+         const code = args.join(" ");
+     if(code.match("process.env.TOKEN")) return message.channel.send(":no_entry_sign: Besoin d'un coup de main ? Tu te crois chez ta maman a tenter de prendre mon token ? :smirk:");
+
+ 
+         let evaled = eval(code);
+         if (typeof evaled !== "string")
+           evaled = require("util").inspect(evaled);
+         message.channel.send(clean(evaled), {code:"xl"});
+     
+       } catch (err) {
+         message.channel.send(`\`ERREUR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
+       }
+
+
+   }  else {
+message.reply("**BINGO !** Tu as trouver une commande réservé a l'owner du bot, bravo ! Mais tu ne peux pas t'en servir. *eval run away.*");
+}
+}
+  
+  
+  
+ //Bon je crois que je vais prendre l'val d'une ancienne version du bot x3
+
   
   
   
@@ -433,7 +495,9 @@ message.channel.send("<:Baldiconten:452980705761296385> | Tu gagne " + toWin + "
       coins[message.author.id].coins -= toWin
     });
 });
-fs.writeFile("./coins.json", JSON.stringify(coins))
+fs.writeFile("./coins.json", JSON.stringify(coins), (err) => {
+if (err) console.log(err)
+})
 }
 if (message.content.startsWith(prefix + "infotoken")) {
   let toks = require('./toks.json');
@@ -453,7 +517,7 @@ if (message.author.id != '191272823170269184' && message.author.id != '334095574
 if (!toks[args[0]]) return message.channel.send("Il a pas de ticket wtf.");
 if (!toks[args[0]].points) toks[args[0]].points = 0
 toks[args[0]].points += 1
-fs.writeFile('./toks.json', JSON.stringify(toks));
+fs.writeFile('./toks.json', JSON.stringify(toks), (err) =>{if (err) console.log(err)});
   message.channel.send("K")
 }
 if (message.content.startsWith(prefix + "delpoint")) {
@@ -463,7 +527,7 @@ if (message.author.id != '191272823170269184' && message.author.id != '334095574
 if (!toks[args[0]]) return message.channel.send("Il a pas de ticket wtf.");
 if (!toks[args[0]].points) toks[args[0]].points = 0
 toks[args[0]].points -= 1
-fs.writeFile('./toks.json', JSON.stringify(toks));
+fs.writeFile('./toks.json', JSON.stringify(toks), (err) =>{if (err) console.log(err)});
   message.channel.send("RIP")
 }
 //db!chasson
@@ -510,14 +574,14 @@ message.channel.send("Arrêt.")
 }
 //db!ange
 
-  if (message.content.startsWith(prefix + "moderne")){
+  if (message.content.startsWith(prefix + "vilain")){
     console.log("commande")
       let angeid = message.member;
      
   let demonrole = ("451420902857375745");
 
   if(angeid.roles.has(demonrole)) {
-     message.reply("tu est déjà dans l'équipe rétro !")
+     message.reply("tu est déjà dans l'équipe des vilains !")
     return;
   }else {
     if(!angeid.roles.has(demonrole)) {
@@ -535,7 +599,7 @@ message.channel.send("Arrêt.")
     
     console.log("role attribué")
    angeid.addRole(angerole).catch(error => message.channel.send(error))
-   message.channel.send(`<@${angeid.id}> à rejoint les cartoons modernes !`);
+   message.channel.send(`<@${angeid.id}> à rejoint les vilains !`);
    
       }}}}
     
@@ -571,10 +635,10 @@ wlimit = teams[mes].point
 var color = (fnum > wnum ? message.guild.roles.get('451420902857375745').color : message.guild.roles.get('451463313302224916').color)
 var e = new Discord.RichEmbed()
   .setTitle("Totals de points des deux teams")
-  .addField("("+ fnumber + ") Team des Cartoons retros :", fnum + " points", true)
-  .addField("("+ wnumber +") Team des Cartooons moderne :", wnum + " points", true)
-  .addField("Meilleur retro, jusqu'ici : ", client.users.get(fboy).username)
-  .addField("Meilleur moderne, jusque là :", client.users.get(wboy).username, true)
+  .addField("("+ fnumber + ") Team " + team1 , fnum + " points", true)
+  .addField("("+ wnumber +") Team " + team2,  wnum  + " points", true)
+  .addField("Meilleur "+ team1 + ", jusqu'ici : ", client.users.get(fboy).username)
+  .addField("Meilleur " + team2 + ", jusque là :", client.users.get(wboy).username, true)
   .setColor(color)
 message.channel.send(e)
   
@@ -584,13 +648,13 @@ var auth = message.mentions.users.first() || client.users.find('username', args.
 if (!teams[auth.id]) return message.channel.send("J'ai pas eu le temps de referencier cet utilisateur ou il n'est pas encore inscrit dans l'un des teams, ressayez plus tard.")
 var e = new Discord.RichEmbed()
   .setTitle("Carte team de de " + auth.username)
-  .addField("Reconnu en tant que ", teams[auth.id].rank == 1 ? "Cartoon Retro": "Cartoon Moderne")
+  .addField("Reconnu en tant que ", teams[auth.id].rank == 1 ? team1: team2)
   .addField("Nombre de points : ", teams[auth.id].point + " points")
   .setColor(teams[auth.id].rank == 1 ? message.guild.roles.get('451420902857375745').color : message.guild.roles.get('451463313302224916').color)
 message.channel.send(e)
 }
   //db!leaveange
-   if (message.content.startsWith(prefix + "leavemoderne")){
+   if (message.content.startsWith(prefix + "leavevilain")){
     console.log("commande")
       
    let angeid = message.member;
@@ -609,7 +673,7 @@ message.channel.send(e)
     
     console.log("role attribué")
    angeid.removeRole(angerole).catch(error => message.channel.send(error))
-   message.channel.send(`<@${angeid.id}> à quitté les cartoons modernes !`);
+   message.channel.send(`<@${angeid.id}> à quitté les vilains !`);
    
       }}
     return;
@@ -749,36 +813,8 @@ console.log(err)
 fs.writeFile("./coins.json", JSON.stringify(coins))
 }
  
-//db!token
-  if (message.content.startsWith(prefix + "token")) {
-  var c = "aDf54Er"
-  var toks = require("./toks.json")
-  if (coins[message.author.id].coins < 50) return message.channel.send("Vous n'avez pas assez de coins. :smirk:");
-  if (toks[message.author.id]) {
-  if (toks[message.author.id].code == c) return message.channel.send("Vous possedez déjà un ticket valable.");
-  }
-  toks[message.author.id] = {
-  code : c
-  }
-  coins[message.author.id].coins -= 50
-fs.writeFile('./coins.json', JSON.stringify(coins), 'utf8', (error) => console.log(error));
-fs.writeFile('./toks.json', JSON.stringify(toks), 'utf8', (error) => console.log(error));
-  message.channel.send("Vous venez d'acheter un ticket a 50 coins.")
-}
-
-
-//db!verif 
-  if (message.content.startsWith(prefix + "verif")) {
-    var c = "aDf54Er"
-  var toks = require("./toks.json")
-  let verif = message.mentions.users.first()
-  if (!toks[verif.id]) return message.channel.send("Circulez, cette personne n'a pas de tickets.")
-  if (toks[verif.id].code != c) return message.channel.send("Tu crois nous douiller avec un vieux ticket ? Malin.")
-  message.channel.send("Mh...OK, son ticket est valable.")
-  
-  }
 //db!demon
-  if (message.content.startsWith(prefix + "retro")){
+  if (message.content.startsWith(prefix + "hero")){
     console.log("commande")
       let demonid = message.member;
 
@@ -786,7 +822,7 @@ fs.writeFile('./toks.json', JSON.stringify(toks), 'utf8', (error) => console.log
     
     
   if(demonid.roles.has(angerole)) {
-     message.reply("tu est déjà déja dans l'équipe moderne !")
+     message.reply("tu est déjà déja dans l'équipe " + team1)
     return;
   }else {
     if(!demonid.roles.has(angerole)) {
@@ -804,14 +840,14 @@ fs.writeFile('./toks.json', JSON.stringify(toks), 'utf8', (error) => console.log
     
     console.log("role attribué")
    demonid.addRole(demonrole).catch(error => message.channel.send(error))
-   message.channel.send(`<@${demonid.id}> à rejoint les cartoons retro !`);
+   message.channel.send(`<@${demonid.id}> à rejoint les héros !`);
    
       }}}}
     
  }
  
   //db!leavedemon
- if (message.content.startsWith(prefix + "leaveretro")){
+ if (message.content.startsWith(prefix + "leavehero")){
     console.log("commande")
       
    let demonid = message.member;
@@ -830,7 +866,7 @@ fs.writeFile('./toks.json', JSON.stringify(toks), 'utf8', (error) => console.log
     
     console.log("role attribué")
    demonid.removeRole(demonrole).catch(error => message.channel.send(error))
-   message.channel.send(`<@${demonid.id}> à quitté les cartoons rétro !`);
+   message.channel.send(`<@${demonid.id}> à quitté les héros !`);
    
       }}
    return;

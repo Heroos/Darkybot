@@ -17,5 +17,5 @@ let messageArray = message.content.split(" ")
 
 
 module.exports.help = {
-    name: "rmemes"
+    name: "memes"
 }

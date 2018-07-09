@@ -8,7 +8,7 @@ if (role2.members.get(id)) return 2;
 }
 module.exports.run = async (client, message, args) => {
   
-  function clean(text) {
+/*  function clean(text) {
   if (typeof(text) === "string")
     return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
   else
@@ -33,7 +33,7 @@ let messageArray = message.content.split(" ")
       }
     }  else {
 message.reply("**BINGO !** Tu as trouver une commande réservé a l'owner du bot, bravo ! Mais tu ne peux pas t'en servir. *eval run away.*");
-}
+}*/
 }
 
 
