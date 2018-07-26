@@ -10,7 +10,7 @@ let messageArray = message.content.split(" ")
 
 
 
-
+}
 module.exports.help = {
-    name: "  "
+    name: "aov"
 }

@@ -1,6 +1,8 @@
 dependencies:
   bufferutil: 4.0.0
   cat-api: 1.2.1
+  dbl-api: 1.2.1
+  dblapi.js: 2.2.0
   discord-eco: 0.0.10
   discord-eco-chito: 1.0.0
   discord.js: 11.3.2
@@ -15,7 +17,7 @@ dependencies:
   node-datetime: 2.0.6
   node-opus: 0.3.0
   node.date-time: 1.2.2
-  npm: 6.1.0
+  npm: 6.2.0
   opusscript: 0.0.6
   pretty-ms: 3.2.0
   quick.db: 6.3.2
@@ -23,10 +25,11 @@ dependencies:
   quick.log-discord: 1.1.0
   random-cat: 1.0.1
   random-puppy: 1.1.0
+  request-promise-native: 1.0.5
   simple-youtube-api: 5.0.2
   snekfetch: 4.0.4
   superagent: 3.8.3
-  ytdl-core: 0.20.4
+  ytdl-core: 0.21.1
 packages:
   /accepts/1.3.5:
     dependencies:
@@ -391,6 +394,16 @@ packages:
       node: '>=0.10'
     resolution:
       integrity: sha1-hTz6D3y+L+1d4gMmuN1YEDX24vA=
+  /dbl-api/1.2.1:
+    dependencies:
+      snekfetch: 3.6.4
+    dev: false
+    resolution:
+      integrity: sha512-kBScgc/8CyQGKIJH8tLqvTjYe3wn5dqYoFcyAddDaXpxbSdf4hPS5YC4kNQ9KxVMhoecKx2by/nrTACsqzhoaw==
+  /dblapi.js/2.2.0:
+    dev: false
+    resolution:
+      integrity: sha512-x+wMDm6dUlRfXenyDQX8gK/efZgbXCxSvFCcWyNuwYWOvFbG+bxXxGIPU+lOa3CRQBXzPolNx0SCgKP+fodxtA==
   /debug/2.6.9:
     dependencies:
       ms: 2.0.0
@@ -1038,6 +1051,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-7dFMgk4sycHgsKG0K7UhBRakJDg=
+  /lodash/4.17.10:
+    dev: false
+    resolution:
+      integrity: sha512-UejweD1pDoXu+AD825lWwp4ZGtSwgnpZxb3JDViD7StjQz+Nb/6l093lx4OQ0foGWNRoc19mWy7BzL+UAK2iVg==
   /long/4.0.0:
     dev: false
     resolution:
@@ -1055,14 +1072,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-fFEhvcgzuIoJVUF8fYr5KR0YqxD238zgObTps31YdADwPPAp82a4M8TrckkWyx7ekNlf9aBcVn81cFwwXngrJA==
-  /m3u8stream/0.2.2:
+  /m3u8stream/0.3.0:
     dependencies:
       miniget: 1.2.0
     dev: false
     engines:
       node: '>=4'
     resolution:
-      integrity: sha512-R/xWLXBtVr0m9sPruRL4p9uO01JyHxhcQ4nhqQhVgyT802OZyVW+dn+fWHvTnbfE6YMLc65TksZZut+Mh2OVMQ==
+      integrity: sha512-0tvjXDIa6BolPEGo9zioQiPqfQhjopZXN3L7vZH/rZQCOLd4rPXNZc1UBMdW3TRpjNBoD0+F1X41/f0iY23rlQ==
   /make-error-cause/1.2.2:
     dependencies:
       make-error: 1.3.4
@@ -1247,10 +1264,9 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha1-NakjLfo11wZ7TLLd8jV7GHFTbF8=
-  /npm/6.1.0:
+  /npm/6.2.0:
     bundledDependencies:
       - abbrev
-      - ansi-regex
       - ansicolors
       - ansistyles
       - aproba
@@ -1261,7 +1277,6 @@ packages:
       - bluebird
       - bin-links
       - chownr
-      - cli-table2
       - cmd-shim
       - columnify
       - config-chain
@@ -1348,7 +1363,6 @@ packages:
       - sorted-object
       - sorted-union-stream
       - ssri
-      - strip-ansi
       - tar
       - text-table
       - uid-number
@@ -1366,12 +1380,13 @@ packages:
       - worker-farm
       - tiny-relative-date
       - cli-columns
+      - cli-table3
       - node-gyp
       - lock-verify
     dev: false
     hasBin: true
     resolution:
-      integrity: sha512-e38cCtJ0lEjLXXpc4twEfj8Xw5hDLolc2Py87ueWnUhJfZ8GA/5RVIeD+XbSr1+aVRGsRsdtLdzUNO63PvQJ1w==
+      integrity: sha512-GnlNsOnxwVJX4WSfyQY0gY3LnUX2cc46XU0eu1g+WSuZgDRUGmw8tuptitJu6byp0RWGT8ZEAKajblwdhQHN8A==
   /number-is-nan/1.0.1:
     dev: false
     engines:
@@ -1572,6 +1587,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-8FKijacOYYkX7wqKw0wa5aaChrM=
+  /psl/1.1.28:
+    dev: false
+    resolution:
+      integrity: sha512-+AqO1Ae+N/4r7Rvchrdm432afjT9hqJRyBN3DQv9At0tPz4hIFSGKbq64fN9dVoCow4oggIIax5/iONx0r9hZw==
   /punycode/1.4.1:
     dev: false
     resolution:
@@ -1685,6 +1704,28 @@ packages:
     requiresBuild: true
     resolution:
       integrity: sha512-2cBCniTtxcGUjDpvFfVpw323a83/0RLSGJJY5l5lcomZWhYpU2cuLdsvYqMixvsdLJ9+sTdzEkju8J8ZHDM2nA==
+  /request-promise-core/1.1.1:
+    dependencies:
+      lodash: 4.17.10
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    peerDependencies:
+      request: ^2.34
+    resolution:
+      integrity: sha1-Pu4AssWqgyOc+wTFcA2jb4HNCLY=
+  /request-promise-native/1.0.5:
+    dependencies:
+      request-promise-core: 1.1.1
+      stealthy-require: 1.1.1
+      tough-cookie: 2.4.3
+    dev: false
+    engines:
+      node: '>=0.12.0'
+    peerDependencies:
+      request: ^2.34
+    resolution:
+      integrity: sha1-UoF3D2jgyXGeUWP9P6tIIhX0/aU=
   /request/2.85.0:
     dependencies:
       aws-sign2: 0.7.0
@@ -1946,6 +1987,12 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha1-Fhx9rBd2Wf2YEfQ3cfqZOBR4Yow=
+  /stealthy-require/1.1.1:
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks=
   /stream-to-buffer/0.1.0:
     dependencies:
       stream-to: 0.2.2
@@ -2050,6 +2097,15 @@ packages:
       node: '>=0.8'
     resolution:
       integrity: sha512-TZ6TTfI5NtZnuyy/Kecv+CnoROnyXn2DN97LontgQpCwsX2XyLYCC0ENhYkehSOwAp8rTQKc/NUIF7BkQ5rKLA==
+  /tough-cookie/2.4.3:
+    dependencies:
+      psl: 1.1.28
+      punycode: 1.4.1
+    dev: false
+    engines:
+      node: '>=0.8'
+    resolution:
+      integrity: sha512-Q5srk/4vDM54WJsJio3XNn6K2sCG+CQ8G5Wz6bZhRZoAe/+TxjWB/GlFAnYEbkYVlON9FMk/fE3h2RLpPXo4lQ==
   /trim/0.0.1:
     dev: false
     resolution:
@@ -2275,23 +2331,25 @@ packages:
     dev: false
     resolution:
       integrity: sha1-AI4G2AlDIMNy28L47XagymyKxBk=
-  /ytdl-core/0.20.4:
+  /ytdl-core/0.21.1:
     dependencies:
       html-entities: 1.2.1
-      m3u8stream: 0.2.2
+      m3u8stream: 0.3.0
       miniget: 1.2.0
       sax: 1.2.4
     dev: false
     engines:
       node: '>=4'
     resolution:
-      integrity: sha512-d+jthiJxSQ6yqCeCwwMggXYOjFSOJsD7ahvAAE1sFW9nVNnsA/roz91SFH1FzaMGS7/y7AnJfhVgpE9i8uYjJQ==
+      integrity: sha512-K6ysXuHW0X3MgeLpO4IHvHp5gdF2DDrgFPP7kQODBSpeaq4+/y8lvWy6ZpxtJdQGE0+GUaBZ2H1/kYcP327UdQ==
 registry: 'https://registry.npmjs.org/'
 shrinkwrapMinorVersion: 8
 shrinkwrapVersion: 3
 specifiers:
   bufferutil: ^4.0.0
   cat-api: ^1.2.1
+  dbl-api: ^1.0.0
+  dblapi.js: ^2.2.0
   discord-eco: ^0.0.10
   discord-eco-chito: ^1.0.0
   discord.js: ^11.3.2
@@ -2306,7 +2364,7 @@ specifiers:
   node-datetime: ^2.0.6
   node-opus: ^0.3.0
   node.date-time: ^1.2.2
-  npm: ^6.1.0
+  npm: ^6.2.0
   opusscript: 0.0.6
   pretty-ms: ^3.2.0
   quick.db: ^6.3.2
@@ -2314,7 +2372,8 @@ specifiers:
   quick.log-discord: ^1.1.0
   random-cat: ^1.0.1
   random-puppy: ^1.1.0
+  request-promise-native: ^1.0.5
   simple-youtube-api: ^5.0.2
   snekfetch: ^4.0.4
   superagent: ^3.8.3
-  ytdl-core: ^0.20.4
+  ytdl-core: ^0.21.1

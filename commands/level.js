@@ -1,6 +1,14 @@
 const Discord = require("discord.js");
+let talkedRecently = [];
+
 
 module.exports.run = async (client, message, args) => {
+  
+  if (talkedRecently.indexOf(message.author.id) !== -1) {
+      message.delete();
+            message.channel.send(":clock10: **HÉ HO !** Patiente deux secondes entres chaques commandes " + message.author + " !");
+       
+    }
   
   let xp = require("../xp.json");
 
@@ -36,7 +44,7 @@ let messageArray = message.content.split(" ")
      let lvlEmbed = new Discord.RichEmbed()
        .setAuthor(client.user.username)
        .setColor("#f6ff00")
-       .setImage("https://cdn.glitch.com/4408aca9-8fbf-46d4-8142-5b4cd8c3059e%2F4ba5f0d43cd2106459a164697dbe36c9%20(1).png?1531000883283")
+       .setImage("https://cdn.glitch.com/4408aca9-8fbf-46d4-8142-5b4cd8c3059e%2F4ba5f0d43cd2106459a164697dbe36c9.png?1531741824708")
        .addField("Niveau: ", "666", true)
        .addField("XP: ", "9999", true)
        .setFooter("Il lui reste 1 XP avant de passer au niveau 667 !", "https://cdn4.iconfinder.com/data/icons/arrows-2-9/32/double_arrow_up-256.png");
@@ -72,6 +80,11 @@ let messageArray = message.content.split(" ")
     
     message.channel.send(lvlEmbed)
   }
+  
+  talkedRecently.push(message.author.id);
+  setTimeout(() => {
+    talkedRecently.splice(talkedRecently.indexOf(message.author.id), 1);
+  }, 2000);
   
 }
 

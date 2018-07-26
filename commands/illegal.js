@@ -1,6 +1,15 @@
 const Discord = require('discord.js');
 var Jimp = require("jimp");
-module.exports.run = async (bot, message, args) => {
+let talkedRecently = [];
+
+
+module.exports.run = async (client, message, args) => {
+  
+  if (talkedRecently.indexOf(message.author.id) !== -1) {
+      message.delete();
+            message.channel.send(":clock10: **HÉ HO !** Patiente deux secondes entres chaques commandes " + message.author + " !");
+       
+    }
 
 
     if (message.channel.type === "dm") return;
@@ -19,6 +28,11 @@ module.exports.run = async (bot, message, args) => {
     message.channel.send({
         embed: emb
     })
+  
+  talkedRecently.push(message.author.id);
+  setTimeout(() => {
+    talkedRecently.splice(talkedRecently.indexOf(message.author.id), 1);
+  }, 2000);
 }
 
 module.exports.help = {

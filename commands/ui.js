@@ -1,6 +1,14 @@
 const Discord = require("discord.js");
+let talkedRecently = [];
+
 
 module.exports.run = async (client, message, args) => {
+  
+  if (talkedRecently.indexOf(message.author.id) !== -1) {
+      message.delete();
+            message.channel.send(":clock10: **HÉ HO !** Patiente deux secondes entres chaques commandes " + message.author + " !");
+       
+    }
 
 let messageArray = message.content.split(" ")
 
@@ -35,6 +43,7 @@ let messageArray = message.content.split(" ")
 		.addField(":traffic_light: Statut ", status, true)
     .addField(":wave::skin-tone-2: Serveur rejoint le: ", message.member.joinedAt.format("dd-MM-Y à HH:mm:SS"), true)
 		.addField("<:discord:314003252830011395> Sur Discord depuis", `${message.author.createdAt.format("dd-MM-Y à HH:mm:SS")}`, true)
+   // .addField(":eyes: Se trouve sur: ", "*"+message.author.guilds.size+"*" + " serveurs", true)
     .addField(":video_game: Jeu en cours:", `${message.author.presence.game ? message.author.presence.game.name : 'Aucun'}`, true)
     .addField(":star: Ton meilleur role", message.member.highestRole.name, true)
     .setThumbnail(message.author.avatarURL)
@@ -66,7 +75,7 @@ let messageArray = message.content.split(" ")
 		.addField(":card_index: Tag:", userrrrrrr.tag, true)
 		.addField(":id: ID:", "`"+ment.id+"`", true)
 		.addField(":traffic_light: Statut :", mentstatus, true)
-    .addField(":wave::skin-tone-2: Serveur rejoint le: ", message.member.joinedAt.format("dd-MM-Y à HH:mm:SS"), true)
+    .addField(":wave::skin-tone-2: Serveur rejoint le: ", ment.joinedAt.format("dd-MM-Y à HH:mm:SS"), true)
 		.addField("<:discord:314003252830011395> Sur discord depuis le:", `${userrrrrrr.createdAt.format("dd-MM-Y à HH:mm:SS")}`, true)
     .addField(":video_game: Jeu en cours:", `${ment.presence.game ? ment.presence.game.name : 'Aucun'}`, true)
     .addField(":star: Son meilleur role:", ment.highestRole.name, true)
@@ -74,6 +83,11 @@ let messageArray = message.content.split(" ")
     .setColor(message.guild.members.get(userrrrrrr.id).highestRole.color)
 		message.channel.send(embed)
     }
+  
+  talkedRecently.push(message.author.id);
+  setTimeout(() => {
+    talkedRecently.splice(talkedRecently.indexOf(message.author.id), 1);
+  }, 2000);
 }
 
 

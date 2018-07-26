@@ -51,20 +51,26 @@ Bot crée le jeudi 3 mai 2018 à 01:22... ON M'EXPLIQUE POURQUOI 1H DU MATIN ?!
 
 ________________________________________________________________
 
-**-->** **A faire:**  
+**-->** **A faire:** *(liste à jour du: 13/07)* 
 
 ● Finir le shop **[en stand by complet]**    
   
-● Faires des alts (pour commande `db!is` et `db!ui` (voirs d'autres commandes))  
+● ~~Faires des alts (pour commande `db!is` et `db!ui` (voirs d'autres commandes))~~ **(fait)**   
   
 ● Faire un "rtd payant" -> la personne parie minimum 10 pièces, si nombre choisi par joueur = nombre choisi par bot -> paris* 2 || Tout paris perdu forment un jackpot, si quelqu'un mise minimum 100 pièces, il peut alors tenter de gagner le jackpot, si nombre choisi par joueur = nombre choisi par bot -> jackpot remporté  
   
-● Mettre a jour cette fichu fonction musique **--'**  
+● Mettre a jour cette fichu fonction musique **--'** (Partiellement fait !) v  
   
 ● Ranger l'index  
   
-● Tenter d'importer le site sur ce projet  
+● ~~Tenter d'importer le site sur ce projet~~ **(abandonner)**  
   
 ● Améliorer le site: menu déroulant pour mobile, améliorer certaint aspect graphique, ajouter la page err 404, possibilité de masquer le ".glitch.me" ?  
   
-● Tenter de faire le sysème d'activité qui se change toutes les 30sec (ou 60 sec).  
+● ~~Tenter de faire le sysème d'activité qui se change toutes les 30sec (ou 60 sec).~~ **(fait)**  
+  
+● ~~Ajouter les caractères tel que les virgules, points, etc... dans `db!emojifier`.~~ (Fait !)      
+   
+● [optionnel car complexe] Tenter de faire fonctionner l'API pour les votes.  
+  
+● ~~Dans `db!quizz` ajouter quelques questions comme celles dans popsauce.~~     

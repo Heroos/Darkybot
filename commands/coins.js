@@ -1,8 +1,15 @@
 const Discord = require("discord.js");
 var fs = require("fs");
+let talkedRecently = [];
 
 
 module.exports.run = async (client, message, args) => {
+  
+  if (talkedRecently.indexOf(message.author.id) !== -1) {
+      message.delete();
+            message.channel.send(":clock10: **HÉ HO !** Patiente deux secondes entres chaques commandes " + message.author + " !");
+       
+    }
   
   
 let coins = require("../coins.json");
@@ -43,6 +50,10 @@ message.channel.send(coinEmbed)
   
 message.channel.send(mentcoinEmbed)  
 
+  talkedRecently.push(message.author.id);
+  setTimeout(() => {
+    talkedRecently.splice(talkedRecently.indexOf(message.author.id), 1);
+  }, 2000);
 }
 
 

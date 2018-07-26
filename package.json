@@ -8,10 +8,10 @@
     "discord.js": "^11.3.2",
     "ffmpeg": "0.0.4",
     "ms": "^2.1.1",
-    "npm": "^6.1.0",
+    "npm": "^6.2.0",
     "opusscript": "0.0.6",
     "superagent": "^3.8.3",
-    "ytdl-core": "^0.20.4",
+    "ytdl-core": "^0.21.1",
     "express": "^4.16.3",
     "node-datetime": "^2.0.6",
     "node.date-time": "^1.2.2",
@@ -31,7 +31,10 @@
     "simple-youtube-api": "^5.0.2",
     "node-opus": "^0.3.0",
     "jimp": "^0.2.28",
-    "snekfetch": "^4.0.4"
+    "snekfetch": "^4.0.4",
+    "request-promise-native": "^1.0.5",
+    "dbl-api": "^1.0.0",
+    "dblapi.js": "^2.2.0"
   },
   "devDependencies": {},
   "scripts": {

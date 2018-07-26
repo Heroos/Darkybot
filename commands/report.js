@@ -1,7 +1,15 @@
 const Discord = require("discord.js");
 const ms = require("ms");
+let talkedRecently = [];
+
 
 module.exports.run = async (client, message, args) => {
+  
+  if (talkedRecently.indexOf(message.author.id) !== -1) {
+      message.delete();
+            message.channel.send(":clock10: **HÉ HO !** Patiente deux secondes entres chaques commandes " + message.author + " !");
+       
+    }
 
 let messageArray = message.content.split(" ")
 
@@ -33,6 +41,10 @@ let messageArray = message.content.split(" ")
     message.delete();
     reportschannel.send(reportEmbed);
 
+  talkedRecently.push(message.author.id);
+  setTimeout(() => {
+    talkedRecently.splice(talkedRecently.indexOf(message.author.id), 1);
+  }, 2000);
 }
 
 module.exports.help = {
