@@ -46,5 +46,7 @@ let messageArray = message.content.split(" ")
 
 
 module.exports.help = {
-    name: "giverole"
+    name: "giverole",
+    commande: "db!giverole <mention> <rôle>",
+    desc: "Sert à donner un rôles a un membre rapidement."
 }

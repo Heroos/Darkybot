@@ -10,7 +10,7 @@ module.exports.run = async (client, message, args) => {
        
     }
   
-  let [title, contents] = args.join(" ").split("|");
+  let [title, contents] = args.join(" ").split(" | ");
   if(!contents) {
     [title, contents] = ["Succès déverrouillé !", title];
   }
@@ -38,5 +38,7 @@ module.exports.run = async (client, message, args) => {
 
 module.exports.help = {
     name: "mc",
-    aliases: "minecraft"
+    aliases: "minecraft",
+    commande: "db!mc <titre> | <desc.>",
+    desc: "Pour crée un succès Minecraft de votre choix !"
 }

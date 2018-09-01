@@ -2,10 +2,9 @@ const Discord = require("discord.js");
 let talkedRecently = [];
 
 
-
 module.exports.run = async (client, message, args) => {
   
-  
+let owner = client.users.get("191272823170269184").tag
   
   if (talkedRecently.indexOf(message.author.id) !== -1) {
       message.delete();
@@ -18,10 +17,11 @@ module.exports.run = async (client, message, args) => {
 	.setTitle("Bonjour, je suis l'aide ! Et voici mes commandes ! :smile:")
 	.setColor("#00C1FF")
 	.setThumbnail("https://cdn.glitch.com/4408aca9-8fbf-46d4-8142-5b4cd8c3059e%2FDarky%20chibis%20think.png?1529344203240")
-  .setFooter(`Bot crée par Darky#1234`, "https://cdn.glitch.com/4408aca9-8fbf-46d4-8142-5b4cd8c3059e%2FAvatar%20chaine%20HD.jpg?1529498072989")
+  .setFooter("Bot crée par " + owner, "https://cdn.glitch.com/4408aca9-8fbf-46d4-8142-5b4cd8c3059e%2FAvatar%20chaine%20HD.jpg?1529498072989")
   .addField(":soccer: Fun: ", "`8ball`, `sayd`, `avatar`, `doggo`, `cat`, `birdy`, `fishy`, `pof`, `rps`, `memes`, `rtd`, `emojifier`, `mc`, `trigger`")
   .addField(":moneybag: jeux d'argent: ", "**[+ bientôt]** mais en attendant, jouez avec `$rps`")
-  .addField(":cowboy: Action/RP: ", "`hug`, `slap`, `kiss`, `bite`")
+  .addField(":open_hands::skin-tone-2: Jeux multijoueur: ", "`aov`")
+  .addField(":cowboy: Action/RP: * = pas besoin de mentionner", "`hug`, `slap`, `kiss`, `bite`, `dab*`, `pat`, `nb*`")
   .addField("<:staff:314068430787706880> Administration: ", "`report`, pour + de commandes, faites db!adminhelp")
   .addField(":musical_note: Musique: [ALPHA]", "`play`, `skip`, `leave`, `pause`, `resume`")
   .addField(":busts_in_silhouette: Utilisateur: ", "`ui`, `level`, `coins`, `pay`")
@@ -39,5 +39,7 @@ return message.channel.send(botembed);
   }
 
 module.exports.help = {
-    name: "help"
+    name: "help",
+    commande: "db!help [commande]",
+    desc: "Fait apparaitre l'intégralité des commandes du bot ou vous donnes une aide sur une commande précise si la commande est suivi du nom d'une commande."
 }

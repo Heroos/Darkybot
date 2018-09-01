@@ -24,5 +24,7 @@ message.channel.send(botmessage);
 }
 
 module.exports.help = {
-    name: "sayd"
+    name: "sayd",
+    commande: "db!sayd <votre message>",
+    desc: "Dites un message, et je le répèterais !"
 }

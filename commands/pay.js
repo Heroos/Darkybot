@@ -49,6 +49,7 @@ fs.writeFile("./coins.json", JSON.stringify(coins), (err) => {
   if(err) console.log(err)
 });
   
+  
   talkedRecently.push(message.author.id);
   setTimeout(() => {
     talkedRecently.splice(talkedRecently.indexOf(message.author.id), 1);

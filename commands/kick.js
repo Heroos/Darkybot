@@ -17,13 +17,12 @@ let messageArray = message.content.split(" ")
 
 let kUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
 if (!args[0]) return message.channel.send("Va falloir choisir quelqu'un, je suis pas devin, et je ne vais pas deviner la personne pour toi.");
-if(!kUser) return message.channel.send("Je n'ai pas trouver l'utilisateur :sweat:")
+if (!kUser) return message.channel.send("Je n'ai pas trouver l'utilisateur :sweat:")
 if (kUser.id == message.author.id) return message.reply('Tu veux te kick toi même ?! Étrange... :thinking: ');
 if (kUser.id == client.user.id) return message.reply('Tu veux me kick ? :disappointed_relieved:')
-if(!message.member.hasPermission("MANAGE_MEMBERS")) return message.channel.send("Non, tu ne peux pas ! *kick run away*");
+if (!message.member.hasPermission("MANAGE_MEMBERS")) return message.channel.send("Non, tu ne peux pas ! *kick run away*");
 if (kUser.hasPermission("MANAGE_MESSAGES")) return message.reply("Nan, il a des privililèges qui m'empêche de faire sa. *kick run away*");
-   var kReason = args.join(" ").slice(22);
-  if (!kReason) return message.reply("il faut mettre un motif !")
+let kReason = args.slice(1).join(" ") || "Aucune raison donnée."
 
 let kickEmbed = new Discord.RichEmbed()
    .setDescription("**~|kick|~**")
@@ -51,5 +50,7 @@ kickChannel.send(kickEmbed);
 
 
 module.exports.help = {
-    name: "kick"
+    name: "kick",
+    commande: "db!kick <mention> [raison]",
+    desc: "Permet de kick un membre tout en affichant un rapport par la suite."
 }

@@ -28,5 +28,7 @@ if (user.id == message.author.id) return message.channel.send("Et bien... voici 
 
 
 module.exports.help = {
-    name: "avatar"
+    name: "avatar",
+    commande: "db!avatar <mention>",
+    desc: "Pour vous donnez l'avatar du membre mentionner."
 }

@@ -36,5 +36,7 @@ module.exports.run = async (client, message, args) => {
 }
 
 module.exports.help = {
-    name: "illegal"
+    name: "illegal",
+    commande: "db!illegal <mot>",
+    desc: "Pour que Trump rende votre objet/activité/autres choses illegal !"
 }

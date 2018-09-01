@@ -35,5 +35,7 @@ var result = Math.floor((Math.random() * replies.length));
 
 
 module.exports.help = {
-    name: "birdy"
+    name: "birdy",
+    commande: "db!birdy",
+    desc: "Permet de faire apparaitre une image d'un oiseau random :3"
 }

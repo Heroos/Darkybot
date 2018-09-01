@@ -19,6 +19,8 @@ let messageArray = message.content.split(" ")
 
 ///embed liste
      let categories = []; 
+  
+  message.channel.send("**COMMANDE NON-FINI ET TRÈS INSTABLE ! NE POURSUIVEZ PAS L'ACHAT D'UN ROLE !**")
      if (!args.join(" ")) { 
 
         for (var i in items) { 
@@ -130,6 +132,8 @@ let messageArray = message.content.split(" ")
             
             })
           })});
+  
+  
   
   talkedRecently.push(message.author.id);
   setTimeout(() => {

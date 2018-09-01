@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 let talkedRecently = [];
 
 
-module.exports.run = async (client, message, args) => {
+module.exports.run = async (client, message, args, err) => {
   
   if (talkedRecently.indexOf(message.author.id) !== -1) {
       message.delete();
@@ -30,6 +30,7 @@ var result = Math.floor((Math.random() * replies.length));
      .addField(":exclamation: Réponse à la question:", replies[result]);
 
 message.channel.send(ballembed);
+
   
   talkedRecently.push(message.author.id);
   setTimeout(() => {
@@ -39,5 +40,7 @@ message.channel.send(ballembed);
 
 
 module.exports.help = {
-    name: "8ball"
+    name: "8ball",
+    commande: "db!8ball <question>",
+    desc: "Pose moi une question et j'y réponderais !"
 }

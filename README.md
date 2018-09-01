@@ -45,9 +45,10 @@ Bot crée le jeudi 3 mai 2018 à 01:22... ON M'EXPLIQUE POURQUOI 1H DU MATIN ?!
 `db!mc <titre>|<desc.>`
 `db!clear <nombre de message souhaité>`
 `db!trigger --> aucun args = triggered l'avatar | si attachement = trigger image attaché`
+et bien plus !
 
   
-**Nombre de commandes total:**  41 (c'est peu :'( )
+**Nombre de commandes total:**  58
 
 ________________________________________________________________
 

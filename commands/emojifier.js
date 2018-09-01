@@ -61,5 +61,7 @@ message.channel.send(
 
 exports.help = {
   name: "emojifier",
-  aliases: "etxt"
+  aliases: "etxt",
+  commande: "db!emojifier <votre message>",
+  desc: "Pour que votre messages est plus de visibilité, mais genre vraiment..."
 }

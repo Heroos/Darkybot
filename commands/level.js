@@ -90,5 +90,7 @@ let messageArray = message.content.split(" ")
 
 
 module.exports.help = {
-    name: "level"
+    name: "level",
+    commande: "db!level [mention]",
+    desc: "Vous permet de voirs votre level, ou celui de quelqu'un."
 }

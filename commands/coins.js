@@ -58,5 +58,7 @@ message.channel.send(mentcoinEmbed)
 
 
 module.exports.help = {
-    name: "coins"
+    name: "coins",
+    commande: "db!coins [mention]",
+    desc: "Pour afficher votre porte monnaie."
 }

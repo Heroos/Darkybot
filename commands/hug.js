@@ -38,5 +38,7 @@ var result = Math.floor((Math.random() * replies.length));
 
 
 module.exports.help = {
-    name: "hug"
+    name: "hug",
+    commande: "db!hug <mention>",
+    desc: "Pour faire un gros calin a quelqu'un !"
 }

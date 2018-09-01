@@ -30,5 +30,7 @@ let messageArray = message.content.split(" ")
 
 
 module.exports.help = {
-    name: "memes"
+    name: "memes",
+    commande: "db!memes",
+    desc: "Les memes c'est important, faites la commande pour diffuser la sainte parole des memes."
 }

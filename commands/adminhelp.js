@@ -31,5 +31,7 @@ return message.channel.send(botembed);
 }
 
 module.exports.help = {
-    name: "adminhelp"
+    name: "adminhelp",
+    commande: "db!adminhelp",
+    desc: "Permet de faire apparaitre la liste des commande réserver au modérateur du serveur."
 }

@@ -37,5 +37,7 @@ var result = Math.floor((Math.random() * replies.length));
 
 
 module.exports.help = {
-    name: "bite"
+    name: "bite",
+    commande: "db!bite <mention>",
+    desc: "Vous permet de... mordre quelqu'un ?!"
 }

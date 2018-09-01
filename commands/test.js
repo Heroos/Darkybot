@@ -14,8 +14,7 @@ if (message.author.id == 191272823170269184) {
   let totalnobot = online + offline;
 
   
-message.channel.send("```http\n                              INFORMATIONS SUR LE SERVEUR !\n   ===================================================================================\n\n● Nom du serveur => " + message.guild.name + "\n\n● ID du serveur => " + message.guild.id +"\n\n● Owner serveur => " + message.guild.owner.user.tag +"\n\n● Serveur crée le => " + message.guild.createdAt.format("dd/MM/Y à HH:mm:SS") + "\n\n● Membres:\nEn ligne => "+ online + "\nHors-ligne => " + offline + "\nBot => " + bots + "\nMembres total => " + total + " membres. (total sans bots: " + totalnobot + ")```")
-  
+message.channel.send("")
 ///ZONE DE TEST, NE MODIFIER LE RESTE QUE EN CAS DE BESOIN !
   message.channel.send("```Test effectué sans echec.```")
 }else {

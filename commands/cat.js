@@ -33,5 +33,7 @@ var result = Math.floor((Math.random() * replies.length));
 
 
 module.exports.help = {
-    name: "cat"
+    name: "cat",
+    commande: "db!cat",
+    desc: "Vous permet de faire apparaitre une image d'un chat trop mignon ! :cat:"
 }

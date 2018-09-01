@@ -27,14 +27,21 @@ module.exports.run = async (client, message, args) => {
   .addField(":clock5: Serveur crée le: ", message.guild.createdAt.format("dd/MM/Y à HH:mm:SS"), true)
   .addField(":busts_in_silhouette: Membres: ","<:online:313956277808005120> " + online + " | <:offline:313956277237710868> " + offline + " | <:botTag:230105988211015680> " + bots + " | Total: " + total + " membres." + " (*total sans bots:* " + totalnobot + " )")
   
-  let serveremojiembed = new Discord.RichEmbed()
+  /*let serveremojiembed = new Discord.RichEmbed()
   .setColor("#FF0000")
   .setAuthor("Liste emojis: ")
   .setDescription(list)
-  .setTimestamp();
+  .setTimestamp();*/
+  
+  setTimeout(() => {
+   message.channel.send(list.substring(0, 2000))
+  }, 500)
+  setTimeout(() => {
+   message.channel.send(list.substring(2000, 4000))
+  }, 1000)
   
   message.channel.send(serverembed);
-  return message.channel.send(serveremojiembed);
+  //return message.channel.send(serveremojiembed);
   
   talkedRecently.push(message.author.id);
   setTimeout(() => {
@@ -44,5 +51,7 @@ module.exports.run = async (client, message, args) => {
 
 module.exports.help = {
     name: "is",
-    aliases: "infoserveur"
+    aliases: "infoserveur",
+    commande: "db!is",
+    desc: "Vous permet de faire apparaitre des informations ainsi que les emojis du serveur. *(commande déconseiller sur mobile, optez plutôt pour `db!ais`.)*"
 }

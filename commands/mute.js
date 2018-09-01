@@ -67,5 +67,7 @@ let messageArray = message.content.split(" ")
 
 
 module.exports.help = {
-    name: "mute"
+    name: "mute",
+    commande: "db!mute <mention> <temps en ms>",
+    desc: "Afin de rendre muet quelqu'un en textuel. *(commande ne fonctionnant pas si celui-ci a des rôles autres que \"everyone\".)*"
 }

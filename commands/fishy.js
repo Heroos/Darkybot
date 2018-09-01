@@ -35,5 +35,7 @@ var result = Math.floor((Math.random() * replies.length));
 
 
 module.exports.help = {
-    name: "fishy"
+    name: "fishy",
+    commande: "db!fishy",
+    desc: "Fait apparaitre des images de poisson. :fish:"
 }

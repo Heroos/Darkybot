@@ -36,5 +36,7 @@ var dogembed = new Discord.RichEmbed()
 
 
 module.exports.help = {
-    name: "doggo"
+    name: "doggo",
+    commande:"db!doggo",
+    desc:"Pour que je vous envoit une image d'un chien trop mignon. :dog:"
 }
