@@ -18,7 +18,8 @@ else if (message.mentions.users.first()) url = message.mentions.users.first().av
 else url = (args[0] ? args[0] : message.author.avatarURL)
 await require("http").get('http://api.takohell.com/v1/generate/triggered?url=' + url)
 let triggered = new Discord.Attachment('http://api.takohell.com/v1/generate/triggered?url=' + url, 'trigg.gif')
- message.channel.send(triggered);
+ message.channel.send(triggered)
+  .catch().catch((e) => message.channel.send(':warning: **Une erreur est survenue !** Réessaie plus tard. :warning: \n`' + (e) + '`'));
 
   talkedRecently.push(message.author.id);
   setTimeout(() => {

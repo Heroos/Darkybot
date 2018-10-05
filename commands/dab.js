@@ -20,7 +20,8 @@ var result = Math.floor((Math.random() * replies.length));
  .setImage(replies[result]);
 
 
- return message.channel.send(dabembed);
+ return message.channel.send(dabembed)
+  .catch().catch((e) => message.channel.send(':warning: **Une erreur est survenue !** Réessaie plus tard. :warning: \n`' + (e) + '`'));
 
 
 talkedRecently.push(message.author.id);

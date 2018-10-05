@@ -51,7 +51,7 @@ message.channel.send(
         .split('')
         .map(c => mapping[c] || c)
         .join('')
-);
+).catch().catch((e) => message.channel.send(':warning: **Une erreur est survenue !** Réessaie plus tard. :warning: \n`' + (e) + '`'));
   
   talkedRecently.push(message.author.id);
   setTimeout(() => {

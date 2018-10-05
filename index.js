@@ -25,11 +25,9 @@ const YouTube = require('simple-youtube-api');
 const ytdl = require('ytdl-core');
 var opus = require('node-opus');
 const DBL = require("dblapi.js");
-const dbl = new DBL(process.env.dblTOKEN, client)
+const dbl = new DBL(process.env.dblTOKEN, {webhookPort: 9001, webhookAuth : "azerty1234567890", webhookPath : "https://darkybot.glitch.me:9001"}, client)
 var secmap;
-const teams = require('./teams.json');
 let interval;
-var dat = require('./data.json'); 
 const xprecent = []
 // Create the encoder.
 // Specify 48kHz sampling rate and 10ms frame size.
@@ -74,6 +72,7 @@ let acts;
 client.on('warn', console.warn);
 client.on('error', console.error);
 client.on("ready", () => {
+  
   console.log("Darkybot a bien démarrer !");
   console.log(`${client.user.username} est en ligne sur ${client.guilds.size} serveurs !`);
 
@@ -96,12 +95,18 @@ let uptime = `${hours}h. ${minutes}min. ${seconds}s.`;
 dbl.getVotes().then(votes => {
     if (votes.find(vote => vote.id == vote)) console.log(`${votes.username} has voted!!!`)
 });  
-  
+  dbl.webhook.on("vote", user=>{
+    console.log("webhook : " + user)
+  })
+  dbl.webhook.on('ready', hook => {
+  console.log(`Webhook running at http://${hook.hostname}:${hook.port}${hook.path}`);
+});//*/
+  //Ouais je vois sa sur la page d'edit du bot sur DBL, je trouve sa où ? | je sais pas, je cherche
     var index = 0
  
    client.user.setStatus('Online')
   var interval = setInterval(() => {
-    let activities = [{game: {name: `db!help  ■  ${client.guilds.size} serveurs !`,  type: 0}}, {game: {name: `db!help  ■  ${client.users.size} membres total !`, type: 0}}, {game: {name: `Pensez a me voter sur DBL !`, url: "https://www.twitch.tv/Thedarknightshoww", type: 1}}]
+    let activities = [{game: {name: `db!help  ■  ${client.guilds.size} serveurs !`,  type: 0}}, {game: {name: `db!help  ■  ${client.users.size} membres total !`, type: 0}}, {game: {name: `OOoooOOoooOOo~`, url: "https://www.twitch.tv/Thedarknightshoww", type: 1}}]
     if(index == activities.length) index = 0
       client.user.setPresence(activities[index])
       index++
@@ -163,7 +168,7 @@ client.on("guildCreate", guild => {
     guildCreateChannel.send(joinEmbed);
   
   let ServerOwn = guild.owner.user
-ServerOwn.send("**Salut ! Merci de m'avoir inviter sur ton serveur ^-^**\n\nTu peux avoir un aperçu de toutes mes commandes en écrivant `db!help` dans un salon auquel j'ai accès.\nSi pendant que m'invitais tu as décocher la case \"Administrateur\", il serait donc possible que certaines de mes commandes ne fonctionne pas au mieux, __il est également possible que le bot ne réponde pas dû a des soucis de permissions qui rentre en conflit avec vos autres rôles, si tel est le cas, merci de me contacter sur le serveur support ci-dessous.__\n\nCi-dessous, une invitation pour rejoindre mon serveur support, la bas tu seras au courant des dernières mises à jours, maintenance, etc... Je n'oblige personne à venir, mais sa peut être interrésant de venir :wink:\n\n**Lien utile:**\n\n**Mon site:** https://darkybotdc.glitch.me/ \n**Serveur support:** https://discord.gg/Y97BY7k")
+ServerOwn.send("**Salut ! Merci de m'avoir inviter sur ton serveur ^-^**\n\nTu peux avoir un aperçu de toutes mes commandes en écrivant `db!help` dans un salon auquel j'ai accès.\nSi pendant que m'invitais tu as décocher la case \"Administrateur\", il serait donc possible que certaines de mes commandes ne fonctionne pas au mieux, __il est également possible que le bot ne réponde pas dû a des soucis de permissions qui rentre en conflit avec vos autres rôles, si tel est le cas, merci de me contacter sur le serveur support ci-dessous.__\n\nCi-dessous, une invitation pour rejoindre mon serveur support, la bas tu seras au courant des dernières mises à jours, maintenance, etc... Je n'oblige personne, mais sa peut être interrésant de venir :wink:\n\n**Lien utile:**\n\n**Mon site:** https://darkybotdc.glitch.me/ \n**Serveur support:** https://discord.gg/Y97BY7k")
   
   
 });
@@ -280,6 +285,111 @@ message.channel.send("t " + s[2] + " " + s[1] + " " + s[3])
      if(message.author.bot) return;
 let messageArray = message.content.split(" ")
     let args = messageArray.slice(1);
+
+  
+  /*
+  let xp = require("./xp.json"); 
+  
+ /* let xpAdd = Math.floor(Math.random() * 5) + 2;
+
+
+        if(!xp[message.author.id]){
+          xp[message.author.id] = {
+            xp: 0,
+            level: 1
+          };
+        }
+        let curxp = xp[message.author.id].xp;
+        let curlvl = xp[message.author.id].level;
+        let nxtLvl = xp[message.author.id].level * 600;
+        xp[message.author.id].xp =  curxp + xpAdd;
+        if(nxtLvl <= xp[message.author.id].xp){
+          xp[message.author.id].level = curlvl + 1;
+
+
+        }
+          fs.writeFile("./xp2.json", JSON.stringify(xp), (err) => {
+            if(err) console.log(err)
+          });
+
+  if(!xp[message.author.id]){
+   xp[message.author.id] = {
+     xp: 0,
+     level: 1
+   };
+}*/
+  
+  /*
+ let xpAdd = Math.floor(Math.random() * 7) + 8; 
+  
+  
+ if(!xp[message.author.id]){
+   xp[message.author.id] = {
+     xp: 0,
+     level: 1
+   };
+ }
+  
+
+ let curxp = xp[message.author.id].xp;
+ let curlvl = xp[message.author.id].level;
+ let nxtLvl = xp[message.author.id].level * (700 * 1.25 + (curxp / 30 + 1.25));
+ xp[message.author.id].xp = curxp + xpAdd;
+ if(nxtLvl <= xp[message.author.id].xp){
+   xp[message.author.id].level = curlvl + 1;
+ 
+if (message.guild.id == "264445053596991498" || message.guild.id == "110373943822540800") {
+  return;
+}else{
+
+   let lvlup = new Discord.RichEmbed()
+   .setTitle("**LEVEL UP POUR " + (message.author.tag) + " !**")
+   .setThumbnail("https://cdn4.iconfinder.com/data/icons/arrows-2-9/32/double_arrow_up-256.png")
+   .setColor("RANDOM")
+   .addField("Tu est maintenant:", `niveau ${curlvl + 1} !`);
+   
+   message.channel.send(lvlup).then(msg => {msg.delete(3000)})
+}}
+   fs.writeFile("./xp.json", JSON.stringify(xp), (err) => {
+   if(err) console.log(err)
+   });
+  
+  */
+  
+  
+  let xp = require("./xp.json");
+  let xpAdd = Math.floor(Math.random() * 15)+1
+  
+  if (!xp[message.author.id]) {
+    xp[message.author.id] = {
+      xp:0,
+      level:1
+    }
+  }
+  
+  let curxp = xp[message.author.id].xp
+  let curlvl = xp[message.author.id].level
+  let nxtlvl = xp[message.author.id].level * (3 * 3 * 30 + 1.25)
+  xp[message.author.id].xp = curxp + xpAdd;
+  
+  if (nxtlvl <= xp[message.author.id].xp) {
+    xp[message.author.id].level = curlvl + 1
+    if (message.guild.id == "264445053596991498" || message.guild.id == "110373943822540800") {
+  return;
+}else{
+
+   let lvlup = new Discord.RichEmbed()
+   .setTitle("**LEVEL UP POUR " + (message.author.tag) + " !**")
+   .setThumbnail("https://cdn4.iconfinder.com/data/icons/arrows-2-9/32/double_arrow_up-256.png")
+   .setColor("RANDOM")
+   .addField("Tu est maintenant:", `niveau ${curlvl + 1} !`);
+   
+   message.channel.send(lvlup).then(msg => {msg.delete(3000)})
+}
+   fs.writeFile("./xp.json", JSON.stringify(xp), (err) => {
+   if(err) console.log(err)
+   });
+  }  
   // Quizz multijoueur
 
 if (message.content.startsWith(prefix + "multiq")) {
@@ -454,12 +564,6 @@ message.channel.send(e)
 message.delete()
 }  
 
-if (message.content.startsWith("-s") && message.channel.type == "dm") {
-if (!dat[message.author.id]) return;
-for (let i in dat) {
-if (dat[i].team == dat[message.author.id].team) client.users.get(i).send(`**${t(dat[message.author.id].team)}** : ` + args.join(" "))
-}
-}
   if (!message.content.startsWith(prefix)) return;
     if (talkedRecently.indexOf(message.author.id) !== -1) {
       message.delete();
@@ -513,71 +617,7 @@ fs.writeFile("./coins.json", JSON.stringify(coins), (err) => {
 });
 }
   
-let xp = require("./xp.json"); 
-  
- /* let xpAdd = Math.floor(Math.random() * 5) + 2;
 
-
-        if(!xp[message.author.id]){
-          xp[message.author.id] = {
-            xp: 0,
-            level: 1
-          };
-        }
-        let curxp = xp[message.author.id].xp;
-        let curlvl = xp[message.author.id].level;
-        let nxtLvl = xp[message.author.id].level * 600;
-        xp[message.author.id].xp =  curxp + xpAdd;
-        if(nxtLvl <= xp[message.author.id].xp){
-          xp[message.author.id].level = curlvl + 1;
-
-
-        }
-          fs.writeFile("./xp2.json", JSON.stringify(xp), (err) => {
-            if(err) console.log(err)
-          });
-
-  if(!xp[message.author.id]){
-   xp[message.author.id] = {
-     xp: 0,
-     level: 1
-   };
-}*/
-  
-  
- let xpAdd = Math.floor(Math.random() * 7) + 8; 
-  
-  
- if(!xp[message.author.id]){
-   xp[message.author.id] = {
-     xp: 0,
-     level: 1
-   };
- }
-  
-
- let curxp = xp[message.author.id].xp;
- let curlvl = xp[message.author.id].level;
- let nxtLvl = xp[message.author.id].level * 500;
- xp[message.author.id].xp = curxp + xpAdd;
- if(nxtLvl <= xp[message.author.id].xp){
-   xp[message.author.id].level = curlvl + 1;
- 
-if (message.guild.id == "264445053596991498" || message.guild.id == "110373943822540800") {
-  return;
-}else{
-
-   let lvlup = new Discord.RichEmbed()
-   .setTitle("**LEVEL UP POUR " + (message.author.tag) + " !**")
-   .setThumbnail("https://cdn4.iconfinder.com/data/icons/arrows-2-9/32/double_arrow_up-256.png")
-   .setColor("RANDOM")
-   .addField("Tu est maintenant:", `niveau ${curlvl + 1} !`);
-   
-   message.channel.send(lvlup).then(msg => {msg.delete(3000)})
-}}
-   fs.writeFile("./xp.json", JSON.stringify(xp), (err) => {
-   if(err) console.log(err)
-   });
   
 
 
@@ -823,39 +863,7 @@ if (err) console.log(err)
 })
 }
   
-  
-  
-if (message.content.startsWith(prefix + "infotoken")) {
-  let toks = require('./toks.json');
-if(!toks[message.author.id]) return message.channel.send("Tu n'as pas de tickets.");
-let e = new Discord.RichEmbed()
-  .setTitle("Info du token.")
-  .addField("Code", toks[message.author.id].code)
-  .addField("Points", toks[message.author.id].points ? toks[message.author.id].points : "Aucun point.")
-message.channel.send(e)
 
-}
-  // Give et delpoint
-if (message.content.startsWith(prefix + "givepoint")) {
-  let toks = require('./toks.json');
-
-if (message.author.id != '191272823170269184' && message.author.id != '334095574674571264') return  message.channel.send("Hein");
-if (!toks[args[0]]) return message.channel.send("Il a pas de ticket wtf.");
-if (!toks[args[0]].points) toks[args[0]].points = 0
-toks[args[0]].points += 1
-fs.writeFile('./toks.json', JSON.stringify(toks), (err) =>{if (err) console.log(err)});
-  message.channel.send("K")
-}
-if (message.content.startsWith(prefix + "delpoint")) {
-  let toks = require('./toks.json');
-
-if (message.author.id != '191272823170269184' && message.author.id != '334095574674571264') return  message.channel.send("Hein");
-if (!toks[args[0]]) return message.channel.send("Il a pas de ticket wtf.");
-if (!toks[args[0]].points) toks[args[0]].points = 0
-toks[args[0]].points -= 1
-fs.writeFile('./toks.json', JSON.stringify(toks), (err) =>{if (err) console.log(err)});
-  message.channel.send("RIP")
-}
   
 //db!chasson
 if (message.content.startsWith(prefix + "chasse")) {
@@ -899,178 +907,6 @@ if (message.content.startsWith(prefix + "chasseoff")) {
 client.clearInterval(interval)
 message.channel.send("Arrêt.")
 }
-//db!ange
-
-  if (message.content.startsWith(prefix + "guerrier")){
-    console.log("commande")
-      let angeid = message.member;
-     
-  let demonrole = ("451420902857375745");
-
-  if(angeid.roles.has(demonrole)) {
-     message.reply("tu est déjà dans l'équipe des dragons !")
-    return;
-  }else {
-    if(!angeid.roles.has(demonrole)) {
-    
-     console.log("attribution role")
-    let angerole = message.guild.roles.get("451463313302224916");
-    console.log("attribution role2");       
-    
-    if(angeid.roles.has(angerole)) {
-      message.reply("Tu as déjà ce rôle !");
-      return;
-    } else {
-      if (!angeid.roles.has(angerole)){
-    
-    
-    console.log("role attribué")
-   angeid.addRole(angerole).catch(error => message.channel.send(error))
-   message.channel.send(`<@${angeid.id}> à rejoint les guerriers !`);
-   
-      }}}}
-    
- }
-  if (message.content.startsWith(prefix + "assassin")) {
-if (dat[message.author.id]) return message.channel.send("Tu as déjà rejoint la guerre.")
-
-message.channel.send("Une equipe au pif va t'être attribuée ainsi que le règlement, verifie tes MPs.")
-dat[message.author.id] = {
-team : (getRandomInt(0, 100) < 50 ? 1 : 2),
-hp : 50,
-arm : 1,
-strength : 100
-}
-message.author.send(`Tu es actuellement un **${t(dat[message.author.id].team)}**\nEt tu dois eliminer le groupe adverse des assassins, Tu as a ta disposition un baton que tu pourra ameliorer plus tard.\n\nEn ces temps de guerre assassiner se fait avec discretion. Personne ne doit reveler son equipe ou la déesse de l'arêne arkEni assassine son âme.\n\nLes actions que tu peux executer sont db!asp pour voir ton profil ou attaquer quelqu'un avec db!attack [Mention] pour attaquer quelqu'un, mais attention si vous attaquez quelqu'un de votre equipe, et surtout, essaye de ne pas mourir par attaque adverse, ou par attaque de son propre clan. Bonne Chance. \n\nDans le jeu, il y a deux Patrons, Patron de la mort ark'Eni et Patron de la vie ars'Arky, Quand vous mourrez, votre esprit reste encore présent, jusqu'au moment ou ark'Eni decide votre esprit, dans ce cas vous ne pourriez plus jouer\nEn revanche, si ars'Arky ravive votre esprit, vous reprenez votre vie mais toute votre progression sera effacée`)
-fs.writeFile('./data.json', JSON.stringify(dat));
-}
- if (message.content.startsWith(prefix + 'asp')) {
-if (!dat[message.author.id]) return message.channel.send("Hmm, commence par executer la commande ``db!assassin`` pour t'inscrire.");
-if (dat[message.author.id].spirit) return message.channel.send(new Discord.RichEmbed().setDescription("Tu es sous état d'esprit, tu ne peux ne attaquer ni voir ton profil, mais tu peux toujours esperer que Darky te redonne vie ce soir."));
-var e = new Discord.RichEmbed()
-.setTitle("Ta carte assassin")
-.setDescription(":heart: **" + dat[message.author.id].hp + "** points de vie\n:eight_pointed_black_star: Lame de niveau **" + dat[message.author.id].arm + "**\n:crossed_swords: Points de forces : " + dat[message.author.id].strength)
-.setThumbnail(message.author.avatarURL)
-message.channel.send(e)
-fs.writeFile('./data.json', JSON.stringify(dat));
-
-}
-
-if (message.content.startsWith(prefix + "astats")) {
-let umber = 0;
-let day = 0;
-let deaths = 0;
-let players = 0;
-for (let i in dat) {
-players++
-if (dat[i].team == 1) day++
-else umber++
-if (dat[i].spirit) deaths++
-}
-
-var e = new Discord.RichEmbed()
-  .setTitle("Statistiques")
-  .setDescription("**Assassins de l'Ombre** : " + umber + "\n**Assassins du Jour** : " + day + `\n\nJoueurs au total : ${players} dont ${deaths} sous état d'esprit.`)
-message.channel.send(e)
-}
-
-if (message.content.startsWith(prefix + "up")) {
-if (!dat[message.author.id]) return message.channel.send("Tu dois rejoindre l'assassinat pour pouvoir acheter.");
-if (!args[0]) message.channel.send(new Discord.RichEmbed()
-                                  .setDescription("**Fiole de force**\n*700 db-coins*\n\n**Fiole de vie**\n*500 db-coins*\n\n**Lame ameliorée**\n*1000 db-coins*")
-                                  .setFooter("Pour ameliorer ton equipement, tu dois executer la commande e.g : db!up Lame Ameliorée"));
-let obj = args.join(" ").toLowerCase()
-if (obj.startsWith("fiole de force")) 
-{
-if (coins[message.author.id].coins < 700) return message.channel.send("Pas assez de pieces. ;c");
-coins[message.author.id].coins -= 700
-dat[message.author.id].strength += 50
-message.channel.send("Potion de force appliquée.")
-}
-if (obj.startsWith("fiole de vie")) 
-{
-if (coins[message.author.id].coins < 500) return message.channel.send("Pas assez de pieces. ;c");
-coins[message.author.id].coins -= 500
-dat[message.author.id].hp += 50
-message.channel.send("Potion de vie appliquée.")
-}
-if (obj.startsWith("lame ameliorée")) 
-{
-if (coins[message.author.id].coins < 1000) return message.channel.send("Pas assez de pieces. ;c");
-coins[message.author.id].coins -= 1000
-dat[message.author.id].arm++
-message.channel.send("Lame ameliorée.")
-}
-
-}
-if (message.content.startsWith(prefix + "attack")) {
-
-var toA = message.mentions.users.first()
-  if (!toA) return message.channel.send("Il faut d'abords mentionner l'assassin voulu.");
-
-  if (!dat[toA.id]) return message.channel.send("Hâlte, on n'attaque pas un habitant qui ne rejoint pas la guerre.");
-    if (dat[message.author.id].spirit) return message.channel.send("Hâlte, on n'attaque pas en tant qu'esprit.");
-if (dat[toA.id].hp <= 0) return message.channel.send("Les esprits ne peuvent pas attaquer.")
-if (dat[message.author.id].strength <= 0) return message.channel.send("Tu n'as plus trop de force pour attaquer, il faut attendre la nuit prohaine pour te regenerer.")
-
-let att = getRandomInt(0, 5) * dat[message.author.id].arm
-
-dat[toA.id].hp < att ? dat[toA.id].hp = 0 : dat[toA.id].hp -= att
-message.channel.send("Tu viens de retirer " + att + " points de vies pour " + toA.username + ".")
-
-dat[message.author.id].strength -= getRandomInt(0, 20)
-
-if (!dat[toA.id].hp) {
-if (dat[toA.id].team == dat[message.author.id].team) message.channel.send("Tu te sens mal à l'aise pour ton assassinat...");
-  else message.channel.send("Tu te sens sûr pour ton assassinat..");
-message.channel.send("**" + toA.username + "** est dans le desespoir, il a 10 secondes de vie.")
-dat[toA.id].looking = true
-
-setTimeout(() => {
-if (!dat[toA.id].hp) {
-dat[toA.id].looking = undefined
-
-message.channel.send(toA.username + " est mort(e). Mais son esprit est encore présent. Il doitt attendre jusqu'a la nuit pour esperer revoir la terre.")
-dat[toA.id].spirit = true
-if (dat[toA.id].team == dat[message.author.id].team) message.channel.send("Quel malheur, tu as devoilé un " + t(dat[toA.id].team) + ", tu perds tout tes points d'attaque.")
-  dat[message.author.id].strength = 0;
-
-
-}
-
-}, 100000)
-}
-fs.writeFile('./data.json', JSON.stringify(dat));
-}
-if (message.content.startsWith(prefix + "spirit")) {
-if (message.author.id != "191272823170269184" && message.author.id != "334095574674571264") return message.channel.send("Seuls les patrons maîtres peuvent manier les esprits.")
-var spirit = message.mentions.users.first();
-if (!dat[spirit.id]) return message.channel.send("Mwé.");
-if (message.author.id == "334095574674571264") {
-
-if (dat[spirit.id].looking) {
-dat[spirit.id].looking = false
-message.channel.send("***Fiouch!***, l'esprit de " + spirit + " rejoint les autres, au revoir.")
-} else message.channel.send("Il n'est pas encore sous dernier espoir.")
-} else {
-if (dat[spirit.id].looking) {
-dat[spirit.id].hp = 100
-dat[spirit.id].strength = 50
-message.channel.send("Fiou, " + spirit + " peut reprendre la guerre.")
-} else message.channel.send("Il n'est pas encore sous dernier espoir.")
-}
-fs.writeFile('./data.json', JSON.stringify(dat));
-
-}
-
-
-  
-  
-  
-  
-  
-  
-  
 
 
   

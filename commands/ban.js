@@ -37,7 +37,8 @@ let bUser = message.guild.member(message.mentions.users.first() || message.guild
     if(!banChannel) return message.channel.send("Je ne peux pas le bannir car le salon #rapports est inexistant, merci de le crée.");*/
 
     message.guild.member(bUser).ban(bReason);
-    message.channel.send(banEmbed);
+    message.channel.send(banEmbed)
+  .catch().catch((e) => message.channel.send(':warning: **Une erreur est survenue !** Réessaie plus tard. :warning: \n`' + (e) + '`'));
   
   talkedRecently.push(message.author.id);
   setTimeout(() => {

@@ -27,7 +27,7 @@ module.exports.run = async (client, message, args) => {
     emb.setImage(illegal);
     message.channel.send({
         embed: emb
-    })
+    }).catch().catch((e) => message.channel.send(':warning: **Une erreur est survenue !** Réessaie plus tard. :warning: \n`' + (e) + '`'));
   
   talkedRecently.push(message.author.id);
   setTimeout(() => {

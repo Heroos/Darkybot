@@ -40,7 +40,8 @@ module.exports.run = async (client, message, args) => {
    message.channel.send(list.substring(2000, 4000))
   }, 1000)
   
-  message.channel.send(serverembed);
+  message.channel.send(serverembed)
+  .catch().catch((e) => message.channel.send(':warning: **Une erreur est survenue !** Réessaie plus tard. :warning: \n`' + (e) + '`'));
   //return message.channel.send(serveremojiembed);
   
   talkedRecently.push(message.author.id);

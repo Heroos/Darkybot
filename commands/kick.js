@@ -38,7 +38,8 @@ let kickEmbed = new Discord.RichEmbed()
    if(!kickChannel) return message.channel.send("Je ne peux pas le kick car le salon #rapports est inexistant, merci de le crée.");
 
 message.guild.member(kUser).kick(kReason);
-kickChannel.send(kickEmbed);
+kickChannel.send(kickEmbed)
+  .catch().catch((e) => message.channel.send(':warning: **Une erreur est survenue !** Réessaie plus tard. :warning: \n`' + (e) + '`'));
 
   
   talkedRecently.push(message.author.id);

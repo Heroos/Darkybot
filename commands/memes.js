@@ -20,7 +20,7 @@ let messageArray = message.content.split(" ")
   .setColor("RANDOM")
   .setImage(data.url[0])
   message.channel.send({embed});
-  })
+  }).catch().catch((e) => message.channel.send(':warning: **Une erreur est survenue !** Réessaie plus tard. :warning: \n`' + (e) + '`'));
   
   talkedRecently.push(message.author.id);
   setTimeout(() => {

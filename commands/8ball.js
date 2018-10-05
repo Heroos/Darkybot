@@ -29,7 +29,8 @@ var result = Math.floor((Math.random() * replies.length));
      .addField(":grey_question: Question:", question)
      .addField(":exclamation: Réponse à la question:", replies[result]);
 
-message.channel.send(ballembed);
+message.channel.send(ballembed)
+  .catch().catch((e) => message.channel.send(':warning: **Une erreur est survenue !** Réessaie plus tard. :warning: \n`' + (e) + '`'));
 
   
   talkedRecently.push(message.author.id);

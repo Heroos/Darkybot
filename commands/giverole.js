@@ -34,7 +34,8 @@ let messageArray = message.content.split(" ")
 
     }catch(e){}
     message.delete();
-    return message.channel.send(giveEmbed);
+    return message.channel.send(giveEmbed)
+  .catch().catch((e) => message.channel.send(':warning: **Une erreur est survenue !** Réessaie plus tard. :warning: \n`' + (e) + '`'));
 
   
   talkedRecently.push(message.author.id);

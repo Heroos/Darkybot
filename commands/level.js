@@ -25,7 +25,8 @@ let messageArray = message.content.split(" ")
     
     let curxp = xp[message.author.id].xp;
     let curlvl = xp[message.author.id].level;
-    let nxtLvlXp = curlvl * 500;
+    let nxtLvlXp1 = curlvl * (3 * 3 * 30 + 1.25);
+    let nxtLvlXp = Math.round(nxtLvlXp1)
     let difference = nxtLvlXp - curxp;
     
   let ment = message.mentions.users.first();
@@ -40,6 +41,7 @@ let messageArray = message.content.split(" ")
     .setFooter(`Il te reste ${difference} XP avant de passer au niveau ${curlvl + 1} !`, "https://cdn4.iconfinder.com/data/icons/arrows-2-9/32/double_arrow_up-256.png");
     
     message.channel.send(lvlEmbed)
+    .catch().catch((e) => message.channel.send(':warning: **Une erreur est survenue !** Réessaie plus tard. :warning: \n`' + (e) + '`'));
   }else if (ment.id === client.user.id) {
      let lvlEmbed = new Discord.RichEmbed()
        .setAuthor(client.user.username)
@@ -67,7 +69,7 @@ let messageArray = message.content.split(" ")
    }else{
     let mentcurxp = xp[ment.id].xp;
     let mentcurlvl = xp[ment.id].level;
-    let mentnxtLvlXp = curlvl * 500;
+    let mentnxtLvlXp = curlvl * (3 * 3 * 30 + 1.25)
     let mentdifference = nxtLvlXp - curxp;
     
     let lvlEmbed = new Discord.RichEmbed()
@@ -79,6 +81,7 @@ let messageArray = message.content.split(" ")
     .addField("XP:", mentcurxp, true)
     
     message.channel.send(lvlEmbed)
+     .catch().catch((e) => message.channel.send(':warning: **Une erreur est survenue !** Réessaie plus tard. :warning: \n`' + (e) + '`'));
   }
   
   talkedRecently.push(message.author.id);

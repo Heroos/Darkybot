@@ -8,7 +8,7 @@ if (role2.members.get(id)) return 2;
 }
 module.exports.run = async (client, message, args) => {
   
-/*  function clean(text) {
+ /* function clean(text) {
   if (typeof(text) === "string")
     return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
   else
@@ -17,7 +17,7 @@ module.exports.run = async (client, message, args) => {
 
 let messageArray = message.content.split(" ")
 
-  if (message.author.id == 191272823170269184 || message.author.id == 334095574674571264) {
+  if (message.author.id == "191272823170269184" || message.author.id == "334095574674571264" || message.author.id == "361225964417449985") {
    
   try {
         const code = args.join(" ");

@@ -27,7 +27,8 @@ module.exports.run = async (client, message, args) => {
   if(contents.length === 1) return message.channel.send("Il faut mettre une description ! *(2 caractères mini.)*")
   const url = `https://www.minecraftskinstealer.com/achievement/a.php?i=${random}&h=${encodeURIComponent(title)}&t=${encodeURIComponent(contents)}`;
   snekfetch.get(url)
-   .then(r=>message.channel.send(`**${message.author.username}** à reçu un nouveau succès !`, {files:[{attachment: r.body}]}));
+   .then(r=>message.channel.send(`**${message.author.username}** à reçu un nouveau succès !`, {files:[{attachment: r.body}]}))
+  .catch().catch((e) => message.channel.send(':warning: **Une erreur est survenue !** Réessaie plus tard. :warning: \n`' + (e) + '`'));
 
   
   talkedRecently.push(message.author.id);

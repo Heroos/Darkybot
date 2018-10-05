@@ -24,7 +24,7 @@ var dogembed = new Discord.RichEmbed()
    .setImage(url);
 
   message.channel.send(dogembed)
-})
+}).catch().catch((e) => message.channel.send(':warning: **Une erreur est survenue !** Réessaie plus tard. :warning: \n`' + (e) + '`'));
   
   talkedRecently.push(message.author.id);
   setTimeout(() => {

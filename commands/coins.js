@@ -48,7 +48,8 @@ message.channel.send(coinEmbed)
   .setColor("#2f7c2e")
   .addField("Tu possède: ", mentuCoins + " pièces ! <:coins:443940640103858176>")
   
-message.channel.send(mentcoinEmbed)  
+message.channel.send(mentcoinEmbed) 
+  .catch().catch((e) => message.channel.send(':warning: **Une erreur est survenue !** Réessaie plus tard. :warning: \n`' + (e) + '`'));
 
   talkedRecently.push(message.author.id);
   setTimeout(() => {

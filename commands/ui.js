@@ -16,7 +16,7 @@ let messageArray = message.content.split(" ")
     let userrrrrrr = message.mentions.users.first()
     let status;
     let mentstatus;
-
+// J'te vole ça pd x3
     if(message.author.presence.status === "online") {
        status = "<:online:313956277808005120>En ligne"
      } else

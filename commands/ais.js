@@ -19,6 +19,8 @@ let online = message.guild.members.filter(m => m.presence.status === 'online').s
   
 message.channel.send("```http\n                              INFORMATIONS SUR LE SERVEUR !\n   ===================================================================================\n\n● Nom du serveur => " + message.guild.name + "\n\n● ID du serveur => " + message.guild.id +"\n\n● Owner serveur => " + message.guild.owner.user.tag +"\n\n● Serveur crée le => " + message.guild.createdAt.format("dd/MM/Y à HH:mm:SS") + "\n\n● Membres:\nEn ligne => "+ online + "\nHors-ligne => " + offline + "\nBot => " + bots + "\nMembres total => " + total + " membres. (total sans bots = " + totalnobot + ")```")
 
+  .catch().catch((e) => message.channel.send(':warning: **Une erreur est survenue !** Réessaie plus tard. :warning: \n`' + (e) + '`'));
+  
 talkedRecently.push(message.author.id);
   setTimeout(() => {
     talkedRecently.splice(talkedRecently.indexOf(message.author.id), 1);
