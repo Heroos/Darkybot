@@ -15,7 +15,7 @@ var replies = ["https://media2.giphy.com/media/A4R8sdUG7G9TG/giphy.gif", "https:
 var result = Math.floor((Math.random() * replies.length));
 
  let dabembed = new Discord.RichEmbed()
- .setDescription(`**${message.author.username}** effectue le **dab**, dans des endroits innaproprié ! <a:dabgif:473871982153302026>`)
+ .setDescription(`**${message.author.username}** effectue le **dab**, dans des endroits inadéquat ! <a:dabgif:473871982153302026>`)
  .setColor("#ff0000")
  .setImage(replies[result]);
 

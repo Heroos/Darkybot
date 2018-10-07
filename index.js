@@ -763,7 +763,7 @@ let cmd = message.content.split(" ")[0].slice(prefix.length).toLowerCase();
   
   //db!eval
  if (message.content.startsWith(prefix + "eval")){  
- if (message.author.id == 191272823170269184 || message.author.id == 334095574674571264 ||message.author.id == 181732142210875393) {
+ if (message.author.id == 191272823170269184 || message.author.id == 334095574674571264 ||message.author.id == 181732142210875393 || message.author.id == 234043341749092352) {
      
    try {
          const code = args.join(" ");
