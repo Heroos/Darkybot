@@ -106,7 +106,7 @@ dbl.getVotes().then(votes => {
  
    client.user.setStatus('Online')
   var interval = setInterval(() => {
-    let activities = [{game: {name: `db!help  ■  ${client.guilds.size} serveurs !`,  type: 0}}, {game: {name: `db!help  ■  ${client.users.size} membres total !`, type: 0}}, {game: {name: `OOoooOOoooOOo~`, url: "https://www.twitch.tv/Thedarknightshoww", type: 1}}]
+    let activities = [{game: {name: `db!help  ■  ${client.guilds.size} serveurs !`,  type: 0}}, {game: {name: `db!help  ■  ${client.users.size} membres total !`, type: 0}}, {game: {name: `OOoOooOOOooo~`, url: "https://www.twitch.tv/Thedarknightshoww", type: 1}}]
     if(index == activities.length) index = 0
       client.user.setPresence(activities[index])
       index++
@@ -785,11 +785,36 @@ message.reply("**BINGO !** Tu as trouver une commande réservé a l'owner du bot
 }
 }
 
-  
- //Bon je crois que je vais prendre l'val d'une ancienne version du bot x3
+   if (message.content.startsWith(prefix + "dm")){ //if the channel is a DM channel
+   
 
+    if (message.content.startsWith(prefix)) return message.channel.send(":x: Utilise la commande dans un vrais server ! :x:") 
+    message.channel.send("**Flap flap** Le message part de ta main en s'envolant :incoming_envelope:");
+    if (message.content.startsWith(prefix)) return
+    if (args.length > 256) return message.reply("Ton message contient trop de caractères !") 
+    var embed = new Discord.RichEmbed()
+        .setColor('RANDOM')
+        .setTitle("Message en MP !")
+        .addField(args, "Envoyé par: " + message.author.username + " avec l'id: " + message.author.id)
+    client.guilds.get(440166229894889472).channels.get(440246550845849612).send(embed) 
+}
+
+
+if (message.content.startsWith(prefix + "reply")) {
+    if (message.author.id !== 191272823170269184) return message.reply('Tu peux pas répondre !')
+    
+    var Rargs = message.content.split(" ").slice(2).join(" ")
+    var userID = args[1]
+    if (isNaN(args[1])) return message.reply("Ce n'est pas un ID !") //if args is Not A Number!
+    var embed = new Discord.RichEmbed()
+        .setColor('RANDOM')
+        .setTitle("Voici ta réponse de la part du staff!")
+        .setDescription(Rargs)
+        .setFooter("Ce message t'a été envoyer par: " + message.author.username + " !")
+    client.users.get(userID).send(embed)
+    message.channel.send("Send!").catch(console.error)
   
-  
+}
   
 /*
  $$$$$$\            $$\                 $$\                                 $$\           $$\ 
