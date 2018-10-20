@@ -31,7 +31,7 @@ dependencies:
   simple-youtube-api: 5.0.2
   snekfetch: 4.0.4
   superagent: 3.8.3
-  ytdl-core: 0.26.1
+  ytdl-core: 0.26.3
 packages:
   /@babel/polyfill/7.0.0:
     dependencies:
@@ -2783,7 +2783,7 @@ packages:
     dev: false
     resolution:
       integrity: sha1-AI4G2AlDIMNy28L47XagymyKxBk=
-  /ytdl-core/0.26.1:
+  /ytdl-core/0.26.3:
     dependencies:
       html-entities: 1.2.1
       m3u8stream: 0.4.2
@@ -2793,7 +2793,7 @@ packages:
     engines:
       node: '>=6'
     resolution:
-      integrity: sha512-p6mZQRI704Tl/yZoYB3j1rSJj7sSKSLJ567FUUbRkqNhmAXgASIERjROBzo9eYwrV/ZNbZ0+jSG6kvK3MASf2Q==
+      integrity: sha512-KD0SLFqVNhH8N4Ie+qdusqfFmyX7SB6+y+S1MCI7vY9zS/wjRxH/zgoYRUwpP+YfXaiWzBPVIzy/5wK5asVUXQ==
 registry: 'https://registry.npmjs.org/'
 shrinkwrapMinorVersion: 9
 shrinkwrapVersion: 3
@@ -2830,4 +2830,4 @@ specifiers:
   simple-youtube-api: ^5.0.2
   snekfetch: ^4.0.4
   superagent: ^3.8.3
-  ytdl-core: ^0.26.1
+  ytdl-core: ^0.26.3

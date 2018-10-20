@@ -1,4 +1,4 @@
-const Discord = require("discord.js");
+
 let talkedRecently = [];
 
 

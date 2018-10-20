@@ -104,22 +104,22 @@ dbl.getVotes().then(votes => {
   //Ouais je vois sa sur la page d'edit du bot sur DBL, je trouve sa où ? | je sais pas, je cherche
     var index = 0
  
-   client.user.setStatus('Online')
+   /*client.user.setStatus('Online')
   var interval = setInterval(() => {
     let activities = [{game: {name: `db!help  ■  ${client.guilds.size} serveurs !`,  type: 0}}, {game: {name: `db!help  ■  ${client.users.size} membres total !`, type: 0}}, {game: {name: `OOoOooOOOooo~`, url: "https://www.twitch.tv/Thedarknightshoww", type: 1}}]
     if(index == activities.length) index = 0
       client.user.setPresence(activities[index])
       index++
-  }, 30000)
+  }, 30000)*/
   
   
- /*client.user.setStatus('dnd')
+ client.user.setStatus('dnd')
   var interval = setInterval(() => {
-    let activities = [{game: {name: `Maintenance en cours.`,  type: 0}}, {game: {name: `Risque de non-réponse.`, type: 0}}, {game: {name: `Retour vers: 15h30`, type: 0}}]
+    let activities = [{game: {name: `Maintenance en cours !`,  type: 0}}, {game: {name: `Bot utilisable mais instable`, type: 0}}, {game: {name: `pas d'heure de retour prévue.`, type: 0}}]
     if(index == activities.length) index = 0
       client.user.setPresence(activities[index])
       index++
-  }, 10000)*/
+  }, 10000)
   
 
     
