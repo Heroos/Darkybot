@@ -28,19 +28,23 @@ const DBL = require("dblapi.js");
 const dbl = new DBL(process.env.dblTOKEN, {webhookPort: 9001, webhookAuth : "azerty1234567890", webhookPath : "https://darkybot.glitch.me:9001"}, client)
 var secmap;
 let interval;
+
 const xprecent = []
 // Create the encoder.
 // Specify 48kHz sampling rate and 10ms frame size.
 // NOTE: The decoder must use the same values when decoding the packets.
 var rate = 48000;
 var encoder = new opus.OpusEncoder( rate );
-
-let coins = require("./coins.json");
-var fs = require("fs");
+const fs = require("fs");
+  // let coins = JSON.parse(fs.readFileSync("./coins.json", "utf8"));
+  // const db = require("quick.db");
+  let coins = new db.table("COINS");
+// let coins = require("./coins.json");
+// var fs = require("fs");
 let items = require("./items.json");
 //let help = require("./ComHelp.json");
 let talkedRecently = [];
-
+  
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -391,14 +395,14 @@ if (message.guild.id == "264445053596991498" || message.guild.id == "11037394382
    });
   }  
   // Quizz multijoueur
-
+let coinFETCH = coins.fetch(`coins_${message.author.id}`);
 if (message.content.startsWith(prefix + "multiq")) {
 let str =  message.guild.members.random(1)[0].user 
 let randmem = str.username.substring(0, 2)
 let ind = (str.bot ? "c'est un bot" : "ce n'est pas un bot");
 let animals = [{animal : "Cat", trad : "Chat"}, {animal : "Dog", trad : "Chien"}, {animal : "Bird", trad : "Oiseau"}, {animal : "Lion", trad : "Lion"}]
 let anilength = getRandomInt(0, animals.length)
-let co = coins[message.author.id].coins
+let co = coinFETCH;
 let caps = [{flag : "des Maldives", cap : "Malé"},{flag : "du Togo", cap: "Lomé"},{flag : "de la Guinée equatoriale", cap : "Malabo"},{flag : "du Koweit", cap : "Koweït"},{flag : "de l'Espagne", cap : "Madrid"}]
 let capslength = getRandomInt(0, caps.length)
 let own = client.users.get(message.guild.owner.id).username
@@ -595,13 +599,8 @@ if (isNaN(num)) {
 }*/
 
 
-  
-if(!coins[message.author.id]){
-  coins[message.author.id] = {
-    coins: 0
-  };
-}
-  
+  if (!coinFETCH) coins.set(`coins_${message.author.id}`, 0)
+
 
 //coins.json 
 let coinAmt = Math.floor(Math.random() * 30) + 1;
@@ -609,12 +608,8 @@ let baseAmt = Math.floor(Math.random() * 30) + 1;
 
   
 if(coinAmt === baseAmt){
-  coins[message.author.id] = {
-    coins: coins[message.author.id].coins + coinAmt
-  };
-fs.writeFile("./coins.json", JSON.stringify(coins), (err) => {
-  if (err) console.log(err)
-});
+  coins.add(`coins_${message.author.id}`, coinAmt)
+
 }
   
 
@@ -833,9 +828,9 @@ $$ |  $$\ $$ |  $$ |$$ |$$ |  $$ |      $$ |  $$ |$$ |  $$ |$$ |      $$ |  $$ |
   
 // db!maths
 if (message.content.startsWith(prefix + "maths")) {
-  if(!coins[message.author.id]){
+  if(!coinFETCH){
   return message.reply("Tu n'a pas de pièces !")}
-    if(coins[message.author.id].coins < 20) return message.reply("Il te faut minimum 20 pièces pour jouer");
+    if(coinFETCH < 20) return message.reply("Il te faut minimum 20 pièces pour jouer");
 let first = getRandomInt(1, 200);
 let second = getRandomInt(1, 200);
 let toWin = getRandomInt(10, 20);
@@ -867,12 +862,13 @@ message.reply(`faisons un petit calcul de maths ! Réponds a cette question **--
 if (collected.first().content == answer) {
       message.channel.send(`C'est exact :)`);
 message.channel.send("<:Baldiconten:452980705761296385> | Tu gagne " + toWin + " pieces avec moi ! **HERE A SHINY QUARTER !!**")
-      coins[message.author.id].coins += toWin
+      coins.add(`coins_${message.author.id}`, toWin)
 
 } else {
   message.channel.send("...")
   message.channel.send(`<:Baldipaconten:452980706100903937> | Tu perd ${toWin} pieces... c'est bien merité. **DETENTION FOR YOU !** (La réponse était ${answer}.)`)
-      coins[message.author.id].coins -= toWin
+    let coin = coinFETCH - toWin  
+    coins.set(`coins_${message.author.id}`, coin)
 
 
 }
@@ -880,12 +876,11 @@ message.channel.send("<:Baldiconten:452980705761296385> | Tu gagne " + toWin + "
     .catch(() => {
       message.reply('aucune reponse...?');
 
-      coins[message.author.id].coins -= toWin
+      let coin = coinFETCH - toWin  
+    coins.set(`coins_${message.author.id}`, coin)
     });
 });
-fs.writeFile("./coins.json", JSON.stringify(coins), (err) => {
-if (err) console.log(err)
-})
+
 }
   
 

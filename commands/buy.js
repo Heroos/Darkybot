@@ -12,8 +12,8 @@ module.exports.run = async (client, message, args) => {
        
     }
   
-  let items = require("../items.json");
-  let coins = require("../coins.json");
+  let items = require("./items.json");
+  //let coins = require("./coins.json");
 
 let messageArray = message.content.split(" ")
 

@@ -1,9 +1,11 @@
 const Discord = require("discord.js");
 var fs = require("fs");
 let talkedRecently = [];
-
+  const db = require("quick.db");
+  let coinDB = new db.table("COINS");
 
 module.exports.run = async (client, message, args) => {
+  let coinFETCH = coinDB.fetch(`coins_${message.author.id}`);
   
   if (talkedRecently.indexOf(message.author.id) !== -1) {
       message.delete();
@@ -21,14 +23,8 @@ let messageArray = message.content.split(" ")
     }
   const rpsargs = message.content.split(" ").slice(1).join(" ");
      
-     if(!coins[message.author.id]){
-    coins[message.author.id] = {
-      coins: 0
-    };
-  }
-  
-  let uCoins = coins[message.author.id].coins;
-    
+if(!coinFETCH) coinDB.set(`coins_${message.author.id}`, 0)
+
       let computer_choice = rand(0,2);
 let user_choice;
 if (args[0] == "pierre") {
@@ -50,83 +46,74 @@ return;
         
       }
       if (computer_choice == 0 && user_choice == 2) {
+        let uCoins = coinFETCH - 10
+        coinDB.set(`coins_${message.author.id}`, uCoins)
          var rpsEmbed = new Discord.RichEmbed()
         .setTitle("**Tu as perdu 10 pièces!**")
         .setColor("#e22500")
         .addField("Tu as choisi: ", ":scissors: | Ciseaux !")
         .addField("J'ai choisi: ", ":punch: | Pierre !")
-        .addField("Ton porte monnaie actuel: ", uCoins - 10 + " pièces ! <:coins:443940640103858176>")
+        .addField("Ton porte monnaie actuel: ", uCoins + " pièces ! <:coins:443940640103858176>")
         
     message.channel.send(rpsEmbed);
     
-        coins[message.author.id] = {
-    coins: coins[message.author.id].coins - 10
       
-        }}
+        }
       if (computer_choice == 2 && user_choice == 0) {
         var rpsEmbed = new Discord.RichEmbed()
         .setTitle("**Tu as gagné(e) 10 pièces !**")
         .setColor("#60c435")
         .addField("Tu as choisi: ", ":punch: | Pierre !")
         .addField("J'ai choisi: ", ":scissors: | Ciseaux !")
-        .addField("Ton porte monnaie actuel: ", uCoins + 10 + " pièces ! <:coins:443940640103858176>")
-        
+        .addField("Ton porte monnaie actuel: ", coinFETCH + 10 + " pièces ! <:coins:443940640103858176>")
+        coinDB.add(`coins_${message.author.id}`, 10)
     message.channel.send(rpsEmbed);
-        coins[message.author.id] = {
-    coins: coins[message.author.id].coins + 10
           
-      }}
+      }
       if (computer_choice == 1 && user_choice == 0) {
+        let uCoins = coinFETCH - 10
+        coinDB.set(`coins_${message.author.id}`, uCoins)
         var rpsEmbed = new Discord.RichEmbed()
         .setTitle("**Tu as perdu 10 pièces !**")
         .setColor("#e22500")
         .addField("Tu as choisi: ", ":punch: | Pierre !")
         .addField("J'ai choisi: ", ":page_facing_up: | Feuille !")
-        .addField("Ton porte monnaie actuel: ", uCoins - 10 + " pièces ! <:coins:443940640103858176>")
+        .addField("Ton porte monnaie actuel: ", uCoins + " pièces ! <:coins:443940640103858176>")
         
     message.channel.send(rpsEmbed);
-        coins[message.author.id] = {
-    coins: coins[message.author.id].coins - 10
-        
-      }}
+    }
       if (computer_choice == 0 && user_choice == 1) {
           var rpsEmbed = new Discord.RichEmbed()
         .setTitle("**Tu as gagné(e) 10 pièces !**")
         .setColor("#60c435")
         .addField("Tu as choisi: ", ":page_facing_up: | Feuille !")
         .addField("J'ai choisi: ", ":punch: | Pierre !")
-        .addField("Ton porte monnaie actuel: ", uCoins + 10 + " pièces ! <:coins:443940640103858176>")
-        
+        .addField("Ton porte monnaie actuel: ", coinFETCH + 10 + " pièces ! <:coins:443940640103858176>")
+        coinDB.add(`coins_${message.author.id}`, 10)
     message.channel.send(rpsEmbed);
-        coins[message.author.id] = {
-    coins: coins[message.author.id].coins + 10
-      }}
+    }
       if (computer_choice == 1 && user_choice == 2) {
         var rpsEmbed = new Discord.RichEmbed()
         .setTitle("**Tu as gagné(e) 10 pièces !**")
         .setColor("#60c435")
         .addField("Tu as choisi: ", ":scissors: | Ciseaux !")
         .addField("J'ai choisi: ", ":page_facing_up: | Feuille !")
-        .addField("Ton porte monnaie actuel: ", uCoins + 10 + " pièces ! <:coins:443940640103858176>")
-        
+        .addField("Ton porte monnaie actuel: ", coinFETCH + 10 + " pièces ! <:coins:443940640103858176>")
+        coinDB.add(`coins_${message.author.id}`, 10)
     message.channel.send(rpsEmbed);
-        coins[message.author.id] = {
-    coins: coins[message.author.id].coins + 10
-        
-      }}
+       }
       if (computer_choice == 2 && user_choice == 1) {
+        let uCoins = coinFETCH - 10
+        coinDB.set(`coins_${message.author.id}`, uCoins)
        var rpsEmbed = new Discord.RichEmbed()
         .setTitle("**Tu as perdu 10 pièces !**")
         .setColor("#e22500")
         .addField("Tu as choisi: ", ":page_facing_up: | Feuille !")
         .addField("J'ai choisi: ", ":scissors: | Ciseaux !")
-        .addField("Ton porte monnaie actuel: ", uCoins - 10 + " pièces ! <:coins:443940640103858176>")
+        .addField("Ton porte monnaie actuel: ", uCoins+ " pièces ! <:coins:443940640103858176>")
         
     message.channel.send(rpsEmbed);
-        coins[message.author.id] = {
-    coins: coins[message.author.id].coins - 10
-        
-        }}
+    }
   
   talkedRecently.push(message.author.id);
   setTimeout(() => {
