@@ -6,7 +6,7 @@ let coinDB = new db.table("COINS");
 
 module.exports.run = async (client, message, args) => {
   
-  let coinFETCH = coinDB.fetch(`coins_${message.author.id}`)
+  coinDB.fetch(`coins_${message.author.id}`).then(coinFETCH => {
   
   if (talkedRecently.indexOf(message.author.id) !== -1) {
       message.delete();
@@ -18,15 +18,15 @@ let coins = require("../coins.json");
 let messageArray = message.content.split(" ")
 
  
-if(!coins[message.author.id]){
+if(!coinFETCH){
   return message.reply("Tu n'a pas de pièces !")
 }
   
   let pUser = message.mentions.users.first() || message.guild.members.get(args[0])
-  let pFetch = coinDB.fetch(`coins_${pUser.id}`)
+  coinDB.fetch(`coins_${pUser.id}`).then(pFetch => {
   if (isNaN(args[1])) return message.channel.send("Veuillez mettre un numéro.")
   if (args[1].startsWith("-")) return message.channel.send("Un nombre négatif, Carrement ?")
-  if(!coinFETCH) coinDB.set(`coins_${pUser.id}`, 0)
+  if(!pFetch) coinDB.set(`coins_${pUser.id}`, 0)
   
   let pCoins = pFetch;
   let sCoins = coinFETCH;
@@ -47,8 +47,8 @@ if(!coins[message.author.id]){
   
   message.channel.send(`${pUser} a reçu ${args[1]} pièces par ${message.author} !`)
   
-
-  
+  })
+  })
   
   talkedRecently.push(message.author.id);
   setTimeout(() => {

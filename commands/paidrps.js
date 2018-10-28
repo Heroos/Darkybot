@@ -5,7 +5,7 @@ let talkedRecently = [];
   let coinDB = new db.table("COINS");
 
 module.exports.run = async (client, message, args) => {
-  let coinFETCH = coinDB.fetch(`coins_${message.author.id}`);
+  coinDB.fetch(`coins_${message.author.id}`).then(coinFETCH => {
   
   if (talkedRecently.indexOf(message.author.id) !== -1) {
       message.delete();
@@ -114,7 +114,7 @@ return;
         
     message.channel.send(rpsEmbed);
     }
-  
+  })
   talkedRecently.push(message.author.id);
   setTimeout(() => {
     talkedRecently.splice(talkedRecently.indexOf(message.author.id), 1);

@@ -17,8 +17,9 @@ let messageArray = message.content.split(" ")
 let pUser = message.mentions.users.first();
 
 if(!pUser){
-  let coinFETCH = coinDB.fetch(`coins_${message.author.id}`);
-  let cooldownFETCH = coinDB.fetch(`coins_cooldown_${message.author.id}`);
+ coinDB.fetch(`coins_${message.author.id}`).then(coinFETCH => {
+  coinDB.fetch(`coins_cooldown_${message.author.id}`).then(cooldownFETCH => {
+    console.log(cooldownFETCH);
   if(!coinFETCH) {
     coinDB.set(`coins_${message.author.id}`, 0);
     coinDB.set(`coins_cooldown_${message.author.id}`, 0);
@@ -26,13 +27,14 @@ if(!pUser){
     if(new Date().getTime() - cooldownFETCH < 1000*60*60*24) return message.channel.send(":clock1130: | Les petits elfes magiques n'ont pas encore fini de préparer tes pièces quotidienne, reviens plus tard.")
     message.channel.send("**CLING ! <:coins:443940640103858176>** Tu as reçu tes **250** coins quotidiennes ! Reviens dans 24 heures !")
     coinDB.add(`coins_${message.author.id}`, 250)
-    coinDB.set(`coins_cooldown_${message.author.id}`, 86400000)
+    coinDB.set(`coins_cooldown_${message.author.id}`, new Date().getTime())
   
-
+  })
+ })
 }else{
-let coinFETCH = coinDB.fetch(`coins_${pUser.id}`);
-  let cooldownFETCH = coinDB.fetch(`coins_cooldown_${pUser.id}`);
-  
+coinDB.fetch(`coins_${pUser.id}`).then(coinFETCH => {
+ coinDB.fetch(`coins_cooldown_${message.author.id}`).then(cooldownFETCH => {
+  console.log(cooldownFETCH);
 if(!coinFETCH) {
     coinDB.set(`coins_${pUser.id}`, 0);
     coinDB.set(`coins_cooldown_${message.author.id}`, 0);
@@ -42,10 +44,11 @@ if(message.author === pUser)return message.channel.send("Les elfes viennent de s
 if(new Date().getTime() - cooldownFETCH < 1000*60*60*24) return message.channel.send(":clock1130: | Les petits elfes magiques n'ont pas encore fini de préparer tes pièces quotidienne, reviens plus tard.")
 message.channel.send(`**CLING ! <:coins:443940640103858176>** ${message.author} a donner ses **250** pièces quotidiennes à ${pUser} !`)
 coinDB.add(`coins_${pUser.id}`, 250);
-coinDB.set(`coins_cooldown_${message.author.id}`, 86400000);
-
+coinDB.set(`coins_cooldown_${message.author.id}`, new Date().getTime())
+ })
+})
 }
-  
+                                                   
   
 talkedRecently.push(message.author.id);
   setTimeout(() => {

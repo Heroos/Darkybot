@@ -108,22 +108,22 @@ dbl.getVotes().then(votes => {
   //Ouais je vois sa sur la page d'edit du bot sur DBL, je trouve sa où ? | je sais pas, je cherche
     var index = 0
  
-   /*client.user.setStatus('Online')
+   client.user.setStatus('Online')
   var interval = setInterval(() => {
     let activities = [{game: {name: `db!help  ■  ${client.guilds.size} serveurs !`,  type: 0}}, {game: {name: `db!help  ■  ${client.users.size} membres total !`, type: 0}}, {game: {name: `OOoOooOOOooo~`, url: "https://www.twitch.tv/Thedarknightshoww", type: 1}}]
     if(index == activities.length) index = 0
       client.user.setPresence(activities[index])
       index++
-  }, 30000)*/
+  }, 30000)
   
   
- client.user.setStatus('dnd')
+/* client.user.setStatus('dnd')
   var interval = setInterval(() => {
     let activities = [{game: {name: `Maintenance en cours !`,  type: 0}}, {game: {name: `Bot utilisable mais instable`, type: 0}}, {game: {name: `pas d'heure de retour prévue.`, type: 0}}]
     if(index == activities.length) index = 0
       client.user.setPresence(activities[index])
       index++
-  }, 10000)
+  }, 10000)*/
   
 
     
@@ -395,7 +395,7 @@ if (message.guild.id == "264445053596991498" || message.guild.id == "11037394382
    });
   }  
   // Quizz multijoueur
-let coinFETCH = coins.fetch(`coins_${message.author.id}`);
+coins.fetch(`coins_${message.author.id}`).then(coinFETCH => {
 if (message.content.startsWith(prefix + "multiq")) {
 let str =  message.guild.members.random(1)[0].user 
 let randmem = str.username.substring(0, 2)
@@ -567,7 +567,7 @@ if (message.content) e.setDescription(`***"${cite}"***\n *~${cited.username} 201
 message.channel.send(e)
 message.delete()
 }  
-
+});
   if (!message.content.startsWith(prefix)) return;
     if (talkedRecently.indexOf(message.author.id) !== -1) {
       message.delete();
@@ -584,7 +584,7 @@ message.delete()
      }
   
  
-
+coins.fetch(`coins_${message.author.id}`).then(coinFETCH => {
   //event message
 
   
@@ -758,7 +758,7 @@ let cmd = message.content.split(" ")[0].slice(prefix.length).toLowerCase();
   
   //db!eval
  if (message.content.startsWith(prefix + "eval")){  
- if (message.author.id == 191272823170269184 || message.author.id == 334095574674571264 ||message.author.id == 181732142210875393 || message.author.id == 234043341749092352) {
+ if (message.author.id == 191272823170269184 || message.author.id == 334095574674571264 ||message.author.id == 181732142210875393 || message.author.id == 234043341749092352 || message.author.id == 361225964417449985) {
      
    try {
          const code = args.join(" ");
@@ -927,7 +927,7 @@ if (message.content.startsWith(prefix + "chasseoff")) {
 client.clearInterval(interval)
 message.channel.send("Arrêt.")
 }
-
+});
 
   
 //////////////////////////////////////////////// 
@@ -1086,6 +1086,7 @@ if (message.content.startsWith(prefix + "volume")){
  ///Fin partie bot musique
   
 //////////////////////////////////////////////////////////////////////////////////////////////
+
 });
 
 client.login(process.env.TOKEN)

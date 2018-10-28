@@ -22,7 +22,7 @@ let messageArray = message.content.split(" ")
   
 let ment = message.mentions.users.first();
   if(!ment) {
-    let coinFETCH = coinDB.fetch(`coins_${message.author.id}`);
+    coinDB.fetch(`coins_${message.author.id}`).then(coinFETCH => {
     
   if (!coinFETCH) coinDB.set(`coins_${message.author.id}`, 0)
   
@@ -35,8 +35,9 @@ let ment = message.mentions.users.first();
   .addField("Tu possède: ", coinFETCH + " pièces ! <:coins:443940640103858176>")
   
 message.channel.send(coinEmbed)
+    });
   }else {
-    let coinFETCH = coinDB.fetch(`coins_${ment.id}`);
+    coinDB.fetch(`coins_${ment.id}`).then(coinFETCH => {
    if (!coinFETCH) coinDB.set(`coins_${ment.id}`, 0)
   
 
@@ -47,8 +48,10 @@ message.channel.send(coinEmbed)
   .addField("Tu possède: ", coinFETCH + " pièces ! <:coins:443940640103858176>")
   
 message.channel.send(mentcoinEmbed) 
+    })
   .catch().catch((e) => message.channel.send(':warning: **Une erreur est survenue !** Réessaie plus tard. :warning: \n`' + (e) + '`'));
   }
+                                          
   talkedRecently.push(message.author.id);
   setTimeout(() => {
     talkedRecently.splice(talkedRecently.indexOf(message.author.id), 1);

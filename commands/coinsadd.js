@@ -6,8 +6,9 @@ module.exports.run = async (client, message) => {
   let coinDB = new db.table("COINS");
   
   Object.keys(coins).forEach(function(key) {
+    if (coinDB.fetch(`coins_${key}`)) return console.log("déja ajouté" + key);
   coinDB.set(`coins_${key}`, coins[key].coins);
-  console.log(`${key} ajouté`)
+  console.log(`${key} ajouté, ${coins[key].coins}`)
   });
 }
 
