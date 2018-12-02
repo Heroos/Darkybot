@@ -5,14 +5,14 @@ let db = require("quick.db");
 let coinDB = new db.table("COINS");
 
 module.exports.run = async (client, message, args) => {
-  
-  coinDB.fetch(`coins_${message.author.id}`).then(coinFETCH => {
-  
   if (talkedRecently.indexOf(message.author.id) !== -1) {
       message.delete();
             message.channel.send(":clock10: **HÉ HO !** Patiente deux secondes entres chaques commandes " + message.author + " !");
        
     }
+    coinDB.fetch(`coins_${message.author.id}`).then(coinFETCH => {
+  
+  
   
 let coins = require("../coins.json");
 let messageArray = message.content.split(" ")
@@ -30,10 +30,13 @@ if(!coinFETCH){
   
   let pCoins = pFetch;
   let sCoins = coinFETCH;
-    if(sCoins < args[1]) return message.reply("tu n'as pas assez de pièces !");
+//     if (sCoins < args[1]) return message.reply(`${sCoins} est plus petit ${args[1]}`)
+    
+    
+    if(coinFETCH < args[1]) return message.reply("tu n'as pas assez de pièces !");
     if (args[1] <= 0) return message.reply("tu ne peux pas donner aucune pièce :sweat_smile:")
     if (message.author === pUser) return message.reply("tu ne peux pas te donner des pièces a toi même...")
-  
+    if (pUser.bot === true) return message.reply(`tu lance des pièces au visage du robot en criant **"TAKE MY MONEY"**. Ça n'a aucun effet, vous ramassez vos **${args[1]}** pièces et faites demi-tour.`)
 
    let dcoins = sCoins - parseInt(args[1])
    
@@ -41,12 +44,12 @@ if(!coinFETCH){
   
   
 
- coinDB.add(`coins_${pUser.id}`, args[1]);
+ coinDB.add(`coins_${pUser.id}`, parseInt(args[1]));
   
   
   
   message.channel.send(`${pUser} a reçu ${args[1]} pièces par ${message.author} !`)
-  
+ 
   })
   })
   
@@ -54,6 +57,7 @@ if(!coinFETCH){
   setTimeout(() => {
     talkedRecently.splice(talkedRecently.indexOf(message.author.id), 1);
   }, 2000);
+  // message.reply(args[1]);
 }
 
 module.exports.help = {

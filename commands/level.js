@@ -25,7 +25,7 @@ let messageArray = message.content.split(" ")
     
     let curxp = xp[message.author.id].xp;
     let curlvl = xp[message.author.id].level;
-    let nxtLvlXp1 = curlvl * (3 * 3 * 30 + 1.25);
+    let nxtLvlXp1 = curlvl * (3 * 3 * 50 + 8) + ((curlvl / 2) * 1.25);
     let nxtLvlXp = Math.round(nxtLvlXp1)
     let difference = nxtLvlXp - curxp;
     
@@ -69,7 +69,7 @@ let messageArray = message.content.split(" ")
    }else{
     let mentcurxp = xp[ment.id].xp;
     let mentcurlvl = xp[ment.id].level;
-    let mentnxtLvlXp = curlvl * (3 * 3 * 30 + 1.25)
+    let mentnxtLvlXp = curlvl* (3 * 3 * 50 + 8) + ((curlvl / 2) * 1.25);
     let mentdifference = nxtLvlXp - curxp;
     
     let lvlEmbed = new Discord.RichEmbed()
@@ -88,7 +88,7 @@ let messageArray = message.content.split(" ")
   setTimeout(() => {
     talkedRecently.splice(talkedRecently.indexOf(message.author.id), 1);
   }, 2000);
-  
+  // message.reply("Commande en cours de maintenance !");
 }
 
 

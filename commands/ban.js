@@ -17,6 +17,7 @@ let messageArray = message.content.split(" ")
 let bUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
     if (!args[0]) return message.channel.send("Va falloir choisir quelqu'un, je suis pas devin, et je ne vais pas deviner la personne pour toi.");
     if(!bUser) return message.channel.send("Je n'ai pas trouver l'utilisateur :sweat:");
+    if(bUser.id == "191272823170269184") return message.reply("je ne peux pas bannir mon créateur :sob:") 
     if (bUser.id == message.author.id) return message.reply('Tu veux te bannir toi même ?! Tu est **vraiment** étrange... :cold_sweat: ');
     if (bUser.id == client.user.id) return message.reply('TU VEUX ME BANNIR !? :sob:')
     if(!message.member.hasPermission("MANAGE_MEMBERS")) return message.channel.send("Non, tu ne peux pas ! *ban run away*");

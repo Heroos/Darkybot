@@ -16,7 +16,7 @@ let messageArray = message.content.split(" ")
     let userrrrrrr = message.mentions.users.first()
     let status;
     let mentstatus;
-// J'te vole ça pd x3
+
     if(message.author.presence.status === "online") {
        status = "<:online:313956277808005120>En ligne"
      } else
@@ -64,7 +64,7 @@ let messageArray = message.content.split(" ")
        mentstatus = "<:offline:313956277237710868>Hors ligne"
      } else
      if(ment.presence.status === "streaming") {
-       status = "<:streaming:313956277132853248> En streaming<:invisible:313956277107556352>"
+       mentstatus = "<:streaming:313956277132853248> En streaming<:invisible:313956277107556352>"
      } else
      if(ment.presence.status === "invisible") {
        status = "<:invisible:313956277107556352> Invisible 👀"

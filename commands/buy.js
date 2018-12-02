@@ -89,7 +89,7 @@ let messageArray = message.content.split(" ")
             ///items en vente    
                 let memberrole = message.member;
                 if (itemName === 'rouge') {
-                  let role = message.guild.roles.find("name", "rouge");
+                  let role = message.guild.roles.find(r=>r.name == "rouge");
                   
                   if (!role){
 

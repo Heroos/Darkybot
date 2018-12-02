@@ -20,7 +20,7 @@ let messageArray = message.content.split(" ")
      let tomute = message.mentions.members.first() || message.guild.members.get(args[0]);
      if(!tomute) return message.reply("Je n'ai pas trouver l'utilisateur :sweat:");
      if(tomute.hasPermission("MANAGE_MESSAGES")) return message.reply("je ne peux pas le mute, il a la permission de **gérer les messages**, m'interdisant donc de le mute !");
-     let muterole = message.guild.roles.find(`name`, "mute");
+     let muterole = message.guild.roles.find(r=>r.name.toLowerCase(), "mute");
      if(!muterole){
    try{
      message.channel.send('**Rôle "mute" inexistant. Création du rôle...**')

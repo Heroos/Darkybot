@@ -15,6 +15,7 @@ if (talkedRecently.indexOf(message.author.id) !== -1) {
 
 let messageArray = message.content.split(" ")
 let pUser = message.mentions.users.first();
+let bots = message.guild.members.filter(m => m.user.bot).id;
 
 if(!pUser){
  coinDB.fetch(`coins_${message.author.id}`).then(coinFETCH => {
@@ -41,6 +42,7 @@ if(!coinFETCH) {
   }
   
 if(message.author === pUser)return message.channel.send("Les elfes viennent de se figer... Ils te regardent et ne comprennent pas pourquoi tu veux donner un daily à toi-même.")
+if(pUser.bot === true)return message.channel.send("Les elfes regardent l'être inanimé, il n'a pas l'air intéressé par les pièces proposer. Donnez les a quelqu'un de \"vivant\".")
 if(new Date().getTime() - cooldownFETCH < 1000*60*60*24) return message.channel.send(":clock1130: | Les petits elfes magiques n'ont pas encore fini de préparer tes pièces quotidienne, reviens plus tard.")
 message.channel.send(`**CLING ! <:coins:443940640103858176>** ${message.author} a donner ses **250** pièces quotidiennes à ${pUser} !`)
 coinDB.add(`coins_${pUser.id}`, 250);

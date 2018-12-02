@@ -105,12 +105,12 @@ dbl.getVotes().then(votes => {
   dbl.webhook.on('ready', hook => {
   console.log(`Webhook running at http://${hook.hostname}:${hook.port}${hook.path}`);
 });//*/
-  //Ouais je vois sa sur la page d'edit du bot sur DBL, je trouve sa où ? | je sais pas, je cherche
+  
     var index = 0
  
    client.user.setStatus('Online')
   var interval = setInterval(() => {
-    let activities = [{game: {name: `db!help  ■  ${client.guilds.size} serveurs !`,  type: 0}}, {game: {name: `db!help  ■  ${client.users.size} membres total !`, type: 0}}, {game: {name: `OOoOooOOOooo~`, url: "https://www.twitch.tv/Thedarknightshoww", type: 1}}]
+    let activities = [{game: {name: `db!help  ■  ${client.guilds.size}/300 serveurs !`,  type: 0}}, {game: {name: `db!help  ■  ${client.users.size} membres total !`, type: 0}}, {game: {name: `Votez pour moi sur DBL !`, url: "https://www.twitch.tv/Thedarknightshoww", type: 1}}]
     if(index == activities.length) index = 0
       client.user.setPresence(activities[index])
       index++
@@ -156,6 +156,24 @@ fs.readdir("./commands/", (err, files) => {
   });
 });
 
+fs.readdir("./commands/nsfw", (err, files) => {
+  if(err) console.log(err);
+  let jsfile = files.filter(f => f.split(".").pop() === "js")
+  if(jsfile.length <= 0){
+    console.log("Commande non trouver.");
+    return;
+  }
+
+  jsfile.forEach((f, i) =>{
+    let props = require(`./commands/nsfw/${f}`);
+    console.log(`${f} bien chargé !`);
+    client.commands.set(props.help.name, props, );
+    client.commands.set(props.help.aliases, props, );
+    client.commands.set(props.help.commande, props, );
+    client.commands.set(props.help.desc, props, );
+  });
+});
+
 
   
 client.on("guildCreate", guild => {
@@ -172,7 +190,7 @@ client.on("guildCreate", guild => {
     guildCreateChannel.send(joinEmbed);
   
   let ServerOwn = guild.owner.user
-ServerOwn.send("**Salut ! Merci de m'avoir inviter sur ton serveur ^-^**\n\nTu peux avoir un aperçu de toutes mes commandes en écrivant `db!help` dans un salon auquel j'ai accès.\nSi pendant que m'invitais tu as décocher la case \"Administrateur\", il serait donc possible que certaines de mes commandes ne fonctionne pas au mieux, __il est également possible que le bot ne réponde pas dû a des soucis de permissions qui rentre en conflit avec vos autres rôles, si tel est le cas, merci de me contacter sur le serveur support ci-dessous.__\n\nCi-dessous, une invitation pour rejoindre mon serveur support, la bas tu seras au courant des dernières mises à jours, maintenance, etc... Je n'oblige personne, mais sa peut être interrésant de venir :wink:\n\n**Lien utile:**\n\n**Mon site:** https://darkybotdc.glitch.me/ \n**Serveur support:** https://discord.gg/Y97BY7k")
+ServerOwn.send("*Pour les possesseurs de serveur type\"test bot\" => https://pastebin.com/PyTxBSS3* \n\n**Salut ! Merci de m'avoir inviter sur ton serveur ^-^**\n\nTu peux avoir un aperçu de toutes mes commandes en écrivant `db!help` dans un salon auquel j'ai accès.\nSi pendant que m'as inviter tu as décocher la case \"Administrateur\", il serait donc possible que certaines de mes commandes ne fonctionne pas au mieux, __il est également possible que le bot ne réponde pas dû a des soucis de permissions qui rentre en conflit avec vos autres rôles, si tel est le cas, merci de me contacter sur le serveur support ci-dessous.__\n\nCi-dessous, une invitation pour rejoindre mon serveur support, la bas tu seras au courant des dernières mises à jours, maintenance, etc... Je n'oblige personne, mais sa peut être interrésant de venir :wink:\n\n**Lien utile:**\n\n**Mon site:** https://darkybotdc.glitch.me/ \n**Serveur support:** https://discord.gg/fHsYrex")
   
   
 });
@@ -207,7 +225,7 @@ message.channel.send("Alors?").then(() => {
   if (!message.guild.table.start) return console.log("Arrêté la partie.");
 
       if (collected.first().content == "confirm") {
-        message.channel.send("Parfait ! " + client.users.get(id).username + " gagne un point!")
+        message.channel.send("Parfait ! " + client.users.get(id).username + " perd aucune vie !")
         message.table.lives[id]++
       } else {
       message.channel.send("Bon bah une perte de vie pour vous deux. ;-;")
@@ -362,7 +380,7 @@ if (message.guild.id == "264445053596991498" || message.guild.id == "11037394382
   
   
   let xp = require("./xp.json");
-  let xpAdd = Math.floor(Math.random() * 15)+1
+  let xpAdd = Math.floor(Math.random() * 3)+1
   
   if (!xp[message.author.id]) {
     xp[message.author.id] = {
@@ -373,12 +391,12 @@ if (message.guild.id == "264445053596991498" || message.guild.id == "11037394382
   
   let curxp = xp[message.author.id].xp
   let curlvl = xp[message.author.id].level
-  let nxtlvl = xp[message.author.id].level * (3 * 3 * 30 + 1.25)
+  let nxtlvl = xp[message.author.id].level* (3 * 3 * 50 + 8) + ((curlvl / 2) * 1.25);
   xp[message.author.id].xp = curxp + xpAdd;
   
   if (nxtlvl <= xp[message.author.id].xp) {
     xp[message.author.id].level = curlvl + 1
-    if (message.guild.id == "264445053596991498" || message.guild.id == "110373943822540800") {
+    if (message.guild.id ==="264445053596991498" || message.guild.id === "110373943822540800") {
   return;
 }else{
 
@@ -390,7 +408,7 @@ if (message.guild.id == "264445053596991498" || message.guild.id == "11037394382
    
    message.channel.send(lvlup).then(msg => {msg.delete(3000)})
 }
-   fs.writeFile("./xp.json", JSON.stringify(xp), (err) => {
+   fs.writeFileSync("./xp.json", JSON.stringify(xp), (err) => {
    if(err) console.log(err)
    });
   }  
@@ -631,9 +649,9 @@ args = message.content.split(' ')
 
 if (message.content == 'changelieu')  act = acts[getRandomInt(0, acts.length)]
 
-let cited = (message.mentions.users.first()  ? message.mentions.users.first() : client.users.find('username', args[0]) || client.users.get(args[0]) || message.author)
+let cited = (message.mentions.users.first()  ? message.mentions.users.first() : client.users.find(u=> u.username.toLowerCase() === args[0].toLowerCase()) || client.users.get(args[0]) || message.author)
 
-let cite = (message.mentions.users.first() || client.users.find('username', args[0]) || client.users.get(args[0]) ? args.slice(1).join(" ") : message.content)
+let cite = (message.mentions.users.first() || client.users.find(u=>u.username.toLowerCase() === args[0].toLowerCase()) || client.users.get(args[0]) ? args.slice(1).join(" ") : message.content)
 
 let e = new Discord.RichEmbed()
   .setAuthor(cited.username + " :", cited.avatarURL)
@@ -694,7 +712,9 @@ let aovhelp = new Discord.RichEmbed()
 message.channel.send(aovhelp)
 message.guild.table.p.push(message.author.id)
 message.channel.send("**"+ message.author.username + "** se join a la partie !")
-}
+
+    }
+   
 
     if (message.content.startsWith(prefix + "aj")) {
 if (!message.guild.table.collecting && message.guild.table.start) return message.channel.send("La partie à déjà commencée !");
@@ -702,7 +722,9 @@ if (message.guild.table.p.includes(message.author.id)) return message.channel.se
 message.guild.table.p.push(message.author.id);
 message.guild.table.lives[message.author.id] = 5
 message.channel.send("**" + message.author.username + "** se join a la partie !")
-}
+
+    
+    }
 
     if (message.content.startsWith(prefix + "start")) {
 if (!message.guild.table.p.length) return message.channel.send("Personne n'a rejoint la salle d'attente !")
@@ -713,7 +735,9 @@ message.guild.table.collecting = false
 message.guild.table.start = true
 message.channel.send("**Lancement de la partie !**")
 start(message, message.guild.table)
-}
+
+    
+    }
   if (message.content.startsWith(prefix + "table")) {
 if (message.guild.table == {}) message.channel.send(new Discord.RichEmbed().setDescription("Aucune partie."))
 var c = ""
@@ -723,15 +747,17 @@ c = c + "\n**" + client.users.get(item) + "** : **" + (message.guild.table.lives
 message.channel.send(new Discord.RichEmbed()
                      .setTitle("Table de la partie")
                      .setDescription(c + (message.guild.table.asking && message.guild.table.toAsk ? "\n\n" + client.users.get(message.guild.table.asking) + ">" + client.users.get(message.guild.table.toAsk) : "\n\nPartie pas encore lancée")))
+  }
 
-}
+ 
 
     if (message.content.startsWith(prefix + "astop")) {
 if (message.author.id != message.guild.table.owner) return message.channel.send("Seul le créateur de la partie peut arrêter la partie.")
 message.guild.table = {}
 message.channel.send("La partie va bientôt être arrêté.");
-}
+    }
 
+    
 let cmd = message.content.split(" ")[0].slice(prefix.length).toLowerCase();
   let commandfile = client.commands.get(cmd); 
   if(commandfile) {
@@ -963,6 +989,7 @@ if (message.content.startsWith(prefix + "play")){
   
   let infovideo = await ytdl.getInfo(args[0]);
   
+  
   if(!servers[message.guild.id]) servers[message.guild.id] = {
     queue: []
   };
@@ -981,7 +1008,9 @@ if (message.content.startsWith(prefix + "play")){
                                               //[VV VERSION AMELIORER NON-FINI ET NON-FONCTIONNEL VV]
         
         
-          /*  const voiceChannel = message.member.voiceChannel;
+  
+/*const voiceChannel = message.member.voiceChannel;
+  
             if (!voiceChannel) return message.channel.send('');
             if (url.match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)) {
                 const playlist = await youtube.getPlaylist(url);
@@ -1017,13 +1046,13 @@ Merci de rentrée une valeur entre 1 et 10 pour choisir parmis la liste.
                         var video = await youtube.getVideoByID(videos[videoIndex - 1].id);
                     } catch (err) {
                         console.error(err);
-                        return message.channel.send('🆘 Je n'ai pas pu obtenir des résultats.');
+                        return message.channel.send('🆘 Je n\'ai pas pu obtenir des résultats.');
                     }
                 }
                 return handleVideo(video, message, voiceChannel);
             }
 }*/
-  
+           
   
   //db!pause
 if (message.content.startsWith(prefix + "pause")){

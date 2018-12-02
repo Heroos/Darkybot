@@ -7,30 +7,30 @@ module.exports.run = async (client, message, args) => {
      var sortable = [];
     for (var key in obj) 
       if (obj.hasOwnProperty(key)) 
-        sortable.push([key, obj[key].level]);
+        sortable.push([key, obj[key].xp]);
       
     sortable.sort(function(a,b) {
       return b[1]-a[1];
     });
     
     let top1 = await client.fetchUser(sortable[0][0]).then(m => {
-      return `:first_place: **${m.username}** - Niveau **${dbxp[m.id].level}** :first_place:`
+      return `:first_place: **${m.username}** - Niveau **${dbxp[m.id].level}** __**(XP: ${dbxp[m.id].xp})**__ :first_place:`
     });
     
       let top2 = await client.fetchUser(sortable[1][0]).then(m => {
-      return `:second_place: **${m.username}** - Niveau **${dbxp[m.id].level}**`
+      return `:second_place: **${m.username}** - Niveau **${dbxp[m.id].level}** __**(XP: ${dbxp[m.id].xp})**__`
     });
     
       let top3 = await client.fetchUser(sortable[2][0]).then(m => {
-      return `:third_place: **${m.username}** - Niveau **${dbxp[m.id].level}**`
+      return `:third_place: **${m.username}** - Niveau **${dbxp[m.id].level}** __**(XP: ${dbxp[m.id].xp})**__`
     });
     
         let top4 = await client.fetchUser(sortable[3][0]).then(m => {
-      return `:military_medal: **${m.username}** - Niveau **${dbxp[m.id].level}**`
+      return `:military_medal: **${m.username}** - Niveau **${dbxp[m.id].level}** __**(XP: ${dbxp[m.id].xp})**__`
     });
     
         let top5 = await client.fetchUser(sortable[4][0]).then(m => {
-      return `:military_medal: **${m.username}** - Niveau **${dbxp[m.id].level}**`
+      return `:military_medal: **${m.username}** - Niveau **${dbxp[m.id].level}** __**(XP: ${dbxp[m.id].xp})**__`
     });
     
     let newEmbed = new Discord.RichEmbed()
@@ -41,12 +41,13 @@ module.exports.run = async (client, message, args) => {
     .setTimestamp();
     
     message.channel.send(newEmbed)
-     delete require.cache[require.resolve(`../xp.json`)];
+     //delete require.cache[require.resolve(`../xp.json`)];
    } catch (err) {
      message.reply("Une erreur est survenue, veuillez réessayer");
    }
   }
   sortProperties(dbxp);
+  // message.reply("Commande en cours de maintenance !");
 }
 module.exports.help = {
     name: "top",

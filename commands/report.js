@@ -35,7 +35,7 @@ let messageArray = message.content.split(" ")
     .addField("Le :", message.createdAt.format("dd-MM-Y à HH:mm:SS"), true)
     .addField("Raison: ", reason, true);
 
-    let reportschannel = message.guild.channels.find(`name`, "rapports");
+    let reportschannel = message.guild.channels.find(c=>c.name.toLowerCase() == "rapports");
     if(!reportschannel) return message.channel.send("Je n'arrive pas a trouver le salon #rapports, demandez a votre administrateur d'en crée un !")
 
     message.delete();

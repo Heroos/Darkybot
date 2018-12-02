@@ -5,13 +5,14 @@ let talkedRecently = [];
   let coinDB = new db.table("COINS");
 
 module.exports.run = async (client, message, args) => {
-  coinDB.fetch(`coins_${message.author.id}`).then(coinFETCH => {
-  
-  if (talkedRecently.indexOf(message.author.id) !== -1) {
+    if (talkedRecently.indexOf(message.author.id) !== -1) {
       message.delete();
             message.channel.send(":clock10: **HÉ HO !** Patiente deux secondes entres chaques commandes " + message.author + " !");
        
     }
+  coinDB.fetch(`coins_${message.author.id}`).then(coinFETCH => {
+  
+
 
 let coins = require("../coins.json");
 let messageArray = message.content.split(" ")
