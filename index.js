@@ -1103,7 +1103,7 @@ message.guild.voiceConnection.disconnect();
 if (message.content.startsWith(prefix + "volume")){
   
       var server = servers[message.guild.id];
-
+  
 		if (!message.member.voiceChannel) return message.channel.send('Tu n\'est pas dans un salon vocal !');
 		if (!server.queue) return message.channel.send('Aucune musique n\'est en cours de diffusion');
 		if (!args[1]) return message.channel.send(`Le volume actuel est de: **${server.volume}**`);
