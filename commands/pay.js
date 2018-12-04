@@ -1,8 +1,8 @@
 const Discord = require("discord.js");
 var fs = require("fs");
 let talkedRecently = [];
-let db = require("quick.db");
-let coinDB = new db.table("COINS");
+    let db = require("quick.db");
+    let coinDB = new db.table("COINS");
 
 module.exports.run = async (client, message, args) => {
   if (talkedRecently.indexOf(message.author.id) !== -1) {
@@ -32,7 +32,8 @@ if(!coinFETCH){
   let sCoins = coinFETCH;
 //     if (sCoins < args[1]) return message.reply(`${sCoins} est plus petit ${args[1]}`)
     
-    
+    let fullArgs = args.join(" ");
+    if (fullArgs.match("  ")) return message.reply("Il y a un double espace dans la commande...")
     if(coinFETCH < args[1]) return message.reply("tu n'as pas assez de pièces !");
     if (args[1] <= 0) return message.reply("tu ne peux pas donner aucune pièce :sweat_smile:")
     if (message.author === pUser) return message.reply("tu ne peux pas te donner des pièces a toi même...")

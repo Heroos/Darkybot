@@ -110,7 +110,7 @@ dbl.getVotes().then(votes => {
  
    client.user.setStatus('Online')
   var interval = setInterval(() => {
-    let activities = [{game: {name: `db!help  ■  ${client.guilds.size}/300 serveurs !`,  type: 0}}, {game: {name: `db!help  ■  ${client.users.size} membres total !`, type: 0}}, {game: {name: `Votez pour moi sur DBL !`, url: "https://www.twitch.tv/Thedarknightshoww", type: 1}}]
+    let activities = [{game: {name: `db!help  ■  ${client.guilds.size} serveurs !`,  type: 0}}, {game: {name: `db!help  ■  ${client.users.size} membres total !`, type: 0}}, {game: {name: `Votez pour moi sur DBL !`, url: "https://www.twitch.tv/Thedarknightshoww", type: 1}}]
     if(index == activities.length) index = 0
       client.user.setPresence(activities[index])
       index++
@@ -767,7 +767,7 @@ let cmd = message.content.split(" ")[0].slice(prefix.length).toLowerCase();
     }catch(error){
       //code pour dire s'il y a erreur
     }
-  }
+  } else message.reply("la commande n'existe pas !");
   
   
   

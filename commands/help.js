@@ -18,7 +18,7 @@ let owner = client.users.get("191272823170269184").tag
 	.setColor("#00C1FF")
 	.setThumbnail("https://cdn.glitch.com/4408aca9-8fbf-46d4-8142-5b4cd8c3059e%2FDarky%20chibis%20think.png?1529344203240")
   .setFooter("Bot crée par " + owner, "https://cdn.glitch.com/4408aca9-8fbf-46d4-8142-5b4cd8c3059e%2FAvatar%20chaine%20HD.jpg?1529498072989")
-  .addField(":soccer: Fun: ", "`8ball`, `sayd`, `avatar`, `doggo`, `cat`, `birdy`, `fishy`, `pof`, `rps`, `memes`, `rtd`, `emojifier`, `mc`, `trigger`, `google`, `fndrop`, `ascii`")
+  .addField(":soccer: Fun: ", "`8ball`, `sayd`, `avatar`, `doggo`, `cat`, `birdy`, `fishy`, `pof`, `rps`, `memes`, `rtd`, `emojifier`, `mc`, `trigger`, `google`, `fndrop`, `ascii`, `ship`")
   .addField(":moneybag: jeux d'argent: ", "**[+ bientôt]** mais en attendant, jouez avec `$rps`")
   .addField(":open_hands::skin-tone-2: Jeux multijoueur: ", "`aov`")
   .addField(":cowboy: Action/RP: * = pas besoin de mentionner", "`hug`, `slap`, `kiss`, `bite`, `dab*`, `pat`, `nb*`")

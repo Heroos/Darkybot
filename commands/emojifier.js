@@ -24,7 +24,8 @@ const mapping = {
   'ù': '<:u_accent:468114070634102786>',
   'û': '<:u_chapeau:468114119963181056>',
   'ü': '<:u_point:468114142700634114>',
-  'à': '<:a_accent:468113946499612682>'
+  'à': '<:a_accent:468113946499612682>',
+  '<3': '❤'
 };
 
 'abcdefghijklmnopqrstuvwxyz'.split('').forEach(c => {
