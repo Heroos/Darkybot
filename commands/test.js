@@ -19,15 +19,17 @@ if (message.author.id == 191272823170269184 || 361225964417449985) {
   if (message.mentions.users.size < 1) pic = message.author.displayAvatarURL;
   else pic = message.mentions.users.first().displayAvatarURL;
   const profile = async (person)=> {
-    const plate = await fsn.readFile('https://cdn.glitch.com/4408aca9-8fbf-46d4-8142-5b4cd8c3059e%2FProfile.jpg?1543947216121');
+    const plate = await fsn.readFile('./images/Profile.jpg');
     const png = person.replace(".gif", ".png");
     const { body } = await snek.get(png);
     return new Canvas(707, 727)
     .setColor(0x00A2E8)
-    .addRect(0, 0, 707, 727)
+    .addRect(707, 0, 0, 727)
     // .addImage(body, 423, 50, 168, 168)
-    .addImage(body, 426, 384, 168, 168)
     .addImage(plate,0,0,634,675)
+    .addImage(body, 230, 76, 168, 168)
+    .setTextFont('40px Impact')
+    .addText("6546545454", 373,450)
     .toBuffer();
   }
  try {

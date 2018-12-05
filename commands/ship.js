@@ -7,7 +7,7 @@ function getRandomInt(min, max) {
 };
 var tship = {};
 function ship(int) {
-if (int <= 10) return "Vous n'êtes pas fait pour vous attendre.";
+if (int <= 10) return "Vous n'êtes pas fait pour vous entendre.";
 if (int <= 20) return "C'est pas trop fou fou entre vous deux.";
 if (int <= 30) return "C'est toujours sa, mais vous pouvez mieux faire.";
 if (int <= 50) return "C'est fifty fifty entre vous.";

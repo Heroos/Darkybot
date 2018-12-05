@@ -53,7 +53,7 @@ function getRandomInt(min, max) {
 
  function play(connection, message) {
    var server = servers[message.guild.id];
- server.dispatcher = connection.playStream(ytdl(server.queue[0], {filter: "audioonly"}));
+ server.dispatcher = connection.playStream(ytdl(server.queue[0], {filter: "audioonly"}), {volume: 0.125});
  server.queue.shift();
  server.dispatcher.on("end", function() {
    if(server.queue[0]){
@@ -806,7 +806,7 @@ message.reply("**BINGO !** Tu as trouver une commande réservé a l'owner du bot
 }
 }
 
-   if (message.content.startsWith(prefix + "dm")){ //if the channel is a DM channel
+   if (message.content.startsWith(prefix + "dm")){ 
    
 
     if (message.content.startsWith(prefix)) return message.channel.send(":x: Utilise la commande dans un vrais server ! :x:") 
@@ -826,7 +826,7 @@ if (message.content.startsWith(prefix + "reply")) {
     
     var Rargs = message.content.split(" ").slice(2).join(" ")
     var userID = args[1]
-    if (isNaN(args[1])) return message.reply("Ce n'est pas un ID !") //if args is Not A Number!
+    if (isNaN(args[1])) return message.reply("Ce n'est pas un ID !")
     var embed = new Discord.RichEmbed()
         .setColor('RANDOM')
         .setTitle("Voici ta réponse de la part du staff!")
@@ -1103,13 +1103,17 @@ message.guild.voiceConnection.disconnect();
 if (message.content.startsWith(prefix + "volume")){
   
       var server = servers[message.guild.id];
-  
+      
 		if (!message.member.voiceChannel) return message.channel.send('Tu n\'est pas dans un salon vocal !');
 		if (!server.queue) return message.channel.send('Aucune musique n\'est en cours de diffusion');
-		if (!args[1]) return message.channel.send(`Le volume actuel est de: **${server.volume}**`);
-		server.queue.volume = args[1];
-		server.connection.dispatcher.setVolumeLogarithmic(args[1] / 5);
-		return message.channel.send(`J'ai mis le volume sur: **${args[1]}**`);  
+  server.queue.volume = args[0];
+  if(!args[0]) return message.channel.send("Merci de bien vouloir entrer une valeur.")
+  if(args[0] < 0) return message.channel.send("Merci de bien vouloir mettre une valeur supérieur à **0**.")
+  if(args[0] > 200) return message.channel.send("Merci de bien vouloir mettre une valeur inférieur à **200**.")
+    // message.guild.me.voiceChannel.setVolume(args[0] / 5);
+		server.dispatcher.setVolume(args[0] / 110);
+		return message.channel.send(`🔊 | J'ai mis le volume sur: **${args[0]} %**`);
+  //if (!args[0]) return message.channel.send(`Le volume actuel est de: **${server.queue.volume} %**`);
   
 }
  ///Fin partie bot musique
