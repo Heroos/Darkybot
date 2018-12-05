@@ -3,6 +3,7 @@ let db = require("quick.db");
 let coinDB = new db.table("COINS");
 let xp = require("../xp.json");
 let fs = require("fs")
+
 // let canvas = require("canvas")
 
 module.exports.run = async (client, message, args) => {
@@ -22,14 +23,16 @@ if (message.author.id == 191272823170269184 || 361225964417449985) {
     const plate = await fsn.readFile('./images/Profile.jpg');
     const png = person.replace(".gif", ".png");
     const { body } = await snek.get(png);
-    return new Canvas(707, 727)
+    return new Canvas(707,723)
     .setColor(0x00A2E8)
     .addRect(707, 0, 0, 727)
     // .addImage(body, 423, 50, 168, 168)
     .addImage(plate,0,0,634,675)
-    .addImage(body, 230, 76, 168, 168)
+    .addImage(body, 40, 61, 177, 185)
+    .setTextFont('50px Impact')
+    .addText("654654", 373,430)
     .setTextFont('40px Impact')
-    .addText("6546545454", 373,450)
+    .addText(message.author.tag, 230, 230)
     .toBuffer();
   }
  try {
