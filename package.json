@@ -39,7 +39,8 @@
     "figlet": "^1.2.1",
     "canvas": "^2.2.0",
     "canvas-constructor": "^2.0.1",
-    "fs-nextra": "^0.3.7"
+    "fs-nextra": "^0.3.7",
+    "path": "^0.12.7"
   },
   "devDependencies": {},
   "scripts": {

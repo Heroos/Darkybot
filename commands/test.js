@@ -23,16 +23,19 @@ if (message.author.id == 191272823170269184 || 361225964417449985) {
     const plate = await fsn.readFile('./images/Profile.jpg');
     const png = person.replace(".gif", ".png");
     const { body } = await snek.get(png);
-    return new Canvas(707,723)
+    return new Canvas(727,707)
+    .addTextFont("./fonts/DTM-Sans.otf", "DTM Sans")
     .setColor(0x00A2E8)
-    .addRect(707, 0, 0, 727)
-    // .addImage(body, 423, 50, 168, 168)
-    .addImage(plate,0,0,634,675)
-    .addImage(body, 40, 61, 177, 185)
-    .setTextFont('50px Impact')
-    .addText("654654", 373,430)
-    .setTextFont('40px Impact')
-    .addText(message.author.tag, 230, 230)
+    .addRect(727, 0, 0, 707)
+    .addImage(plate,0,0,727,707)
+    .addImage(body, 45, 65, 204, 193)
+    .setTextFont('50px DTM Sans')
+    .addText("654654", 423, 430)
+    //.setTextFont('80px DTM Sans')
+    .addText("25", 55, 430)
+    .setTextFont('42px DTM Sans')
+    .addText(message.author.tag, 280, 230)
+    .addText("ceci est une biographie", 40,300)
     .toBuffer();
   }
  try {
@@ -41,10 +44,25 @@ if (message.author.id == 191272823170269184 || 361225964417449985) {
   } catch (err) {
     throw err;
   }
-  
+  message.channel.send(profile(pic))
+  /*
+  let { Canvas } = require("canvas-constructor");
+
+
+
+function test() {
+new Canvas(300,300)
+.setTextFont("40px DTM Mono")
+.addText("cc")
+  .toBuffer()
+}
+
+const result = await test()
+console.log(result);
+return await message.channel.send({ files: [{ attachment: result, name: 'profile.png' }] });
+  */
 ///ZONE DE TEST, NE MODIFIER LE RESTE QUE EN CAS DE BESOIN !
   
-  message.channel.send(profile(pic))
   message.channel.send("```Test effectué sans echec.```")
 .catch().catch((e) => message.channel.send(':warning: **Une erreur est survenue !** Réessaie plus tard. :warning: \n`' + (e) + '`'))
 }else {
