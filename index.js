@@ -1005,6 +1005,14 @@ if (message.content.startsWith(prefix + "play")){
   message.channel.send(`Actuellement joué: **${infovideo.title}**`);
 }
   
+  //db!np
+if (message.content.startsWith(prefix + "np")){
+  
+  let infovideo = await ytdl.getInfo(args[0])
+  message.channel.send(`Actuellement joué: **${infovideo.title}**`);
+
+};
+  
                                               //[VV VERSION AMELIORER NON-FINI ET NON-FONCTIONNEL VV]
         
         

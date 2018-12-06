@@ -22,7 +22,7 @@ let owner = client.users.get("191272823170269184").tag
   .addField(":moneybag: jeux d'argent: ", "**[+ bientôt]** mais en attendant, jouez avec `$rps`")
   .addField(":open_hands::skin-tone-2: Jeux multijoueur: ", "`aov`")
   .addField(":cowboy: Action/RP: * = pas besoin de mentionner", "`hug`, `slap`, `kiss`, `bite`, `dab*`, `pat`, `nb*`")
-  .addField("<:staff:314068430787706880> Administration: ", "`report`, `ban`, `kick`, `giverole`, `removerole`, `mute`, `clear`")
+  .addField("<:staff:314068430787706880> Administration: ", "`report`, `ban`, `kick`, `giverole`, `removerole`, `mute`, `clear`, `hackban`")
   .addField(":musical_note: Musique: [ALPHA]", "`play`, `skip`, `leave`, `pause`, `resume`")
   .addField(":underage: NSFW:", "`lewdneko`")
   .addField(":busts_in_silhouette: Utilisateur: ", "`ui`, `level`, `coins`, `pay`, `daily`, `top`, `profile`, `fortnite`")

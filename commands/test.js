@@ -17,6 +17,22 @@ if (message.author.id == 191272823170269184 || 361225964417449985) {
   let { Canvas } = require("canvas-constructor");
   const snek = require("snekfetch");
   let pic;
+  
+  function bioFunc(main_str, ins_str, pos) {
+    if(typeof(pos) == 'undefined') {
+      pos = 0;
+    }
+    if (typeof(ins_str) == 'undefined') {
+      ins_str = '';
+    }
+    return main_str.slice(0, pos) + ins_str + main_str.slice(pos);
+  }
+  
+  console.log(bioFunc('ceci est une biographie'));
+console.log(bioFunc('ceci est une biographie','\n '));
+console.log(bioFunc('ceci est une biographie','\n ',25));
+  
+  
   if (message.mentions.users.size < 1) pic = message.author.displayAvatarURL;
   else pic = message.mentions.users.first().displayAvatarURL;
   const profile = async (person)=> {
@@ -30,12 +46,13 @@ if (message.author.id == 191272823170269184 || 361225964417449985) {
     .addImage(plate,0,0,727,707)
     .addImage(body, 45, 65, 204, 193)
     .setTextFont('50px DTM Sans')
-    .addText("654654", 423, 430)
-    //.setTextFont('80px DTM Sans')
+    .addText("654654", 425, 430)
+  //.setTextFont('80px DTM Sans')
     .addText("25", 55, 430)
     .setTextFont('42px DTM Sans')
-    .addText(message.author.tag, 280, 230)
-    .addText("ceci est une biographie", 40,300)
+    .addText(message.author.tag, 280, 240)
+    .setTextFont('30px DTM Sans')
+    .addText(bioFunc('ceci est une biographieeeeeeeeeeeeeeeeeeee'), 17,555)
     .toBuffer();
   }
  try {
@@ -44,7 +61,7 @@ if (message.author.id == 191272823170269184 || 361225964417449985) {
   } catch (err) {
     throw err;
   }
-  message.channel.send(profile(pic))
+  //message.channel.send(profile(pic))
   /*
   let { Canvas } = require("canvas-constructor");
 
