@@ -87,7 +87,8 @@ client.on("ready", () => {
 dbl.on('error', e => {
  console.log(`Oops! ${e}`);
 })
-  
+ 
+
 
 let totalSeconds = (client.uptime / 1000);
 let hours = Math.floor(totalSeconds / 3600);
