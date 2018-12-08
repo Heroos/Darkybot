@@ -49,10 +49,10 @@ console.log(bioFunc('ceci est une biographie','\n ',25));
     .addText("654654", 425, 430)
   //.setTextFont('80px DTM Sans')
     .addText("25", 55, 430)
-    .setTextFont('42px DTM Sans')
-    .addText(message.author.tag, 280, 240)
+    .setTextFont('48px DTM Sans')
+    .addText(message.author.tag, 280, 250)
     .setTextFont('30px DTM Sans')
-    .addText(bioFunc('ceci est une biographieeeeeeeeeeeeeeeeeeee'), 17,555)
+    .addText(bioFunc('ceci est une biographieeeeeeeeeeeeeeeeeeee'), 17,600)
     .toBuffer();
   }
  try {

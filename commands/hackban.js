@@ -2,8 +2,8 @@ const Discord = require("discord.js");
 
 module.exports.run = async (client, message) => {
   const fs = require("fs");
-  let prefixes = JSON.parse(fs.readFileSync("./prefixes.json", "utf8"));
-  let prefix = prefixes[message.guild.id].prefixes
+  // let prefixes = JSON.parse(fs.readFileSync("./prefixes.json", "utf8"));
+  // let prefix = prefixes[message.guild.id].prefixes
  if (message.author === client.user) return;
   
 let messageArray = message.content.split(" ");
